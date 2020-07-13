@@ -1,6 +1,5 @@
 package com.heima.article.controller.v1;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heima.article.ArticleJarApplication;
 import com.heima.model.article.dtos.ArticleInfoDto;

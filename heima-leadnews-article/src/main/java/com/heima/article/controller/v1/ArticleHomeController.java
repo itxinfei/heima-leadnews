@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ *
+ * 文章列表
+ *
+ */
 @RestController
 @RequestMapping("/api/v1/article")
 public class ArticleHomeController implements ArticleHomeControllerApi {

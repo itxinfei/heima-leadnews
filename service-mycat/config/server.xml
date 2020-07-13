@@ -7,17 +7,23 @@
 	WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. - See the 
 	License for the specific language governing permissions and - limitations 
 	under the License. -->
-<!DOCTYPE mycat:server SYSTEM "server.dtd">
-<mycat:server xmlns:mycat="http://io.mycat/">
-	<system>
-	<property name="useSqlStat">0</property>  <!-- 1为开启实时统计、0为关闭 -->
-	<property name="useGlobleTableCheck">0</property>  <!-- 1为开启全加班一致性检测、0为关闭 -->
 
-	<property name="sequnceHandlerType">1</property>
-      <!--  <property name="useCompression">1</property>--> <!--1为开启mysql压缩协议-->
-        <!--  <property name="fakeMySQLVersion">5.6.20</property>--> <!--设置模拟的MySQL版本号-->
-	<!-- <property name="processorBufferChunk">40960</property> -->
-	<!-- 
+<!--
+- 配置mycat连接信息
+- 一些性能优化等管理信息
+-->
+<!DOCTYPE mycat:server SYSTEM "server.dtd">
+<mycat:server xmlns:mycat="http://io.mycat/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://io.mycat/ ">
+	<system>
+		<property name="useSqlStat">0</property>  <!-- 1为开启实时统计、0为关闭 -->
+		<property name="useGlobleTableCheck">0</property>  <!-- 1为开启全加班一致性检测、0为关闭 -->
+
+		<property name="sequnceHandlerType">1</property>
+		<!--  <property name="useCompression">1</property>--> <!--1为开启mysql压缩协议-->
+		<!--  <property name="fakeMySQLVersion">5.6.20</property>--> <!--设置模拟的MySQL版本号-->
+		<!-- <property name="processorBufferChunk">40960</property> -->
+		<!--
 	<property name="processors">1</property> 
 	<property name="processorExecutor">32</property> 
 	 -->
@@ -35,8 +41,8 @@
 			<property name="frontWriteQueueSize">4096</property> <property name="processors">32</property> -->
 		<!--分布式事务开关，0为不过滤分布式事务，1为过滤分布式事务（如果分布式事务内只涉及全局表，则不过滤），2为不过滤分布式事务,但是记录分布式事务日志-->
 		<property name="handleDistributedTransactions">0</property>
-		
-			<!--
+
+		<!--
 			off heap for merge/order/group/limit      1开启   0关闭
 		-->
 		<property name="useOffHeapForMerge">1</property>
@@ -64,7 +70,7 @@
 
 
 	</system>
-	
+
 	<!-- 全局SQL防火墙设置 -->
 	<!-- 
 	<firewall> 
@@ -76,7 +82,7 @@
        </blacklist>
 	</firewall>
 	-->
-	
+
 	<user name="root">
 		<property name="password">123456</property>
 		<property name="schemas">itheima-news</property>

@@ -24,7 +24,7 @@ import java.util.Date;
 @Configuration
 @ConfigurationProperties(prefix = "spring.quartz")
 @PropertySource("classpath:quartz.properties")
-@Import(QuartzAutoConfiguration.class)
+//@Import(QuartzAutoConfiguration.class)
 public class QuartzConfig {
 
     String groupPrefix;

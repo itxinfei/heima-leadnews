@@ -14,7 +14,7 @@ public class AppHotArticleQuartz extends AbstractJob {
     @Override
     public String[] triggerCron() {
 //        return new String[]{"0 0/5 0 * * ?"};
-        return new String[]{"0 0/1 * * * ?"};
+        return new String[]{"0 0/5 * * * ?"};
     }
 
     @Autowired

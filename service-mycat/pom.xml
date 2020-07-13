@@ -17,9 +17,7 @@
             <artifactId>mycat-server</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/libs/Mycat-server-1.6-release.jar</systemPath>
+            <systemPath>${project.basedir}/libs/Mycat-server-1.6-release.jar</systemPath>
         </dependency>
     </dependencies>
-
-
 </project>

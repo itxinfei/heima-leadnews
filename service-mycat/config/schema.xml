@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE mycat:schema SYSTEM "schema.dtd">
 <mycat:schema xmlns:mycat="http://io.mycat/">
-	
+<!--
+- 配置Mycat节点信息
+- 配置Mycat主机信息
+- 配置分表策略
+- 一些连接信息或者读写分离主机配置
+-->
 	<schema name="itheima-news" checkSQLschema="true" sqlMaxLimit="100">
 		<!-- 全局表 -->
 		<!-- 通用调度器quartz服务的调度表 -->
@@ -253,7 +258,7 @@
 	<dataHost name="HOST0" maxCon="600" minCon="200" balance="0"
 	                  writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
 	        <heartbeat>select user()</heartbeat>
-	        <writeHost host="HOST0_M" url="localhost:3306" user="root" password="root"/>
+	        <writeHost host="HOST0_M" url="192.168.8.6:3306" user="root" password="root"/>
 	</dataHost>
 
 </mycat:schema>

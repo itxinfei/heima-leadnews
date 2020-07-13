@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <!--子模块-->
     <modules>
         <module>heima-leadnews-common</module>
         <module>heima-leadnews-utils</module>
@@ -23,6 +24,9 @@
         <module>heima-leadnews-crawler</module>
         <module>heima-leadnews-images</module>
         <module>heima-leadnews-migration</module>
+        <module>service-gateway</module>
+        <module>service-eureka</module>
+        <module>heima-leadnews-quartz</module>
     </modules>
 
     <!-- 继承Spring boot工程 -->
@@ -31,6 +35,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.5.RELEASE</version>
     </parent>
+
     <properties>
         <!-- 项目源码及编译输出的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,13 +43,12 @@
         <!-- 项目编译JDK版本 -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
         <!-- 依赖包版本管理 -->
         <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
         <commons.io.version>2.6</commons.io.version>
         <commons.codec.version>1.12</commons.codec.version>
         <lombok.version>1.18.8</lombok.version>
-        <mysql.version>5.1.47</mysql.version>
+        <mysql.version>5.1.1</mysql.version>
         <mybatis.version>3.5.1</mybatis.version>
         <mybatis.spring.version>2.0.1</mybatis.spring.version>
         <lang3.version>3.5</lang3.version>
@@ -68,7 +72,9 @@
         <kafka.version>2.2.7.RELEASE</kafka.version>
         <kafka.client.version>2.0.1</kafka.client.version>
         <reflections.version>0.9.11</reflections.version>
+        <skipTests>true</skipTests>
     </properties>
+
     <dependencies>
         <!--日志处理包-->
         <dependency>
@@ -83,6 +89,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <!--内部依赖工程-->
@@ -247,13 +254,17 @@
                 <artifactId>hanlp</artifactId>
                 <version>${hanlp.version}</version>
             </dependency>
-            <!-- 阿里SDK  -->
-            <dependency>
+           <!-- <dependency>
                 <groupId>com.baidu</groupId>
                 <artifactId>aip-java-sdk</artifactId>
                 <version>${baidu.version}</version>
                 <scope>system</scope>
                 <systemPath>${project.basedir}/../sdk-jar/baidu/aip-java-sdk-4.11.1.jar</systemPath>
+            </dependency>-->
+            <dependency>
+                <groupId>com.baidu.aip</groupId>
+                <artifactId>java-sdk</artifactId>
+                <version>4.11.1</version>
             </dependency>
             <!-- fastdfs客服端 -->
             <dependency>
@@ -473,6 +484,4 @@
             </build>
         </profile>
     </profiles>
-
-
 </project>
