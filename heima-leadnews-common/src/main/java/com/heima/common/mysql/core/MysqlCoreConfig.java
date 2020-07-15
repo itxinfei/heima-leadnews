@@ -20,8 +20,8 @@ import java.io.IOException;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "mysql.core")
 @PropertySource("classpath:mysql-core-jdbc.properties")
+@ConfigurationProperties(prefix = "mysql.core")
 @MapperScan(basePackages = "com.heima.model.mappers",sqlSessionFactoryRef = "mysqlCoreSessionFactory")
 public class MysqlCoreConfig {
 

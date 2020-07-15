@@ -15,9 +15,9 @@
         <dependency>
             <groupId>com.mycat</groupId>
             <artifactId>mycat-server</artifactId>
-            <version>1.0.0</version>
+            <version>1.6-RELEASE</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/Mycat-server-1.6-release.jar</systemPath>
+            <systemPath>${project.basedir}/libs/Mycat-server-1.6-RELEASE.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

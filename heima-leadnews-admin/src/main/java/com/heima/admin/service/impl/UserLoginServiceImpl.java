@@ -20,12 +20,22 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private AdUserMapper adUserMapper;
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     @Override
     public ResponseResult login(AdUser user) {
+        //打印user
+        System.out.println("登录用户："+user.toString());
         if(StringUtils.isEmpty(user.getName())&&StringUtils.isEmpty(user.getPassword())){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_REQUIRE,"用户和密码不能为空");
         }
         AdUser adUser = adUserMapper.selectByName(user.getName());
+        //查询到的用户信息
+        System.out.println("数据库中数据："+adUser.toString());
+
         if(adUser==null){
             return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"用户不存在");
         }else{
@@ -35,10 +45,12 @@ public class UserLoginServiceImpl implements UserLoginService {
                 adUser.setSalt("");
                 map.put("token", AppJwtUtil.getToken(adUser));
                 map.put("user",adUser);
+                System.out.println("token:"+map);
                 return ResponseResult.okResult(map);
             }else{
                 return ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_PASSWORD_ERROR);
             }
         }
+
     }
 }

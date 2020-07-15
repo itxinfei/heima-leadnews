@@ -20,6 +20,9 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.*;
 
+/**
+ * 图片审核
+ */
 @Getter
 @Setter
 @Configuration

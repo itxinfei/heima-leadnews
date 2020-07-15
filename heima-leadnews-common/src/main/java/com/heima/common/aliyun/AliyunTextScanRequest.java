@@ -19,16 +19,24 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.*;
 
+/**
+ * OSS 违规检测
+ */
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix="aliyun")
+@ConfigurationProperties(prefix = "aliyun")
 @PropertySource("classpath:aliyun.properties")
 public class AliyunTextScanRequest {
 
-    private  String accessKey;
-    private  String secret;
+    private String accessKey;
+    private String secret;
 
+    /**
+     * @param content
+     * @return
+     * @throws Exception
+     */
     public String textScanRequest(String content) throws Exception {
         IClientProfile profile = DefaultProfile.getProfile("cn-shanghai", accessKey, secret);
         IAcsClient client = new DefaultAcsClient(profile);
@@ -60,31 +68,31 @@ public class AliyunTextScanRequest {
         textScanRequest.setReadTimeout(6000);
         try {
             HttpResponse httpResponse = client.doAction(textScanRequest);
-            if(httpResponse.isSuccess()){
+            if (httpResponse.isSuccess()) {
                 JSONObject scrResponse = JSON.parseObject(new String(httpResponse.getHttpContent(), "UTF-8"));
                 System.out.println(JSON.toJSONString(scrResponse, true));
                 if (200 == scrResponse.getInteger("code")) {
                     JSONArray taskResults = scrResponse.getJSONArray("data");
                     for (Object taskResult : taskResults) {
-                        if(200 == ((JSONObject)taskResult).getInteger("code")){
-                            JSONArray sceneResults = ((JSONObject)taskResult).getJSONArray("results");
+                        if (200 == ((JSONObject) taskResult).getInteger("code")) {
+                            JSONArray sceneResults = ((JSONObject) taskResult).getJSONArray("results");
                             for (Object sceneResult : sceneResults) {
-                                String scene = ((JSONObject)sceneResult).getString("scene");
-                                String suggestion = ((JSONObject)sceneResult).getString("suggestion");
+                                String scene = ((JSONObject) sceneResult).getString("scene");
+                                String suggestion = ((JSONObject) sceneResult).getString("suggestion");
                                 //根据scene和suggetion做相关处理
                                 //suggestion == pass 未命中垃圾 review 人工审核 suggestion == block 命中了垃圾，可以通过label字段查看命中的垃圾分类
                                 System.out.println("args = [" + scene + "]");
                                 System.out.println("args = [" + suggestion + "]");
                                 return suggestion;
                             }
-                        }else{
-                            System.out.println("task process fail:" + ((JSONObject)taskResult).getInteger("code"));
+                        } else {
+                            System.out.println("task process fail:" + ((JSONObject) taskResult).getInteger("code"));
                         }
                     }
                 } else {
                     System.out.println("detect not success. code:" + scrResponse.getInteger("code"));
                 }
-            }else{
+            } else {
                 System.out.println("response not success. status:" + httpResponse.getStatus());
             }
         } catch (ClientException e) {

@@ -7,8 +7,11 @@ public interface UserLoginService {
 
     /**
      * 登录
+     *
      * @param user
      * @return
      */
-    public ResponseResult login(AdUser user);
+    ResponseResult login(AdUser user);
+
+
 }

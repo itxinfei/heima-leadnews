@@ -17,7 +17,6 @@
         <module>heima-leadnews-model</module>
         <module>heima-leadnews-article</module>
         <module>heima-leadnews-user</module>
-        <module>service-mycat</module>
         <module>heima-leadnews-login</module>
         <module>heima-leadnews-media</module>
         <module>heima-leadnews-admin</module>
@@ -26,7 +25,7 @@
         <module>heima-leadnews-migration</module>
         <module>service-gateway</module>
         <module>service-eureka</module>
-        <module>heima-leadnews-quartz</module>
+        <module>service-mycat</module>
     </modules>
 
     <!-- 继承Spring boot工程 -->
@@ -254,17 +253,13 @@
                 <artifactId>hanlp</artifactId>
                 <version>${hanlp.version}</version>
             </dependency>
-           <!-- <dependency>
+            <!--百度SDK-->
+            <dependency>
                 <groupId>com.baidu</groupId>
                 <artifactId>aip-java-sdk</artifactId>
                 <version>${baidu.version}</version>
                 <scope>system</scope>
-                <systemPath>${project.basedir}/../sdk-jar/baidu/aip-java-sdk-4.11.1.jar</systemPath>
-            </dependency>-->
-            <dependency>
-                <groupId>com.baidu.aip</groupId>
-                <artifactId>java-sdk</artifactId>
-                <version>4.11.1</version>
+                <systemPath>${project.basedir}/Doc/sdk-jar/aip-java-sdk-4.11.1.jar</systemPath>
             </dependency>
             <!-- fastdfs客服端 -->
             <dependency>
@@ -278,6 +273,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!--云盾内容安全产品-->
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-core</artifactId>
@@ -336,19 +332,20 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--插件-->
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <executions>
+                    <!--<executions>
                         <execution>
                             <goals>
                                 <goal>repackage</goal>
                             </goals>
                         </execution>
-                    </executions>
+                    </executions>-->
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -427,7 +424,6 @@
                     </dependency>
                 </dependencies>
             </plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -435,6 +431,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
@@ -455,6 +452,7 @@
         </testResources>
     </build>
 
+    <!--配置环境-->
     <profiles>
         <profile>
             <id>dev</id>

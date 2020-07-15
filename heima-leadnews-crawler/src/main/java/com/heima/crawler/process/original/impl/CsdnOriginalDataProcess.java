@@ -12,20 +12,32 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 把url列表转换为对象
+ */
 @Component
 public class CsdnOriginalDataProcess extends AbstractOriginalDataProcess {
 
     @Autowired
     private CrawlerConfig crawlerConfig;
 
+    /**
+     * 把url列表转换为对象
+     *
+     * @param processFlowData
+     * @return
+     */
     @Override
     public List<ParseItem> parseOriginalRequestData(ProcessFlowData processFlowData) {
         List<ParseItem> parseItemList = null;
+        //从crawlerConfigProperty 中获取初始化URL列表
         List<String> initCrawlerUrlList = crawlerConfig.getInitCrawlerUrlList();
-        if(initCrawlerUrlList!=null && !initCrawlerUrlList.isEmpty()){
-            parseItemList = initCrawlerUrlList.stream().map(url->{
+        //打印URL列表
+        System.out.println("URL:" + initCrawlerUrlList.toString());
+        if (initCrawlerUrlList != null && !initCrawlerUrlList.isEmpty()) {
+            parseItemList = initCrawlerUrlList.stream().map(url -> {
                 CrawlerParseItem parseItem = new CrawlerParseItem();
-                url = url+"?rnd="+System.currentTimeMillis();
+                url = url + "?rnd=" + System.currentTimeMillis();
                 parseItem.setUrl(url);
                 parseItem.setDocumentType(CrawlerEnum.DocumentType.INIT.name());
                 parseItem.setHandelType(processFlowData.getHandelType().name());
@@ -35,6 +47,11 @@ public class CsdnOriginalDataProcess extends AbstractOriginalDataProcess {
         return parseItemList;
     }
 
+    /**
+     * 优先级
+     *
+     * @return
+     */
     @Override
     public int getPriority() {
         return 10;
