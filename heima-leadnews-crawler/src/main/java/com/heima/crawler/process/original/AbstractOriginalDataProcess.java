@@ -14,6 +14,8 @@ import java.util.List;
  */
 @Log4j2
 public abstract class AbstractOriginalDataProcess extends AbstractProcessFlow {
+
+
     /**
      * 数据处理方法
      *
@@ -68,9 +70,6 @@ public abstract class AbstractOriginalDataProcess extends AbstractProcessFlow {
     public void initialDataListHandel(List<ParseItem> initialDataList) {
     }
 
-    /**
-     * @return
-     */
     @Override
     public CrawlerEnum.ComponentType getComponentType() {
         return CrawlerEnum.ComponentType.NORMAL;

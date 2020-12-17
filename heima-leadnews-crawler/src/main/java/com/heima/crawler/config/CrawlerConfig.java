@@ -29,9 +29,6 @@ import us.codecraft.webmagic.Spider;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 读取拼接url列表
- */
 @Getter
 @Setter
 @Configuration
@@ -45,36 +42,24 @@ public class CrawlerConfig {
     @Value("${crux.cookie.name}")
     private String CRUX_COOKIE_NAME;
 
-    /**
-     * 拼接初始化的URL
-     *
-     * @return
-     */
-    public List<String> getInitCrawlerUrlList() {
-        System.out.println("=====================拼接初始化的URL===========================");
+    public List<String> getInitCrawlerUrlList(){
         List<String> initCrawlerUrlList = new ArrayList<>();
-        if (StringUtils.isNotEmpty(suffix)) {
+        if(StringUtils.isNotEmpty(suffix)){
             String[] urlArray = suffix.split(",");
-            if (urlArray != null && urlArray.length > 0) {
-                for (int i = 0; i < urlArray.length; i++) {
+            if(urlArray!=null && urlArray.length>0){
+                for(int i = 0;i<urlArray.length;i++){
                     String initUrl = urlArray[i];
-                    if (StringUtils.isNotEmpty(initUrl)) {
-                        if (!initUrl.toLowerCase().startsWith("http")) {
-                            initCrawlerUrlList.add(prefix + initUrl);
+                    if(StringUtils.isNotEmpty(initUrl)){
+                        if(!initUrl.toLowerCase().startsWith("http")){
+                            initCrawlerUrlList.add(prefix+initUrl);
                         }
                     }
                 }
             }
         }
-        System.out.println("URL:" + initCrawlerUrlList.toString());
         return initCrawlerUrlList;
     }
 
-    /**
-     * Selenium
-     *
-     * @return
-     */
     @Bean
     public SeleniumClient getSeleniumClient() {
         return new SeleniumClient();
@@ -92,7 +77,6 @@ public class CrawlerConfig {
 
     /**
      * 数据校验匿名内部类
-     *
      * @param cookieHelper
      * @return
      */
@@ -114,6 +98,8 @@ public class CrawlerConfig {
             }
         };
     }
+
+
 
     /**
      * CrawerHelper 辅助类
@@ -161,17 +147,16 @@ public class CrawlerConfig {
 
     /**
      * 获取初始化的ip列表
-     *
      * @return
      */
-    public List<CrawlerProxy> getCrawlerProxyList() {
+    public List<CrawlerProxy> getCrawlerProxyList(){
         List<CrawlerProxy> crawlerProxyList = new ArrayList<>();
         ClIpPool clIpPool = new ClIpPool();
         clIpPool.setDuration(5);
         List<ClIpPool> clIpPools = crawlerIpPoolService.queryAvailabelList(clIpPool);
-        if (null != clIpPools && !clIpPools.isEmpty()) {
+        if(null != clIpPools && !clIpPools.isEmpty()){
             for (ClIpPool ipPool : clIpPools) {
-                crawlerProxyList.add(new CrawlerProxy(ipPool.getIp(), ipPool.getPort()));
+                crawlerProxyList.add(new CrawlerProxy(ipPool.getIp(),ipPool.getPort()));
             }
         }
 
@@ -180,25 +165,24 @@ public class CrawlerConfig {
 
     /**
      * 代理ip不可用处理方法
-     *
      * @param crawlerProxy
      */
-    public void unavilableProxy(CrawlerProxy crawlerProxy) {
-        if (crawlerProxy != null) {
-            crawlerIpPoolService.unAvailabelProxy(crawlerProxy, "自动禁用");
+    public void unavilableProxy(CrawlerProxy crawlerProxy){
+        if(crawlerProxy != null){
+            crawlerIpPoolService.unAvailabelProxy(crawlerProxy,"自动禁用");
         }
     }
 
 
-    private String initCrawlerXpath = "//ul[@class='feedlist_mod']/li[@class='clearfix']/div[@class='list_con']/dl[@class='list_userbar']/dd[@class='name']/a";
+    private String initCrawlerXpath="//ul[@class='feedlist_mod']/li[@class='clearfix']/div[@class='list_con']/dl[@class='list_userbar']/dd[@class='name']/a";
 
-    private String helpCrawlerXpath = "//div[@class='article-list']/div[@class='article-item-box']/h4/a";
+    private String helpCrawlerXpath="//div[@class='article-list']/div[@class='article-item-box']/h4/a";
 
     @Value("${crawler.help.nextPagingSize}")
     private Integer crawlerHelpNextPagingSize;
 
     @Bean
-    public CrawlerConfigProperty getCrawlerConfigProperty() {
+    public CrawlerConfigProperty getCrawlerConfigProperty(){
         CrawlerConfigProperty property = new CrawlerConfigProperty();
         //初始化url列表
         property.setInitCrawlerUrlList(getInitCrawlerUrlList());
@@ -216,31 +200,29 @@ public class CrawlerConfig {
 
     /**
      * 目标页的解析规则
-     *
      * @return
      */
     private List<ParseRule> getTargetParseRuleList() {
-        List<ParseRule> parseRules = new ArrayList<ParseRule>() {{
+        List<ParseRule> parseRules = new ArrayList<ParseRule>(){{
             //标题
-            add(new ParseRule("title", CrawlerEnum.ParseRuleType.XPATH, "//h1[@class='title-article']/text()"));
+            add(new ParseRule("title", CrawlerEnum.ParseRuleType.XPATH,"//h1[@class='title-article']/text()"));
             //作者
-            add(new ParseRule("author", CrawlerEnum.ParseRuleType.XPATH, "//a[@class='follow-nickName']/text()"));
+            add(new ParseRule("author",CrawlerEnum.ParseRuleType.XPATH,"//a[@class='follow-nickName']/text()"));
             //发布日期
-            add(new ParseRule("releaseDate", CrawlerEnum.ParseRuleType.XPATH, "//span[@class='time']/text()"));
+            add(new ParseRule("releaseDate",CrawlerEnum.ParseRuleType.XPATH,"//span[@class='time']/text()"));
             //标签
-            add(new ParseRule("labels", CrawlerEnum.ParseRuleType.XPATH, "//span[@class='tags-box']/a/text()"));
+            add(new ParseRule("labels",CrawlerEnum.ParseRuleType.XPATH,"//span[@class='tags-box']/a/text()"));
             //个人空间
-            add(new ParseRule("personalSpace", CrawlerEnum.ParseRuleType.XPATH, "//a[@class='follow-nickName']/@href"));
+            add(new ParseRule("personalSpace",CrawlerEnum.ParseRuleType.XPATH,"//a[@class='follow-nickName']/@href"));
             //阅读量
-            add(new ParseRule("readCount", CrawlerEnum.ParseRuleType.XPATH, "//span[@class='read-count']/text()"));
+            add(new ParseRule("readCount",CrawlerEnum.ParseRuleType.XPATH,"//span[@class='read-count']/text()"));
             //点赞量
-            add(new ParseRule("likes", CrawlerEnum.ParseRuleType.XPATH, "//div[@class='tool-box']/ul[@class='meau-list']/li[@class='btn-like-box']/button/p/text()"));
+            add(new ParseRule("likes",CrawlerEnum.ParseRuleType.XPATH,"//div[@class='tool-box']/ul[@class='meau-list']/li[@class='btn-like-box']/button/p/text()"));
             //回复次数
-            add(new ParseRule("commentCount", CrawlerEnum.ParseRuleType.XPATH, "//div[@class='tool-box']/ul[@class='meau-list']/li[@class='to-commentBox']/a/p/text()"));
+            add(new ParseRule("commentCount",CrawlerEnum.ParseRuleType.XPATH,"//div[@class='tool-box']/ul[@class='meau-list']/li[@class='to-commentBox']/a/p/text()"));
             //文章内容
-            add(new ParseRule("content", CrawlerEnum.ParseRuleType.XPATH, "//div[@id='content_views']/html()"));
+            add(new ParseRule("content",CrawlerEnum.ParseRuleType.XPATH,"//div[@id='content_views']/html()"));
         }};
-        System.out.println("目标页的解析规则"+parseRules.toString());
         return parseRules;
     }
 
@@ -260,9 +242,6 @@ public class CrawlerConfig {
         return new DbAndRedisScheduler(jedisPool);
     }
 
-    /**
-     * 添加字段
-     */
     private Spider spider;
 
     public Spider getSpider() {

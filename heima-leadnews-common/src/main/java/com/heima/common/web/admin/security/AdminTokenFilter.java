@@ -24,20 +24,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Order(2)
-@WebFilter(filterName = "adminTokenFilter" ,urlPatterns = "/*")
+@WebFilter(filterName = "adminTokenFilter", urlPatterns = "/*")
 public class AdminTokenFilter extends GenericFilterBean {
 
     Logger logger = LoggerFactory.getLogger(AdminTokenFilter.class);
 
-    public  void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException{
-        HttpServletRequest request = (HttpServletRequest)req;
-        HttpServletResponse response = (HttpServletResponse)res;
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
         String uri = request.getRequestURI();
-        ResponseResult<?> result = checkToken(request,response);
+        ResponseResult<?> result = checkToken(request, response);
         // 测试和开发环境不过滤
-        if(result==null||uri.startsWith("/login")){
-            chain.doFilter(req,res);
-        }else{
+        if (result == null || uri.startsWith("/login")) {
+            chain.doFilter(req, res);
+        } else {
             res.setCharacterEncoding(Contants.CHARTER_NAME);
             res.setContentType("application/json");
             res.getOutputStream().write(JSON.toJSONString(result).getBytes());
@@ -46,45 +46,45 @@ public class AdminTokenFilter extends GenericFilterBean {
 
     /**
      * 判断TOKEN信息，并设置为上下文
+     *
      * @param request
-     * @return
-     * 如果验证不通过则返回对应的错误，否则返回null继续执行
+     * @return 如果验证不通过则返回对应的错误，否则返回null继续执行
      */
-    public ResponseResult checkToken(HttpServletRequest request, HttpServletResponse response){
+    public ResponseResult checkToken(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader("token");
         ResponseResult<?> rr = null;
-        if(StringUtils.isNotEmpty(token)) {
+        if (StringUtils.isNotEmpty(token)) {
             Claims claims = AppJwtUtil.getClaimsBody(token);
             int result = AppJwtUtil.verifyToken(claims);
             // 有效的token
-            if (result == 0||result==-1) {
+            if (result == 0 || result == -1) {
                 AdUser user = new AdUser();
-                user.setId(Long.valueOf((Integer)claims.get("id")));
+                user.setId(Long.valueOf((Integer) claims.get("id")));
                 user = findUser(user);
-                logger.info("find userid:[{}] from uri:{}",user.getId(),request.getRequestURI());
-                if(user.getId()!=null) {
+                logger.info("find userid:[{}] from uri:{}", user.getId(), request.getRequestURI());
+                if (user.getId() != null) {
                     // 重新设置TOKEN
-                    if(result==-1) {
+                    if (result == -1) {
                         response.setHeader("REFRESH_TOKEN", AppJwtUtil.getToken(user));
                     }
                     AdminThreadLocalUtils.setUser(user);
-                }else{
+                } else {
                     rr = ResponseResult.setAppHttpCodeEnum(AppHttpCodeEnum.TOKEN_INVALID);
                 }
-            }else if(result==1){
+            } else if (result == 1) {
                 // 过期
                 rr = ResponseResult.setAppHttpCodeEnum(AppHttpCodeEnum.TOKEN_EXPIRE);
-            }else if(result==2){
+            } else if (result == 2) {
                 // TOKEN错误
                 rr = ResponseResult.setAppHttpCodeEnum(AppHttpCodeEnum.TOKEN_INVALID);
             }
-        }else{
+        } else {
             rr = ResponseResult.setAppHttpCodeEnum(AppHttpCodeEnum.TOKEN_REQUIRE);
         }
         return rr;
     }
 
-    public AdUser findUser(AdUser user){
+    public AdUser findUser(AdUser user) {
         user.setName("test");
         return user;
     }

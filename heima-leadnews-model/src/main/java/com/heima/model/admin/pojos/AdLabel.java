@@ -1,6 +1,7 @@
 package com.heima.model.admin.pojos;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
@@ -10,5 +11,4 @@ public class AdLabel {
     private String name;
     private Boolean type;
     private Date createdTime;
-
 }

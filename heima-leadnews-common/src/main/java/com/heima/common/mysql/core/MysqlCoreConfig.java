@@ -22,7 +22,7 @@ import java.io.IOException;
 @Configuration
 @PropertySource("classpath:mysql-core-jdbc.properties")
 @ConfigurationProperties(prefix = "mysql.core")
-@MapperScan(basePackages = "com.heima.model.mappers",sqlSessionFactoryRef = "mysqlCoreSessionFactory")
+@MapperScan(basePackages = "com.heima.model.mappers", sqlSessionFactoryRef = "mysqlCoreSessionFactory")
 public class MysqlCoreConfig {
 
     String jdbcUrl;
@@ -36,7 +36,7 @@ public class MysqlCoreConfig {
      * 设置一个数据库的连接池
      */
     @Bean("mysqlCoreDataSource")
-    public DataSource mysqlCoreDataSource(){
+    public DataSource mysqlCoreDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setUsername(this.getJdbcUserName());
         dataSource.setPassword(this.getRealPassword());
@@ -46,16 +46,18 @@ public class MysqlCoreConfig {
         dataSource.setMaximumPoolSize(50);
         //最小连接数
         dataSource.setMinimumIdle(5);
+        //输出连接池
+        System.out.println("数据库连接：" + dataSource.toString());
         return dataSource;
     }
 
     /**
      * 密码反转操作
      */
-    public String getRealPassword(){
+    public String getRealPassword() {
         String jdbcPassword = this.getJdbcPassword();//123456
         String reverse = StringUtils.reverse(jdbcPassword);//654321
-        return  reverse;
+        return reverse;
     }
 
     /**
@@ -78,10 +80,11 @@ public class MysqlCoreConfig {
         factoryBean.setConfiguration(configuration);
         return factoryBean;
     }
+
     /**
      * 拼接mapper.xml文件的存储位置
      */
-    public String getMapperFilePath(){
+    public String getMapperFilePath() {
         return new StringBuffer("classpath:").append(this.getRootMapper()).append("/**/*.xml").toString();
     }
 }

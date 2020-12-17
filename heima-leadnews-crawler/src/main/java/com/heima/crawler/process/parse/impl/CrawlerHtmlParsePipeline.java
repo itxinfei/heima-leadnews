@@ -377,21 +377,14 @@ public class CrawlerHtmlParsePipeline extends AbstractHtmlParsePipeline<CrawlerP
     @Override
     public void preParameterHandel(Map<String, Object> itemsAll) {
         String readCount = HMStringUtils.toString(itemsAll.get("readCount"));
-        System.out.println("readCount："+readCount);
-
         if(StringUtils.isNotEmpty(readCount)){
             readCount = readCount.split(" ")[1];
-            System.out.println("readCount:"+readCount);
             if(StringUtils.isNotEmpty(readCount)){
                 itemsAll.put("readCount",readCount);
             }
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int getPriority() {
         return 1000;

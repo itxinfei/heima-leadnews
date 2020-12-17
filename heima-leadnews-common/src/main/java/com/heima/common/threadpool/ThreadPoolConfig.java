@@ -24,8 +24,9 @@ public class ThreadPoolConfig {
     private static final int corePoolSize = 5;       		// 核心线程数（默认线程数）
     private static final int maxPoolSize = 50;			    // 最大线程数
     private static final int keepAliveTime = 5;			// 允许线程空闲时间（单位：默认为秒）
-    private static final int queueCapacity = 200;			// 缓冲队列数
+    private static final int queueCapacity = 100;			// 缓冲队列数
     private static final String threadNamePrefix = "default-async-"; // 线程池名前缀
+
     @Value("${spring.application.name:test}")
     String appliactionName;
 
@@ -44,6 +45,7 @@ public class ThreadPoolConfig {
         // 直接在execute方法的调用线程中运行
         pool.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         // 初始化
+        System.out.println("线程初始化。。。");
         pool.initialize();
         return pool;
     }

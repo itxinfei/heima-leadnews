@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 
-/**
- * 数据保存
- */
 @Service
 @Log4j2
 @SuppressWarnings("all")
@@ -32,11 +29,6 @@ public class AdLabelServiceImpl implements AdLabelService {
     @Autowired
     private AdChannelLabelMapper adChannelLabelMapper;
 
-    /**
-     *
-     * @param labels   从页面爬取的标签  多个的时候，以逗号分隔
-     * @return
-     */
     @Override
     public String getLabelIds(String labels) {
         long currentTimeMillis = System.currentTimeMillis();
@@ -112,11 +104,7 @@ public class AdLabelServiceImpl implements AdLabelService {
         return adLabel;
     }
 
-    /**
-     *
-     * @param labelIds
-     * @return
-     */
+
     @Override
     public Integer getAdChannelByLabelIds(String labelIds) {
         Integer channelId = 0;
@@ -128,11 +116,6 @@ public class AdLabelServiceImpl implements AdLabelService {
         return channelId;
     }
 
-    /**
-     *
-     * @param labelIds
-     * @return
-     */
     private Integer getSecurityAdChannelByLabelIds(String labelIds) {
         long currentTimeMillis = System.currentTimeMillis();
         log.info("获取channel信息，标签ids:{}",labelIds);
@@ -150,11 +133,6 @@ public class AdLabelServiceImpl implements AdLabelService {
         return channelId;
     }
 
-    /**
-     *
-     * @param labelId
-     * @return
-     */
     private Integer getAdChannelIdByLabelId(Integer labelId) {
         Integer channelId = 0;
         AdChannelLabel adChannelLabel = adChannelLabelMapper.selectByLabelId(labelId);

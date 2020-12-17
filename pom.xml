@@ -254,12 +254,17 @@
                 <version>${hanlp.version}</version>
             </dependency>
             <!--百度SDK-->
-            <dependency>
+           <!-- <dependency>
                 <groupId>com.baidu</groupId>
                 <artifactId>aip-java-sdk</artifactId>
                 <version>${baidu.version}</version>
                 <scope>system</scope>
                 <systemPath>${project.basedir}/Doc/sdk-jar/aip-java-sdk-4.11.1.jar</systemPath>
+            </dependency>-->
+            <dependency>
+                <groupId>com.baidu.aip</groupId>
+                <artifactId>java-sdk</artifactId>
+                <version>4.11.1</version>
             </dependency>
             <!-- fastdfs客服端 -->
             <dependency>
