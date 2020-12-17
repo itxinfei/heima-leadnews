@@ -1,4 +1,10 @@
 # 黑马头条
+
+### 交流方式：
+
+QQ技术交流群：863662849<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=9yLlyD1dRBL97xmBKw43zRt0-6xg8ohb&jump_from=webapi">
+<img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Java项目交流+求职面试" title="Java项目交流+求职面试"></a><a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=f0hLSE9OTkdHTT8ODlEcEBI" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_02.png"/></a>
+
 ### 项目背景
 随着智能手机的普及，人们更加习惯于通过手机来看新闻。由于生活节奏的加快，很多人只能利用碎片时间来获取信息，因此，对于移动资讯客户端的需求也越来越高。黑马头条项目正是在这样背景下开发出来。黑马头条项目采用当下火热的微服务+大数据技术架构实现。本项目主要着手于获取最新最热新闻资讯，通过大数据分析用户喜好精确推送咨询新闻
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/175353_b59dbfbd_800553.png "屏幕截图.png")
@@ -68,16 +74,6 @@
 
 - 权限管理：超级管理员对后台管理员账号进行新增或删除角色操作
 
-
-### ADMIN用例图（主要功能）
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/175913_ee4bc085_800553.png "屏幕截图.png")
-
-### 其它需求
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/175939_af7e46b8_800553.png "屏幕截图.png")
-
-### 交互需求
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/175955_b6b3fdd8_800553.png "屏幕截图.png")
-
 ### 项目技术介绍
 基础六层中包括前端（Weex、Vue、Echarts、WS）、网关（GateWay）、DevOps（单元测试、代码规范）等重难点技术
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/180016_202fce0e_800553.png "屏幕截图.png")
@@ -107,16 +103,6 @@
 - 运用Spark Streaming + Hive+Kafka实现实时数据分析与应用；比如文章推荐
 - 运用Neo4j知识图谱技术，分析数据关系，产出知识结果，并应用到上层业务中，以帮助用户、自媒体、运营效果/能力提升。比如粉丝等级计算
 - 运用AI技术，来完成系统自动化功能，以提升效率及节省成本。比如实名认证自动化
-
-### 技术栈-分布
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/180158_6487dd85_800553.png "3-3.png")
-- 【分层】 ：项目技术按分层分类，涉及前端、后台、数据采集、中间件、业务数据存储、大数据存储、大数据应用、知识图谱、AI等9个层面的技术
-- 【领域】 ：项目技术按领域分类，涉及MVVM、图表、跨终端、微服务、消息中间件、数据库中间件、爬虫、大数据存储、大数据流计算、大数据分析、知识图谱等22个领域的主流技术
-- 【技术】  ：项目共涉及22个主要技术框架的综合运用
-
-### 数据库设计
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0710/180246_433a4f6f_800553.png "屏幕截图.png")
-er图设计划分出了9个库，各个库主要解决的是某一个特定的业务。
 
 ### 分库设计
 黑马头条项目采用的分库分表设计，因为业务比较复杂，后期的访问量巨大，为了分摊数据库的压力，整个项目用的不只是一个数据库。其中核心库有**5**个，每一个数据库解决的是一个业务点，非常接近与实际项目设计。
