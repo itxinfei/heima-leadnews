@@ -25,7 +25,6 @@
             <groupId>com.heima</groupId>
             <artifactId>heima-leadnews-apis</artifactId>
         </dependency>
-
         <!-- Spring boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
