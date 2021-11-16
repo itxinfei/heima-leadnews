@@ -16,6 +16,7 @@
         <module>heima-leadnews-apis</module>
         <module>heima-leadnews-model</module>
         <module>heima-leadnews-article</module>
+        <module>heima-leadnews-behavior</module>
         <module>heima-leadnews-user</module>
         <module>heima-leadnews-login</module>
         <module>heima-leadnews-media</module>
@@ -42,6 +43,7 @@
         <!-- 项目编译JDK版本 -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
         <!-- 依赖包版本管理 -->
         <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
         <commons.io.version>2.6</commons.io.version>
@@ -254,13 +256,13 @@
                 <version>${hanlp.version}</version>
             </dependency>
             <!--百度SDK-->
-           <!-- <dependency>
-                <groupId>com.baidu</groupId>
-                <artifactId>aip-java-sdk</artifactId>
-                <version>${baidu.version}</version>
-                <scope>system</scope>
-                <systemPath>${project.basedir}/Doc/sdk-jar/aip-java-sdk-4.11.1.jar</systemPath>
-            </dependency>-->
+            <!-- <dependency>
+                 <groupId>com.baidu</groupId>
+                 <artifactId>aip-java-sdk</artifactId>
+                 <version>${baidu.version}</version>
+                 <scope>system</scope>
+                 <systemPath>${project.basedir}/Doc/sdk-jar/aip-java-sdk-4.11.1.jar</systemPath>
+             </dependency>-->
             <dependency>
                 <groupId>com.baidu.aip</groupId>
                 <artifactId>java-sdk</artifactId>

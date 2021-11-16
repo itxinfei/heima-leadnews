@@ -1,7 +1,9 @@
 package com.heima.common.article.constans;
 
 public class ArticleConstans {
-
+    /**
+     * 1 加载更多  2 加载更新
+     */
     public static final Short LOADTYPE_LOAD_MORE = 1;
     public static final Short LOADTYPE_LOAD_NEW = 2;
 

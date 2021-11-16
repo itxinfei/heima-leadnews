@@ -21,6 +21,9 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import javax.sql.DataSource;
 
+/**
+ * 事务管理配置
+ */
 @Setter
 @Getter
 @Aspect

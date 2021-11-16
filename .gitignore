@@ -3,9 +3,11 @@
 ### Example user template
 
 # IntelliJ project files
+.idea
 *.iml
 out
 gen
+
 *.idea
 
 # Office 缓存文件
