@@ -1,11 +1,7 @@
-![输入图片说明](docs/logo_index.png)
 
----
 
 # 🚀 黑马头条项目  
 **微服务 + 大数据架构的资讯平台解决方案**  
-
----
 
 ### 🔗 项目链接 & 社区支持  
 - **仓库地址**：[https://gitee.com/itxinfei/heima-leadnews](https://gitee.com/itxinfei/heima-leadnews)  
