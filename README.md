@@ -5,7 +5,7 @@
     <img alt="code style" src="https://img.shields.io/badge/心飞为你飞-https%3A%2F%2Fgitee.com%2Fitxinfei-green">
   </a> 
   <a href="https://qm.qq.com/cgi-bin/qm/qr?k=9yLlyD1dRBL97xmBKw43zRt0-6xg8ohb&jump_from=webapi">
-    <img alt="code style" src="https://img.shields.io/badge/QQ群-863662849-red">
+    <img alt="code style" src="https://img.shields.io/badge/QQ群-661543188-red">
   </a> 
   <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=f0hLSE9OTkdHTT8ODlEcEBI">
     <img alt="code style" src="https://img.shields.io/badge/mail-747011882@qq.com-red">
