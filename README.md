@@ -1,25 +1,10 @@
+<div align="center">  
+  <h1>🚀 黑马头条</h1>  
+  <p><strong>微服务 + 大数据架构的资讯平台解决方案</strong></p>  
 
 
-# 🚀 黑马头条项目  
-**微服务 + 大数据架构的资讯平台解决方案**  
+<!-- 前端 --> <img src="https://img.shields.io/badge/Weex-007AFF?style=flat-square" alt="Weex"> <img src="https://img.shields.io/badge/Vue-42b883?style=flat-square" alt="Vue"> <img src="https://img.shields.io/badge/ECharts-1890FF?style=flat-square" alt="ECharts"> <img src="https://img.shields.io/badge/WebSocket-FF5722?style=flat-square" alt="WebSocket"> <!-- 后端 --> <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square" alt="Spring Boot"> <img src="https://img.shields.io/badge/SC_Gateway-459BEC?style=flat-square" alt="Spring Cloud Gateway"> <img src="https://img.shields.io/badge/Kafka-231F20?style=flat-square" alt="Kafka"> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square" alt="Redis"> <!-- 大数据 --> <img src="https://img.shields.io/badge/Spark-E69D27?style=flat-square" alt="Spark"> <img src="https://img.shields.io/badge/Hive-018ECD?style=flat-square" alt="Hive"> <img src="https://img.shields.io/badge/HBase-8C564A?style=flat-square" alt="HBase"> <img src="https://img.shields.io/badge/Neo4j-F15A24?style=flat-square" alt="Neo4j"> <!-- 数据库 --> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square" alt="MySQL"> <img src="https://img.shields.io/badge/MongoDB-4DB33D?style=flat-square" alt="MongoDB"> <img src="https://img.shields.io/badge/Elasticsearch-008EBA?style=flat-square" alt="Elasticsearch"> <!-- 工具与AI --> <img src="https://img.shields.io/badge/FastDFS-527800?style=flat-square" alt="FastDFS"> <img src="https://img.shields.io/badge/ZooKeeper-EA2E8C?style=flat-square" alt="ZooKeeper"> <img src="https://img.shields.io/badge/AI-OCR-FF6F00?style=flat-square" alt="AI OCR"> </div>
 
-### 🔗 项目链接 & 社区支持  
-- **仓库地址**：[https://gitee.com/itxinfei/heima-leadnews](https://gitee.com/itxinfei/heima-leadnews)  
-- **QQ交流群**：[661543188](https://qm.qq.com/cgi-bin/qm/qr?k=9yLlyD1dRBL97xmBKw43zRt0-6xg8ohb&jump_from=webapi)  
-- **邮箱支持**：[747011882@qq.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=f0hLSE9OTkdHTT8ODlEcEBI)  
-
----
-
-### 📦 技术栈徽章  
-| 类型       | 技术栈                                                                 |
-|------------|------------------------------------------------------------------------|
-| **前端**   | Weex + Vue + ECharts + WebSocket                                        |
-| **后端**   | Spring Boot + Spring Cloud Gateway + Kafka + Redis                    |
-| **大数据** | Spark + Hive + HBase + Neo4j                                          |
-| **数据库** | MySQL + MongoDB + Elasticsearch                                       |
-| **其他**   | FastDFS + ZooKeeper + AI（OCR + 人脸比对）                            |
-
----
 
 ### 🌟 项目简介  
 **黑马头条** 是基于 **微服务 + 大数据技术架构** 构建的资讯平台，专注于获取最新热点新闻并通过大数据分析用户兴趣进行精准推送。  
@@ -31,6 +16,17 @@
 - ✅ **全栈技术覆盖**：前端（Weex/Vue）、后端（Spring Cloud）、大数据（Spark/Hive）、AI（实名认证自动化）  
 - ✅ **分库分表设计**：5大核心数据库解耦业务模块，提升扩展性  
 - ✅ **实时与离线双引擎**：Kafka实时消息、Spark Streaming实时分析 + Hive离线统计  
+
+---
+
+### 📦 技术栈 
+| 类型       | 技术栈                                                                 |
+|------------|------------------------------------------------------------------------|
+| **前端**   | Weex + Vue + ECharts + WebSocket                                        |
+| **后端**   | Spring Boot + Spring Cloud Gateway + Kafka + Redis                    |
+| **大数据** | Spark + Hive + HBase + Neo4j                                          |
+| **数据库** | MySQL + MongoDB + Elasticsearch                                       |
+| **其他**   | FastDFS + ZooKeeper + AI（OCR + 人脸比对）                            |
 
 ---
 
@@ -124,9 +120,12 @@ Apache License 2.0 © [心飞为你飞](https://gitee.com/itxinfei)
 
 ---
 
-### 📱 关注微信公众号  
-![微信公众号二维码](docs/心飞为你飞.jpg)  
-
 ---
+### 🔗 项目链接 & 社区支持  
+![微信公众号二维码](docs/心飞为你飞.jpg)  
+🚀 项目地址：[https://gitee.com/itxinfei/heima-leadnews](https://gitee.com/itxinfei/heima-leadnews)  
+👥 QQ交流群：[661543188](https://qm.qq.com/cgi-bin/qm/qr?k=gNgch-wCkfUu-QbI7DZSudrax2BN7vY0&jump_from=webapi&authKey=QHSRnxQvu+h5S3AXGn/DSHrVPiFQAYEk6bSlCE1lS276SFjQAUagV4FG7bHf0OSM)  
+📧 邮箱支持：[747011882@qq.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=f0hLSE9OTkdHTT8ODlEcEBI)  
+
 
 
