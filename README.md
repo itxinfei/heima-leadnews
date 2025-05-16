@@ -1,32 +1,25 @@
 <div align="center">  
   <h1>🚀 黑马头条</h1>  
   <p><strong>微服务 + 大数据架构的资讯平台解决方案</strong></p>  
-<div style="white-space: nowrap; overflow-x: auto; padding: 15px 0;">
-  <!-- 基础依赖 -->
-  <img alt="JDK" src="https://img.shields.io/badge/JDK-1.8%2B-brightgreen">  
-  <img alt="Maven" src="https://img.shields.io/badge/maven-3.3%2B-yellowgreen">  
-  <img alt="License" src="https://img.shields.io/badge/license-Apache-green">  
 
-  <!-- 前端 -->
+<div style="white-space: nowrap; overflow-x: auto; padding: 15px 0;">
+  <img alt="JDK" src="https://img.shields.io/badge/JDK-1.8%2B-brightgreen">
+  <img alt="Maven" src="https://img.shields.io/badge/Maven-3.x%2B-yellowgreen">
+  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-2.1.5.RELEASE-brightgreen">
+  <img alt="Spring Cloud" src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.RELEASE-orange">
+  <img alt="MyBatis" src="https://img.shields.io/badge/MyBatis-3.5.1-blue">
+  <img alt="MySQL" src="https://img.shields.io/badge/MySQL-5.1.1-blueviolet">
+  <img alt="FastJSON" src="https://img.shields.io/badge/FastJSON-1.2.58-success">
+  <img alt="Jackson" src="https://img.shields.io/badge/Jackson-2.9.9-informational">
+  <img alt="JWT" src="https://img.shields.io/badge/JWT-0.9.1-lightgrey">
+  <img alt="Apache Commons IO" src="https://img.shields.io/badge/Apache%20Commons%20IO-2.6-lightgrey">
+  <img alt="Apache Commons Codec" src="https://img.shields.io/badge/Apache%20Commons%20Codec-1.12-lightgrey">
+  <img alt="Apache Commons Lang3" src="https://img.shields.io/badge/Apache%20Commons%20Lang3-3.5-lightgrey">
+  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-7.2.0-red">
+  <img alt="Kafka" src="https://img.shields.io/badge/Kafka-2.2.7.RELEASE-red">
+  <img alt="Curator" src="https://img.shields.io/badge/Curator-4.2.0-red">
   <img alt="前端" src="https://img.shields.io/badge/前端-Vue3%20+%20Weex-blueviolet">  
   <img alt="前端框架" src="https://img.shields.io/badge/前端框架-ECharts%20+%20Vant-orange">  
-
-  <!-- 后端 -->
-  <img alt="后端框架" src="https://img.shields.io/badge/后端-SpringCloud%20+%20MyBatis-green">  
-  <img alt="网关" src="https://img.shields.io/badge/网关-SpringCloudGateway-brightgreen">  
-
-  <!-- 大数据 -->
-  <img alt="大数据" src="https://img.shields.io/badge/大数据-Spark%20+%20Hive%20+%20HBase-red">  
-
-  <!-- 数据库 -->
-  <img alt="数据库" src="https://img.shields.io/badge/数据库-MySQL%20+%20MongoDB%20+%20Redis-yellowgreen">  
-
-  <!-- 中间件 -->
-  <img alt="消息队列" src="https://img.shields.io/badge/消息队列-Kafka%20+%20RocketMQ-blue">  
-  <img alt="配置中心" src="https://img.shields.io/badge/配置中心-Nacos%20+%20Sentinel-orange">  
-
-  <!-- 监控 -->
-  <img alt="监控" src="https://img.shields.io/badge/监控-Prometheus%20+%20SkyWalking-purple">  
 </div>
 
  </div>
@@ -142,8 +135,6 @@ Admin       -> 管理员账号、权限配置
 
 ### 📜 许可证  
 Apache License 2.0 © [心飞为你飞](https://gitee.com/itxinfei)  
-
----
 
 ---
 ### 🔗 项目链接 & 社区支持  
