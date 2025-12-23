@@ -133,8 +133,3 @@ Admin       -> 管理员账号、权限配置
 
 ---
 
-### 📜 许可证  
-Apache License 2.0 © [心飞为你飞](https://gitee.com/itxinfei)  
-
----
-
