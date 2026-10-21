@@ -16,3 +16,9 @@ gen
 ~'$'*.pptx
 ~'$'*.xls
 
+# 构建产物与前端依赖
+target/
+**/target/
+node_modules/
+**/node_modules/
+*.log

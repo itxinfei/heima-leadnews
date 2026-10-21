@@ -1,23 +1,22 @@
 <div align="center">  
-  <h1>🚀 黑马头条</h1>  
+  <h1>🚀 心飞头条</h1>  
   <p><strong>微服务 + 大数据架构的资讯平台解决方案</strong></p>  
 
 <div style="white-space: nowrap; overflow-x: auto; padding: 15px 0;">
-  <img alt="JDK" src="https://img.shields.io/badge/JDK-1.8%2B-brightgreen">
-  <img alt="Maven" src="https://img.shields.io/badge/Maven-3.x%2B-yellowgreen">
-  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-2.1.5.RELEASE-brightgreen">
-  <img alt="Spring Cloud" src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.RELEASE-orange">
-  <img alt="MyBatis" src="https://img.shields.io/badge/MyBatis-3.5.1-blue">
-  <img alt="MySQL" src="https://img.shields.io/badge/MySQL-5.1.1-blueviolet">
-  <img alt="FastJSON" src="https://img.shields.io/badge/FastJSON-1.2.58-success">
-  <img alt="Jackson" src="https://img.shields.io/badge/Jackson-2.9.9-informational">
-  <img alt="JWT" src="https://img.shields.io/badge/JWT-0.9.1-lightgrey">
-  <img alt="Apache Commons IO" src="https://img.shields.io/badge/Apache%20Commons%20IO-2.6-lightgrey">
-  <img alt="Apache Commons Codec" src="https://img.shields.io/badge/Apache%20Commons%20Codec-1.12-lightgrey">
-  <img alt="Apache Commons Lang3" src="https://img.shields.io/badge/Apache%20Commons%20Lang3-3.5-lightgrey">
-  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-7.2.0-red">
-  <img alt="Kafka" src="https://img.shields.io/badge/Kafka-2.2.7.RELEASE-red">
-  <img alt="Curator" src="https://img.shields.io/badge/Curator-4.2.0-red">
+  <img alt="JDK" src="https://img.shields.io/badge/JDK-25-brightgreen">
+  <img alt="Maven" src="https://img.shields.io/badge/Maven-3.9%2B-yellowgreen">
+  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-4.1.1-brightgreen">
+  <img alt="Spring Cloud" src="https://img.shields.io/badge/Spring%20Cloud-2025.1.3-orange">
+  <img alt="MyBatis" src="https://img.shields.io/badge/MyBatis-3.5.19-blue">
+  <img alt="MySQL" src="https://img.shields.io/badge/MySQL-9.7.0-blueviolet">
+  <img alt="Jackson" src="https://img.shields.io/badge/Jackson-3.1.5-informational">
+  <img alt="JWT" src="https://img.shields.io/badge/JWT-0.12.6-lightgrey">
+  <img alt="Apache Commons IO" src="https://img.shields.io/badge/Apache%20Commons%20IO-2.18.0-lightgrey">
+  <img alt="Apache Commons Codec" src="https://img.shields.io/badge/Apache%20Commons%20Codec-1.21.0-lightgrey">
+  <img alt="Apache Commons Lang3" src="https://img.shields.io/badge/Apache%20Commons%20Lang3-3.20.0-lightgrey">
+  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-9.4.5-red">
+  <img alt="Kafka" src="https://img.shields.io/badge/Kafka-4.2.1-red">
+  <img alt="Nacos" src="https://img.shields.io/badge/Nacos-3.x-blue">
   <img alt="前端" src="https://img.shields.io/badge/前端-Vue3%20+%20Weex-blueviolet">  
   <img alt="前端框架" src="https://img.shields.io/badge/前端框架-ECharts%20+%20Vant-orange">  
 </div>
@@ -25,7 +24,7 @@
  </div>
 
 ### 🌟 项目简介  
-**黑马头条** 是基于 **微服务 + 大数据技术架构** 构建的资讯平台，专注于获取最新热点新闻并通过大数据分析用户兴趣进行精准推送。  
+**心飞头条** 是基于 **微服务 + 大数据技术架构** 构建的资讯平台，专注于获取最新热点新闻并通过大数据分析用户兴趣进行精准推送。  
 项目涵盖 **APP端、自媒体后台、管理系统** 三大模块，支持高并发场景下的实时数据处理与个性化推荐。  
 
 ---
@@ -49,8 +48,7 @@
 ---
 
 ### 🌐 在线体验  
-🔗 [后台管理系统体验地址](https://heima-admin-java.itheima.net/#/login)  
-📁 [前端代码仓库](https://gitee.com/itxinfei/heima-leadnews-portal)  
+📁 [前端代码仓库](https://gitee.com/itxinfei/xinfei-leadnews-portal)  
 
 ---
 
@@ -108,8 +106,8 @@ Admin       -> 管理员账号、权限配置
 ---
 
 ### 📄 项目术语定义  
-- **项目**：泛指黑马头条整个项目或某一模块  
-- **工程**：泛指黑马头条某一源码工程  
+- **项目**：泛指心飞头条整个项目或某一模块  
+- **工程**：泛指心飞头条某一源码工程  
 - **用户**：APP端用户  
 - **自媒体人**：通过自媒体系统发布文章的用户  
 - **管理员**：管理系统使用用户  
@@ -117,9 +115,9 @@ Admin       -> 管理员账号、权限配置
 ---
 
 ### 🧾 部署与依赖  
-- **JDK**：1.8+  
-- **Maven**：3.6.3+  
-- **中间件**：Kafka/ZooKeeper/Redis/FastDFS  
+- **JDK**：25  
+- **Maven**：3.9+  
+- **中间件**：Nacos/Kafka/ZooKeeper/Redis/FastDFS  
 
 ---
 

@@ -4,80 +4,74 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.heima</groupId>
-    <artifactId>heima-leadnews</artifactId>
+    <groupId>com.xinfei</groupId>
+    <artifactId>xinfei-leadnews</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>xinfei-leadnews</name>
+    <description>心飞头条 - 微服务资讯平台</description>
 
     <!--子模块-->
     <modules>
-        <module>heima-leadnews-common</module>
-        <module>heima-leadnews-utils</module>
-        <module>heima-leadnews-apis</module>
-        <module>heima-leadnews-model</module>
-        <module>heima-leadnews-article</module>
-        <module>heima-leadnews-behavior</module>
-        <module>heima-leadnews-user</module>
-        <module>heima-leadnews-login</module>
-        <module>heima-leadnews-media</module>
-        <module>heima-leadnews-admin</module>
-        <module>heima-leadnews-crawler</module>
-        <module>heima-leadnews-images</module>
-        <module>heima-leadnews-migration</module>
+        <module>xinfei-leadnews-common</module>
+        <module>xinfei-leadnews-utils</module>
+        <module>xinfei-leadnews-apis</module>
+        <module>xinfei-leadnews-model</module>
+        <module>xinfei-leadnews-article</module>
+        <module>xinfei-leadnews-behavior</module>
+        <module>xinfei-leadnews-user</module>
+        <module>xinfei-leadnews-login</module>
+        <module>xinfei-leadnews-media</module>
+        <module>xinfei-leadnews-admin</module>
+        <module>xinfei-leadnews-crawler</module>
+        <module>xinfei-leadnews-images</module>
+        <module>xinfei-leadnews-migration</module>
         <module>service-gateway</module>
-        <module>service-eureka</module>
+        <module>service-nacos</module>
         <module>service-mycat</module>
     </modules>
 
-    <!-- 继承Spring boot工程 -->
+    <!-- 继承 Spring Boot 4 工程（JDK 25） -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>4.1.1</version>
+        <relativePath/>
     </parent>
 
     <properties>
         <!-- 项目源码及编译输出的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- 项目编译JDK版本 -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- 项目编译 JDK 版本：JDK 25 -->
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.release>25</maven.compiler.release>
 
         <!-- 依赖包版本管理 -->
-        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
-        <commons.io.version>2.6</commons.io.version>
-        <commons.codec.version>1.12</commons.codec.version>
-        <lombok.version>1.18.8</lombok.version>
-        <mysql.version>5.1.1</mysql.version>
-        <mybatis.version>3.5.1</mybatis.version>
-        <mybatis.spring.version>2.0.1</mybatis.spring.version>
-        <lang3.version>3.5</lang3.version>
-        <pagehelper.version>1.2.3</pagehelper.version>
-        <jsoup.version>1.10.2</jsoup.version>
-        <jwt.version>0.9.1</jwt.version>
-        <fastjson.version>1.2.58</fastjson.version>
-        <fastjson.dataformat.version>2.9.9</fastjson.dataformat.version>
-        <spring.jwt.version>1.0.9.RELEASE</spring.jwt.version>
-        <spring.boot.admin.version>2.1.6</spring.boot.admin.version>
-        <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
-        <curator.version>4.2.0</curator.version>
-        <hanlp.version>portable-1.3.4</hanlp.version>
-        <fastdfs.version>0.2.0</fastdfs.version>
-        <baidu.version>4.11.1</baidu.version>
-        <junit.version>4.12</junit.version>
-        <searchbox.version>6.3.1</searchbox.version>
-        <elasticsearch.version>7.2.0</elasticsearch.version>
-        <ali.core.version>4.1.1</ali.core.version>
-        <ali.green.version>3.4.1</ali.green.version>
-        <kafka.version>2.2.7.RELEASE</kafka.version>
-        <kafka.client.version>2.0.1</kafka.client.version>
-        <reflections.version>0.9.11</reflections.version>
+        <spring.boot.version>4.1.1</spring.boot.version>
+        <spring.cloud.version>2025.1.3</spring.cloud.version>
+        <spring.cloud.alibaba.version>2025.1.0.0</spring.cloud.alibaba.version>
+
+        <commons.io.version>2.18.0</commons.io.version>
+        <lombok.version>1.18.48</lombok.version>
+        <mybatis.version>3.5.19</mybatis.version>
+        <mybatis.spring.version>4.1.0</mybatis.spring.version>
+        <pagehelper.version>4.1.1</pagehelper.version>
+        <jsoup.version>1.18.1</jsoup.version>
+        <jwt.version>0.12.6</jwt.version>
+        <hanlp.version>portable-1.8.6</hanlp.version>
+        <ali.core.version>4.7.10</ali.core.version>
+        <ali.green.version>3.6.6</ali.green.version>
+        <reflections.version>0.10.2</reflections.version>
+        <minio.version>8.5.12</minio.version>
+        <spring.boot.admin.version>4.1.4</spring.boot.admin.version>
+        <baidu.version>4.16.27</baidu.version>
         <skipTests>true</skipTests>
     </properties>
 
     <dependencies>
-        <!--日志处理包-->
+        <!--日志处理包：Spring Boot 4 内置 log4j2 适配 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
@@ -95,90 +89,68 @@
         <dependencies>
             <!--内部依赖工程-->
             <dependency>
-                <artifactId>heima-leadnews-apis</artifactId>
-                <groupId>com.heima</groupId>
+                <artifactId>xinfei-leadnews-apis</artifactId>
+                <groupId>com.xinfei</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>heima-leadnews-common</artifactId>
-                <groupId>com.heima</groupId>
+                <artifactId>xinfei-leadnews-common</artifactId>
+                <groupId>com.xinfei</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>heima-leadnews-model</artifactId>
-                <groupId>com.heima</groupId>
+                <artifactId>xinfei-leadnews-model</artifactId>
+                <groupId>com.xinfei</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>heima-leadnews-utils</artifactId>
-                <groupId>com.heima</groupId>
+                <artifactId>xinfei-leadnews-utils</artifactId>
+                <groupId>com.xinfei</groupId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- Spring boot 特殊处理包 -->
+
+            <!-- Spring Cloud BOM -->
             <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-jwt</artifactId>
-                <version>${spring.jwt.version}</version>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
+
+            <!-- Spring Cloud Alibaba BOM (Nacos 注册/配置中心) -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Boot Admin BOM -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring.boot.admin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Reflections 反射工具包 -->
             <dependency>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${reflections.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <!-- 排除默认的logback日志，使用log4j-->
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                </exclusions>
-                <version>${spring.boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                </exclusions>
-                <version>${spring.boot.version}</version>
-            </dependency>
-            <!--Apache 工具包包-->
+
+            <!-- Apache 工具包 -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${lang3.version}</version>
-            </dependency>
-            <!--加密处理包-->
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons.codec.version}</version>
-            </dependency>
-            <!-- Mysql 数据库 -->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
+
+            <!-- MyBatis 3 + MyBatis-Spring -->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
@@ -194,93 +166,48 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.version}</version>
             </dependency>
-            <!-- jsoup -->
+
+            <!-- Jsoup HTML 解析 -->
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
             </dependency>
-            <!-- jwt -->
+
+            <!-- JWT (0.12.x 新 API：Jwts.builder() / parseSignedClaims) -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
+                <artifactId>jjwt-api</artifactId>
                 <version>${jwt.version}</version>
             </dependency>
-            <!-- fastjson -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jwt.version}</version>
+                <scope>runtime</scope>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>${fastjson.dataformat.version}</version>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jwt.version}</version>
+                <scope>runtime</scope>
             </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>${fastjson.dataformat.version}</version>
-            </dependency>
-            <!-- spring colud -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- spring boot admin -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-dependencies</artifactId>
-                <version>${spring.boot.admin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- curator ZK 客户端 -->
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-framework</artifactId>
-                <version>${curator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>${curator.version}</version>
-            </dependency>
-            <!--匹配度工具包-->
+
+            <!-- 分词：HanLP -->
             <dependency>
                 <groupId>com.hankcs</groupId>
                 <artifactId>hanlp</artifactId>
                 <version>${hanlp.version}</version>
             </dependency>
-            <!--百度SDK-->
-            <!-- <dependency>
-                 <groupId>com.baidu</groupId>
-                 <artifactId>aip-java-sdk</artifactId>
-                 <version>${baidu.version}</version>
-                 <scope>system</scope>
-                 <systemPath>${project.basedir}/Doc/sdk-jar/aip-java-sdk-4.11.1.jar</systemPath>
-             </dependency>-->
+
+            <!-- 百度 AI SDK -->
             <dependency>
                 <groupId>com.baidu.aip</groupId>
                 <artifactId>java-sdk</artifactId>
-                <version>4.11.1</version>
+                <version>${baidu.version}</version>
             </dependency>
-            <!-- fastdfs客服端 -->
-            <dependency>
-                <groupId>com.luhuiguo</groupId>
-                <artifactId>fastdfs-spring-boot-starter</artifactId>
-                <version>${fastdfs.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>logback-classic</artifactId>
-                        <groupId>ch.qos.logback</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <!--云盾内容安全产品-->
+
+            <!-- 阿里云 SDK -->
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-core</artifactId>
@@ -291,50 +218,12 @@
                 <artifactId>aliyun-java-sdk-green</artifactId>
                 <version>${ali.green.version}</version>
             </dependency>
-            <!-- junit -->
+
+            <!-- MinIO 对象存储客户端（替换 fastdfs） -->
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <!-- ElasticSearch连接-->
-            <dependency>
-                <groupId>io.searchbox</groupId>
-                <artifactId>jest</artifactId>
-                <version>${searchbox.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-            <!-- kafkfa -->
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-                <version>${kafka.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-streams</artifactId>
-                <version>${kafka.client.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>connect-json</artifactId>
-                        <groupId>org.apache.kafka</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka-test</artifactId>
-                <version>${kafka.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>${kafka.client.version}</version>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -346,14 +235,23 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>2.5.0</version>
-                    <!--<executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>-->
+                    <version>${spring.boot.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <release>${maven.compiler.release}</release>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -364,83 +262,9 @@
                     <useDefaultDelimiters>true</useDefaultDelimiters>
                 </configuration>
             </plugin>
-            <!--<plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>&lt;!&ndash;$NO-MVN-MAN-VER$&ndash;&gt;
-                <configuration>
-                    <dotGitDirectory>../../.git</dotGitDirectory>
-                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
-                    <useNativeGit>true</useNativeGit>
-                    <abbrevLength>8</abbrevLength>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                </configuration>
-            </plugin>-->
-            <!-- PMD插件 -->
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.8</version>
-                <configuration>
-                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                    <targetJdk>${java.version}</targetJdk>
-                    <printFailingErrors>true</printFailingErrors>
-                    &lt;!&ndash; 代码检查规则 &ndash;&gt;
-                    <rulesets>
-                        <ruleset>rulesets/java/ali-comment.xml</ruleset>
-                        <ruleset>rulesets/java/ali-concurrent.xml</ruleset>
-                        <ruleset>rulesets/java/ali-constant.xml</ruleset>
-                        <ruleset>rulesets/java/ali-exception.xml</ruleset>
-                        <ruleset>rulesets/java/ali-flowcontrol.xml</ruleset>
-                        <ruleset>rulesets/java/ali-naming.xml</ruleset>
-                        <ruleset>rulesets/java/ali-oop.xml</ruleset>
-                        <ruleset>rulesets/java/ali-orm.xml</ruleset>
-                        <ruleset>rulesets/java/ali-other.xml</ruleset>
-                        <ruleset>rulesets/java/ali-set.xml</ruleset>
-                    </rulesets>
-                </configuration>
-                <executions>
-                    &lt;!&ndash; 绑定pmd:check到verify生命周期 &ndash;&gt;
-                    <execution>
-                        <id>pmd-check-verify</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                    &lt;!&ndash; 绑定pmd:pmd到site生命周期 &ndash;&gt;
-                    <execution>
-                        <id>pmd-pmd-site</id>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>pmd</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    &lt;!&ndash; p3c依赖 &ndash;&gt;
-                    <dependency>
-                        <groupId>com.alibaba.p3c</groupId>
-                        <artifactId>p3c-pmd</artifactId>
-                        <version>1.3.5</version>
-                    </dependency>
-                </dependencies>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
         <resources>

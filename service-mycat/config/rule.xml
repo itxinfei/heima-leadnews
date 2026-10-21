@@ -161,19 +161,19 @@
             用于测试时观察各物理节点与虚拟节点的分布情况，如果指定了这个属性，会把虚拟节点的murmur hash值与物理节点的映射按行输出到这个文件，没有默认值，如果不指定，就不会输出任何东西 -->
     </function>
 
-    <function name="burst66" class="com.heima.HeiMaBurstRuleAlgorithm">
+    <function name="burst66" class="com.xinfei.XinFeiBurstRuleAlgorithm">
         <property name="volume">60000000</property><!-- 单组容量 -->
         <property name="step">6</property><!-- 单组节点量 -->
         <property name="mod">6</property><!-- 单组数据mod -->
     </function>
 
-    <function name="burst4040" class="com.heima.HeiMaBurstRuleAlgorithm">
+    <function name="burst4040" class="com.xinfei.XinFeiBurstRuleAlgorithm">
         <property name="volume">400000000</property><!-- 单组容量 -->
         <property name="step">40</property><!-- 单组节点量 -->
         <property name="mod">40</property><!-- 单组数据mod -->
     </function>
 
-    <function name="burst5050" class="com.heima.HeiMaBurstRuleAlgorithm">
+    <function name="burst5050" class="com.xinfei.XinFeiBurstRuleAlgorithm">
         <property name="volume">500000000</property><!-- 单组容量 -->
         <property name="step">50</property><!-- 单组节点量 -->
         <property name="mod">50</property><!-- 单组数据mod -->
