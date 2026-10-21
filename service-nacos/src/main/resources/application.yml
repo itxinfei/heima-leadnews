@@ -1,0 +1,29 @@
+# 心飞头条 - Nacos Bootstrap 配置示例
+# 注意：Nacos Server 需独立部署（下载 nacos-server-x.x.x.zip 启动）
+# 本模块只是 nacos 客户端集成示例，业务服务也用同样方式接入 nacos
+spring:
+  application:
+    name: xinfei-nacos-bootstrap
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        group: DEFAULT_GROUP
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        refresh-enabled: true
+
+server:
+  port: 8761
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
