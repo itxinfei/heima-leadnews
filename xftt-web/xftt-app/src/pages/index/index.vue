@@ -2,20 +2,24 @@
 import { ref } from 'vue'
 import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import { getPage } from '../../api/article'
+import { DEFAULT_CHANNELS, getChannelList } from '../../api/channel'
 import type { ArticleItem } from '../../types/api'
+import type { ChannelOption } from '../../api/channel'
 
-/** 频道栏：首个为"推荐"，其余来自频道配置 */
-const channels = ref([
-  { id: 0, name: '推荐' },
-  { id: 1, name: '热点' },
-  { id: 2, name: '科技' },
-  { id: 3, name: '财经' },
-  { id: 4, name: '娱乐' },
-  { id: 5, name: '体育' },
-  { id: 6, name: '汽车' },
-  { id: 7, name: '教育' },
-])
+/** 频道栏：从后端动态加载，失败时降级为默认频道；首个固定为"推荐" */
+const channels = ref<ChannelOption[]>([{ id: 0, name: '推荐' }, ...DEFAULT_CHANNELS.slice(1)])
 const activeChannelId = ref(0)
+
+async function loadChannels(): Promise<void> {
+  try {
+    const remoteChannels = await getChannelList()
+    if (remoteChannels && remoteChannels.length > 0) {
+      channels.value = [{ id: 0, name: '推荐' }, ...remoteChannels.filter((channel) => channel.id !== 0)]
+    }
+  } catch {
+    // 保留兜底频道，不打断首页
+  }
+}
 
 const articles = ref<ArticleItem[]>([])
 const page = ref(1)
@@ -59,6 +63,7 @@ onReachBottom(() => {
   loadArticles()
 })
 
+loadChannels()
 loadArticles()
 </script>
 
