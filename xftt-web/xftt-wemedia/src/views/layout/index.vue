@@ -15,7 +15,7 @@ function handleLogout(): void {
 <template>
   <el-container class="layout">
     <el-aside width="200px" class="layout-aside">
-      <div class="layout-logo">心飞头条·自媒体</div>
+      <div class="layout-logo">心飞头条<i class="layout-logo-badge">自媒体</i></div>
       <el-menu :default-active="route.path" router>
         <el-menu-item index="/news">内容管理</el-menu-item>
         <el-menu-item index="/material">素材管理</el-menu-item>
@@ -46,8 +46,18 @@ function handleLogout(): void {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   font-weight: bold;
-  color: #409eff;
+  color: #d43c33;
+}
+.layout-logo-badge {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: normal;
+  color: #fff;
+  background-color: #d43c33;
+  border-radius: 3px;
+  padding: 1px 6px;
 }
 .layout-header {
   display: flex;
