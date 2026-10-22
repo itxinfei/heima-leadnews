@@ -61,7 +61,7 @@ async function handleSubmit(): Promise<void> {
 }
 .login-logo {
   padding: 16rpx 40rpx;
-  background-color: #d43c33;
+  background-color: #ED4040;
   color: #ffffff;
   font-size: 52rpx;
   font-weight: bold;
@@ -93,7 +93,7 @@ async function handleSubmit(): Promise<void> {
   margin-top: 24rpx;
   height: 92rpx;
   line-height: 92rpx;
-  background-color: #d43c33;
+  background-color: #ED4040;
   color: #ffffff;
   font-size: 32rpx;
   border-radius: 46rpx;

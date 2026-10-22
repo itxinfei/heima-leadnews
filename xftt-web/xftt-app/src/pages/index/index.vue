@@ -51,6 +51,10 @@ function openDetail(id: number): void {
   uni.navigateTo({ url: `/pages/detail/index?id=${id}` })
 }
 
+function goSearch(): void {
+  uni.navigateTo({ url: '/pages/search/index' })
+}
+
 onPullDownRefresh(async () => {
   page.value = 1
   articles.value = []
@@ -69,6 +73,13 @@ loadArticles()
 
 <template>
   <view class="feed">
+    <!-- 顶栏：今日头条式搜索胶囊（APP-F17），点击进入搜索页 -->
+    <view class="top-bar">
+      <view class="search-capsule" @tap="goSearch">
+        <text class="search-icon">🔍</text>
+        <text class="search-placeholder">搜你想看的</text>
+      </view>
+    </view>
     <!-- 顶部频道栏（今日头条式：横向滚动，选中红色加粗） -->
     <scroll-view class="channel-bar" scroll-x :show-scrollbar="false">
       <view
@@ -120,6 +131,29 @@ loadArticles()
   border-bottom: 1rpx solid #f2f2f2;
   padding: 0 12rpx;
 }
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background-color: #ffffff;
+}
+.search-capsule {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 64rpx;
+  padding: 0 24rpx;
+  background-color: #f5f5f5;
+  border-radius: 32rpx;
+}
+.search-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+}
+.search-placeholder {
+  font-size: 26rpx;
+  color: #bbbbbb;
+}
 .channel-item {
   display: inline-flex;
   flex-direction: column;
@@ -130,14 +164,14 @@ loadArticles()
 }
 .channel-item--active {
   font-weight: bold;
-  color: #d43c33;
+  color: #ED4040;
 }
 .channel-indicator {
   width: 40rpx;
   height: 6rpx;
   margin-top: 10rpx;
   border-radius: 6rpx;
-  background-color: #d43c33;
+  background-color: #ED4040;
 }
 .feed-card {
   display: flex;

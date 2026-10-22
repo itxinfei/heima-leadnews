@@ -216,7 +216,7 @@ onLoad(async (query) => {
   height: 64rpx;
   border-radius: 50%;
   background-color: #f0f0f0;
-  color: #d43c33;
+  color: #ED4040;
   font-size: 28rpx;
   font-weight: bold;
   display: flex;
@@ -280,7 +280,7 @@ onLoad(async (query) => {
   color: #666666;
 }
 .toolbar-action--active {
-  color: #d43c33;
+  color: #ED4040;
 }
 .toolbar-icon {
   font-size: 36rpx;
@@ -315,7 +315,7 @@ onLoad(async (query) => {
 }
 .comment-editor-send {
   margin-top: 16rpx;
-  background-color: #d43c33;
+  background-color: #ED4040;
   color: #ffffff;
   font-size: 28rpx;
   border-radius: 40rpx;
