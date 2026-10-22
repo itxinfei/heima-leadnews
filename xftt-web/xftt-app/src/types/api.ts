@@ -5,19 +5,20 @@ export interface ApiResponse<T> {
   data: T
 }
 
-/** 分页结果 */
+/** 分页结果（后端分页协议实际返回 rows） */
 export interface PageResult<T> {
   currentPage: number
   pageSize: number
   total: number
-  list: T[]
+  rows: T[]
 }
 
 /** 文章列表记录 */
 export interface ArticleItem {
   id: number
   title: string
-  image?: string | null
+  /** 封面图地址 */
+  cover?: string | null
   likes?: number
   views?: number
   publishTime?: string
