@@ -1,9 +1,9 @@
-package com.xinfei;
+package com.xftt;
 
 import io.mycat.config.model.rule.RuleAlgorithm;
 import io.mycat.route.function.AbstractPartitionAlgorithm;
 
-public class XinFeiBurstRuleAlgorithm extends AbstractPartitionAlgorithm implements RuleAlgorithm {
+public class XfttBurstRuleAlgorithm extends AbstractPartitionAlgorithm implements RuleAlgorithm {
 
     private Long volume;
     private Integer step;

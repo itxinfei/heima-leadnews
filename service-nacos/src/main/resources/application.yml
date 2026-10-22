@@ -3,19 +3,23 @@
 # 本模块只是 nacos 客户端集成示例，业务服务也用同样方式接入 nacos
 spring:
   application:
-    name: xinfei-nacos-bootstrap
+    name: xftt-nacos-bootstrap
   profiles:
     active: dev
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
-        namespace: public
+        server-addr: 192.168.20.130:8848
+        namespace: xftt
         group: DEFAULT_GROUP
+        username: xinfei
+        password: 123456
       config:
-        server-addr: 127.0.0.1:8848
-        namespace: public
+        server-addr: 192.168.20.130:8848
+        namespace: xftt
         group: DEFAULT_GROUP
+        username: xinfei
+        password: 123456
         file-extension: yaml
         refresh-enabled: true
 
