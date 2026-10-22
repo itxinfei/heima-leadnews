@@ -29,7 +29,8 @@ async function handleSubmit(): Promise<void> {
 <template>
   <div class="login">
     <el-card class="login-card">
-      <h2 class="login-title">心飞头条后台管理</h2>
+      <div class="login-logo">心飞头条</div>
+      <h2 class="login-title">后台管理登录</h2>
       <el-form label-width="0">
         <el-form-item>
           <el-input v-model="form.name" placeholder="用户名" />
@@ -54,9 +55,19 @@ async function handleSubmit(): Promise<void> {
 .login-card {
   width: 380px;
 }
+.login-logo {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #d43c33;
+  border-radius: 6px;
+  padding: 8px 0;
+  letter-spacing: 4px;
+}
 .login-title {
   text-align: center;
-  margin: 0 0 24px;
+  margin: 20px 0 24px;
 }
 .login-btn {
   width: 100%;

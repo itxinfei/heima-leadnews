@@ -37,10 +37,10 @@ onLoad(async (query) => {
 }
 .detail-title {
   display: block;
-  font-size: 40rpx;
+  font-size: 44rpx;
   font-weight: bold;
-  color: #333333;
-  line-height: 1.4;
+  color: #222222;
+  line-height: 1.45;
 }
 .detail-meta {
   display: block;
