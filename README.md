@@ -48,7 +48,7 @@
 ---
 
 ### 🌐 在线体验  
-📁 [前端代码仓库](https://gitee.com/itxinfei/xinfei-leadnews-portal)  
+📁 [前端代码仓库](https://gitee.com/itxinfei/xftt-portal)  
 
 ---
 

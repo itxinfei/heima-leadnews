@@ -1,26 +1,32 @@
 # 心飞头条 - Gateway 服务配置
 spring:
   application:
-    name: xinfei-gateway
+    name: xftt-gateway
   profiles:
     active: dev
   config:
-    import: optional:nacos:xinfei-gateway.yml?group=DEFAULT_GROUP&refreshEnabled=true
+    import: optional:nacos:xftt-gateway.yml?group=DEFAULT_GROUP&refreshEnabled=true
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
-        namespace: public
+        server-addr: 192.168.20.130:8848
+        namespace: xftt
         group: DEFAULT_GROUP
+        username: xinfei
+        password: 123456
       config:
-        server-addr: 127.0.0.1:8848
-        namespace: public
+        server-addr: 192.168.20.130:8848
+        namespace: xftt
         group: DEFAULT_GROUP
+        username: xinfei
+        password: 123456
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
 
 server:
   port: 10000
@@ -29,3 +35,12 @@ logging:
   level:
     org.springframework.cloud.gateway: debug
     org.springframework.cloud.loadbalancer: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway,health
+  endpoint:
+    gateway:
+      access: read-only

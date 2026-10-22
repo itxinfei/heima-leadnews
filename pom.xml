@@ -4,28 +4,28 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xinfei</groupId>
-    <artifactId>xinfei-leadnews</artifactId>
+    <groupId>com.xftt</groupId>
+    <artifactId>xftt</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>xinfei-leadnews</name>
+    <name>xftt</name>
     <description>心飞头条 - 微服务资讯平台</description>
 
     <!--子模块-->
     <modules>
-        <module>xinfei-leadnews-common</module>
-        <module>xinfei-leadnews-utils</module>
-        <module>xinfei-leadnews-apis</module>
-        <module>xinfei-leadnews-model</module>
-        <module>xinfei-leadnews-article</module>
-        <module>xinfei-leadnews-behavior</module>
-        <module>xinfei-leadnews-user</module>
-        <module>xinfei-leadnews-login</module>
-        <module>xinfei-leadnews-media</module>
-        <module>xinfei-leadnews-admin</module>
-        <module>xinfei-leadnews-crawler</module>
-        <module>xinfei-leadnews-images</module>
-        <module>xinfei-leadnews-migration</module>
+        <module>xftt-common</module>
+        <module>xftt-utils</module>
+        <module>xftt-apis</module>
+        <module>xftt-model</module>
+        <module>xftt-article</module>
+        <module>xftt-behavior</module>
+        <module>xftt-user</module>
+        <module>xftt-login</module>
+        <module>xftt-media</module>
+        <module>xftt-admin</module>
+        <module>xftt-crawler</module>
+        <module>xftt-images</module>
+        <module>xftt-migration</module>
         <module>service-gateway</module>
         <module>service-nacos</module>
         <module>service-mycat</module>
@@ -65,6 +65,10 @@
         <ali.green.version>3.6.6</ali.green.version>
         <reflections.version>0.10.2</reflections.version>
         <minio.version>8.5.12</minio.version>
+        <!-- ZooKeeper 客户端：与 curator 5.9.0 匹配，避免 hbase 传递引入 3.4.10 -->
+        <zookeeper.version>3.9.3</zookeeper.version>
+        <!-- Hadoop 客户端：3.4.3 包含 HADOOP-19212（UGI 改用 Subject.current()），修复 JDK 25 下 getSubject is not supported -->
+        <hadoop.version>3.4.3</hadoop.version>
         <spring.boot.admin.version>4.1.4</spring.boot.admin.version>
         <baidu.version>4.16.27</baidu.version>
         <skipTests>true</skipTests>
@@ -89,23 +93,23 @@
         <dependencies>
             <!--内部依赖工程-->
             <dependency>
-                <artifactId>xinfei-leadnews-apis</artifactId>
-                <groupId>com.xinfei</groupId>
+                <artifactId>xftt-apis</artifactId>
+                <groupId>com.xftt</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>xinfei-leadnews-common</artifactId>
-                <groupId>com.xinfei</groupId>
+                <artifactId>xftt-common</artifactId>
+                <groupId>com.xftt</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>xinfei-leadnews-model</artifactId>
-                <groupId>com.xinfei</groupId>
+                <artifactId>xftt-model</artifactId>
+                <groupId>com.xftt</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>xinfei-leadnews-utils</artifactId>
-                <groupId>com.xinfei</groupId>
+                <artifactId>xftt-utils</artifactId>
+                <groupId>com.xftt</groupId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -224,6 +228,31 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+
+            <!-- Hadoop 客户端：hbase-client 2.5 默认传递 hadoop 2.10，其 UGI 调用 JDK 25 已移除的 Subject.getSubject，
+                 钉住 3.4.1+（改用 Subject.current()，支持 JDK 17+ 运行） -->
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-common</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-auth</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-annotations</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
+
+            <!-- ZooKeeper 客户端：curator 5.9.0 需要 3.5+，避免 hbase 传递引入 3.4.10 -->
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

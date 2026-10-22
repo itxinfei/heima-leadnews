@@ -85,7 +85,7 @@
 
 	<user name="root">
 		<property name="password">123456</property>
-		<property name="schemas">xinfei-leadnews</property>
+		<property name="schemas">xftt</property>
 	</user>
 
 </mycat:server>
