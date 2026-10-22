@@ -1,0 +1,73 @@
+package com.xftt.images.service.impl;
+
+import com.xftt.common.common.contants.Contants;
+import com.xftt.common.kafka.messages.app.ApHotArticleMessage;
+import tools.jackson.databind.JsonNode;
+import com.xftt.images.config.InitConfig;
+import com.xftt.images.service.CacheImageService;
+import com.xftt.images.service.HotArticleImageService;
+import com.xftt.model.article.pojos.ApArticle;
+import com.xftt.model.article.pojos.ApArticleContent;
+import com.xftt.model.article.pojos.ApHotArticles;
+import com.xftt.model.mappers.app.ApArticleContentMapper;
+import com.xftt.model.mappers.app.ApArticleMapper;
+import com.xftt.utils.common.ZipUtils;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+@Log4j2
+@SuppressWarnings("all")
+public class HotArticleImageServiceImpl implements HotArticleImageService {
+
+    @Autowired
+    private ApArticleContentMapper apArticleContentMapper;
+
+    @Autowired
+    private ApArticleMapper apArticleMapper;
+
+    @Autowired
+    private CacheImageService cacheImageService;
+
+    @Override
+    public void handleHotImage(ApHotArticleMessage message) {
+        ApHotArticles hotArticles = message.getData();
+        log.info("处理热文章图片开始#articleId:{},message:{}",hotArticles.getArticleId(), Contants.objectMapper.writeValueAsString(hotArticles));
+
+        //内容中的图片进行缓存
+        ApArticleContent apArticleContent = apArticleContentMapper.selectByArticleId(hotArticles.getArticleId());
+        if(null != apArticleContent){
+            String content = ZipUtils.gunzip(apArticleContent.getContent());
+            JsonNode array = Contants.objectMapper.readTree(content);
+            for (JsonNode obj : array) {
+                if(!"image".equals(obj.path("type").asString())){
+                    continue;
+                }
+                String imgUrl = obj.path("value").asString();
+                //不是fastdfs中的图片不进行缓存
+                if(!imgUrl.startsWith(InitConfig.PREFIX)){
+                    log.info("非站内图片不进行缓存#articleId:{}",hotArticles.getArticleId());
+                    continue;
+                }
+                //缓存图片
+                cacheImageService.cache2Redis(imgUrl,true);
+            }
+        }
+        //封面图片进行缓存
+        ApArticle apArticle = apArticleMapper.selectById(Long.valueOf(hotArticles.getArticleId()));
+        if(apArticle!=null && StringUtils.isNotEmpty(apArticle.getImages())){
+            String[] articleImages = apArticle.getImages().split(",");
+            for (String img : articleImages) {
+                if(!img.startsWith(InitConfig.PREFIX)){
+                    log.info("非站内图片不进行缓存#articleId:{}",hotArticles.getArticleId());
+                    continue;
+                }
+                //缓存图片
+                cacheImageService.cache2Redis(img,true);
+            }
+        }
+        log.info("处理热文章图片结束#message:{}",Contants.objectMapper.writeValueAsString(message));
+    }
+}
