@@ -1,10 +1,10 @@
-/* 今日头条品牌红主题（覆盖 Element Plus 主色） */
+/* 今日头条设计令牌主题（覆盖 Element Plus 主色，见 docs/需求文档.md 第 9.1 节） */
 :root {
-  --el-color-primary: #d43c33;
-  --el-color-primary-light-3: #e0665e;
-  --el-color-primary-light-5: #ea9a95;
-  --el-color-primary-light-7: #f4cbc9;
-  --el-color-primary-light-8: #f8dedc;
-  --el-color-primary-light-9: #fbefee;
-  --el-color-primary-dark-2: #aa3029;
+  --el-color-primary: #ED4040;
+  --el-color-primary-light-3: #F27D7D;
+  --el-color-primary-light-5: #F6A8A8;
+  --el-color-primary-light-7: #FAD4D4;
+  --el-color-primary-light-8: #FCE4E4;
+  --el-color-primary-light-9: #FDF2F2;
+  --el-color-primary-dark-2: #C6342F;
 }

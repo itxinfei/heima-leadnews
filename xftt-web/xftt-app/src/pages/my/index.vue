@@ -49,7 +49,7 @@ function handleLogout(): void {
 }
 .my-header {
   padding: 64rpx 40rpx 48rpx;
-  background: linear-gradient(135deg, #d43c33, #a8261d);
+  background: linear-gradient(135deg, #ED4040, #C6342F);
   color: #ffffff;
 }
 .my-user {

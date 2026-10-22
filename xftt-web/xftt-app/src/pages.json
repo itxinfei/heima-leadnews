@@ -15,6 +15,10 @@
     {
       "path": "pages/login/index",
       "style": { "navigationBarTitleText": "登录" }
+    },
+    {
+      "path": "pages/search/index",
+      "style": { "navigationBarTitleText": "搜索" }
     }
   ],
   "globalStyle": {
@@ -25,7 +29,7 @@
   },
   "tabBar": {
     "color": "#222222",
-    "selectedColor": "#d43c33",
+    "selectedColor": "#ED4040",
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
       { "pagePath": "pages/my/index", "text": "我的" }

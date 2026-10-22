@@ -60,7 +60,7 @@ async function handleSubmit(): Promise<void> {
   font-size: 28px;
   font-weight: bold;
   color: #fff;
-  background-color: #d43c33;
+  background-color: #ED4040;
   border-radius: 6px;
   padding: 8px 0;
   letter-spacing: 4px;

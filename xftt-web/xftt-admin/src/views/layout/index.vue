@@ -49,14 +49,14 @@ function handleLogout(): void {
   justify-content: center;
   gap: 8px;
   font-weight: bold;
-  color: #d43c33;
+  color: #ED4040;
 }
 .layout-logo-badge {
   font-style: normal;
   font-size: 12px;
   font-weight: normal;
   color: #fff;
-  background-color: #d43c33;
+  background-color: #ED4040;
   border-radius: 3px;
   padding: 1px 6px;
 }
