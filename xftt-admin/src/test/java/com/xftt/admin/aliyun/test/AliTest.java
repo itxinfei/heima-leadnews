@@ -1,0 +1,25 @@
+package com.xftt.admin.aliyun.test;
+
+import com.xftt.common.aliyun.AliyunImageScanRequest;
+import com.xftt.common.aliyun.AliyunTextScanRequest;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@SpringBootTest
+public class AliTest {
+
+    @Autowired
+    private AliyunTextScanRequest aliyunTextScanRequest;
+
+    @Autowired
+    private AliyunImageScanRequest aliyunImageScanRequest;
+
+    @Test
+    public void testBeans() {
+        assertNotNull(aliyunTextScanRequest);
+        assertNotNull(aliyunImageScanRequest);
+    }
+}

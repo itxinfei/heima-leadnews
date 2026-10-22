@@ -1,0 +1,16 @@
+package com.xftt.model.mappers.app;
+
+import com.xftt.model.article.pojos.ApHotWords;
+
+import java.util.List;
+
+public interface ApHotWordsMapper {
+
+    /**
+     * 查询今日热词
+     *
+     * @param hotDate
+     * @return
+     */
+    List<ApHotWords> queryByHotDate(String hotDate);
+}
