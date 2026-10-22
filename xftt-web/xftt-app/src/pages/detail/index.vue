@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getDetail } from '../../api/article'
 import { createComment, getCommentList } from '../../api/comment'
-import { uploadReadBehavior } from '../../api/behavior'
+import { uploadLikesBehavior, uploadReadBehavior } from '../../api/behavior'
 import { getToken } from '../../utils/request'
 import type { ArticleDetail } from '../../types/api'
 import type { CommentItem } from '../../api/comment'
@@ -53,6 +53,8 @@ function handleLike(): void {
     return
   }
   isLiked.value = !isLiked.value
+  // 点赞/取消点赞行为上报：失败静默
+  uploadLikesBehavior(articleId.value, isLiked.value ? 0 : 1).catch(() => {})
 }
 
 function handleFavorite(): void {
