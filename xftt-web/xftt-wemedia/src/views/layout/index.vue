@@ -18,6 +18,7 @@ function handleLogout(): void {
       <div class="layout-logo">心飞头条<i class="layout-logo-badge">自媒体</i></div>
       <el-menu :default-active="route.path" router>
         <el-menu-item index="/news">内容管理</el-menu-item>
+        <el-menu-item index="/publish">发布文章</el-menu-item>
         <el-menu-item index="/material">素材管理</el-menu-item>
       </el-menu>
     </el-aside>

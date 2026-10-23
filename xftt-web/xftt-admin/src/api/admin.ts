@@ -17,9 +17,13 @@ function toPage<T>(data: { list: T[]; total: number }): PageResult<T> {
 }
 
 export async function getUserPage(query: UserPageQuery): Promise<PageResult<UserItem>> {
-  // 修改点：原 /user/search 无后端接口，改用通用 list（name=AP_USER）
-  const data = await request.post('/api/v1/admin/common/list', { name: 'AP_USER', page: query.page, size: query.size })
-  return toPage(data)
+  // 修改点：原 /user/search 无后端接口，改用通用 list（name=AP_USER）；用户名模糊搜索走 where like
+  const payload: Record<string, unknown> = { name: 'AP_USER', page: query.page, size: query.size }
+  if (query.name && query.name.trim()) {
+    payload.where = [{ filed: 'name', type: 'like', value: query.name.trim() }]
+  }
+  const data = await request.post('/api/v1/admin/common/list', payload)
+  return toPage(data as unknown as { list: UserItem[]; total: number })
 }
 
 export async function getChannelPage(_page: number, _size: number): Promise<PageResult<ChannelItem>> {
@@ -63,7 +67,7 @@ export async function deleteChannel(id: number): Promise<void> {
 export async function getSensitivePage(page: number, size: number): Promise<PageResult<SensitiveItem>> {
   // 修改点：原 /sensitive/list 无后端接口，改用通用 list（name=AD_SENSITIVE）
   const data = await request.post('/api/v1/admin/common/list', { name: 'AD_SENSITIVE', page, size })
-  return toPage(data)
+  return toPage(data as unknown as { list: SensitiveItem[]; total: number })
 }
 
 export async function createSensitive(sensitives: string): Promise<void> {
