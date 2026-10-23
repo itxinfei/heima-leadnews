@@ -22,3 +22,6 @@ target/
 node_modules/
 **/node_modules/
 *.log
+
+# 编辑器/工具临时目录
+.atomcode/
