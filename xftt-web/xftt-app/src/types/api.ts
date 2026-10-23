@@ -25,9 +25,18 @@ export interface ArticleItem {
   authorName?: string
 }
 
-/** 文章详情 */
+/** 文章详情（对应后端 GET /api/v1/article/{id} 扁平聚合返回） */
 export interface ArticleDetail extends ArticleItem {
   content: string
+  authorId?: number
+  channelId?: number
+  channelName?: string
+  labels?: string
+  collection?: number
+  comment?: number
+  isComment?: boolean
+  isForward?: boolean
+  isDown?: boolean
 }
 
 /** 登录参数 */

@@ -19,3 +19,19 @@ export function uploadReadBehavior(articleId: number): Promise<void> {
     silent: true,
   })
 }
+
+/** 详情页互动状态回显（BE-F02）：islike / isunlike / iscollection / isfollow，失败静默 */
+export interface ArticleBehaviorState {
+  islike?: boolean
+  isunlike?: boolean
+  iscollection?: boolean
+  isfollow?: boolean
+}
+
+export function loadArticleBehavior(articleId: number, authorId?: number): Promise<ArticleBehaviorState> {
+  return request<ArticleBehaviorState>('/article/load_article_behavior', {
+    method: 'POST',
+    data: { equipmentId: 0, articleId, authorId } as unknown,
+    silent: true,
+  })
+}
