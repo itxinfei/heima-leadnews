@@ -19,4 +19,15 @@
       /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
         select * from ap_collection where behavior_entry_id=#{objectId} and entry_id=#{entryId} and type=#{type}
     </select>
+    <select id="selectCollectionsByEntry" resultMap="BaseResultMap">
+      /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
+        select <include refid="Base_Column_List" /> from ap_collection
+        where behavior_entry_id = #{objectId} and type = #{type}
+        order by collection_time desc limit #{offset}, #{size}
+    </select>
+
+    <select id="countCollectionsByEntry" resultType="int">
+      /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
+        select count(*) from ap_collection where behavior_entry_id = #{objectId} and type = #{type}
+    </select>
 </mapper>

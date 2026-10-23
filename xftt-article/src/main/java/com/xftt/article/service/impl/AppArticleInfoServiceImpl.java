@@ -2,6 +2,7 @@ package com.xftt.article.service.impl;
 
 import com.xftt.article.service.AppArticleInfoService;
 import com.xftt.model.article.dtos.ArticleInfoDto;
+import com.xftt.model.article.pojos.ApArticle;
 import com.xftt.model.article.pojos.ApArticleConfig;
 import com.xftt.model.article.pojos.ApArticleContent;
 import com.xftt.model.article.pojos.ApAuthor;
@@ -34,6 +35,9 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
     @Autowired
     private ApArticleContentMapper apArticleContentMapper;
 
+    @Autowired
+    private ApArticleMapper apArticleMapper;
+
     @Override
     public ResponseResult getArticleInfo(Integer articleId) {
 
@@ -54,7 +58,52 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
             apArticleContent.setContent(content);
             data.put("content",apArticleContent);
         }
+        //聚合 ap_article 基础信息（标题/作者/阅读数等），供前端详情页回显
+        ApArticle apArticle = apArticleMapper.selectById(articleId.longValue());
+        if(apArticle != null){
+            data.put("article",apArticle);
+        }
         data.put("config",apArticleConfig);
+
+        return ResponseResult.okResult(data);
+    }
+
+    @Override
+    public ResponseResult getArticleDetail(Integer articleId) {
+        if(articleId == null || articleId < 1){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        ApArticleConfig apArticleConfig = apArticleConfigMapper.selectByArticleId(articleId);
+        if(apArticleConfig == null || apArticleConfig.getIsDelete()){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        ApArticle apArticle = apArticleMapper.selectById(articleId.longValue());
+        if(apArticle == null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        Map<String,Object> data = new HashMap<>();
+        data.put("id",apArticle.getId());
+        data.put("title",apArticle.getTitle());
+        data.put("authorId",apArticle.getAuthorId());
+        data.put("authorName",apArticle.getAuthorName());
+        data.put("channelId",apArticle.getChannelId());
+        data.put("channelName",apArticle.getChannelName());
+        data.put("images",apArticle.getImages());
+        data.put("labels",apArticle.getLabels());
+        data.put("likes",apArticle.getLikes());
+        data.put("collection",apArticle.getCollection());
+        data.put("comment",apArticle.getComment());
+        data.put("views",apArticle.getViews());
+        data.put("publishTime",apArticle.getPublishTime());
+        data.put("createdTime",apArticle.getCreatedTime());
+        data.put("isComment",apArticleConfig.getIsComment());
+        data.put("isForward",apArticleConfig.getIsForward());
+        data.put("isDown",apArticleConfig.getIsDown());
+        ApArticleContent apArticleContent = apArticleContentMapper.selectByArticleId(articleId);
+        data.put("content",apArticleContent != null ? ZipUtils.gunzip(apArticleContent.getContent()) : "");
 
         return ResponseResult.okResult(data);
     }
@@ -90,6 +139,15 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
             userId = user.getId();
         }
         ApBehaviorEntry apBehaviorEntry = apBehaviorEntryMapper.selectByUserIdOrEquipemntId(userId, dto.getEquipmentId());
+        //无行为实体（未登录且无设备记录）时直接返回全 false，避免空指针
+        if(apBehaviorEntry == null){
+            Map<String,Object> empty = new HashMap<>();
+            empty.put("isfollow",false);
+            empty.put("islike",false);
+            empty.put("isunlike",false);
+            empty.put("iscollection",false);
+            return ResponseResult.okResult(empty);
+        }
 
         boolean isUnlike = false,isLike = false,isCollection = false,isFollow=false;
         String burst = BurstUtils.groudOne(apBehaviorEntry.getId());

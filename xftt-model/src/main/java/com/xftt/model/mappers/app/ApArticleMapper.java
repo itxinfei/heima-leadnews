@@ -43,6 +43,9 @@ public interface ApArticleMapper {
      * @return
      */
     List<ApArticle> selectList(ApArticle apArticle);
+
+    /** ES 回填批量拉取（BE-F04）：按 id 递增翻批 */
+    List<ApArticle> selectBackfillBatch(@Param("lastId") Long lastId, @Param("limit") int limit);
     /**
      * 更新
      * @param apArticle

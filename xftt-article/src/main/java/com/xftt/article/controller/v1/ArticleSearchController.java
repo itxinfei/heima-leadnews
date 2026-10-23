@@ -52,4 +52,10 @@ public class ArticleSearchController implements ArticleSearchControllerApi {
     public ResponseResult esArticleSearch(@RequestBody UserSearchDto dto) {
         return apArticleSearchService.esArticleSearch(dto);
     }
+
+    /** 存量文章回填 ES 索引（BE-F04）：返回回填文章数 */
+    @PostMapping("/index_backfill")
+    public ResponseResult indexBackfill() {
+        return apArticleSearchService.backfillIndex();
+    }
 }

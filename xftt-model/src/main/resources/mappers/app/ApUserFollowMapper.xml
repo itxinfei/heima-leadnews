@@ -24,6 +24,17 @@
     /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
     delete from ap_user_follow where user_id = #{userId} and  follow_id = #{followId}
     </delete>
+    <select id="selectFollowsByUserId" resultMap="BaseResultMap">
+        /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
+        select <include refid="Base_Column_List" /> from ap_user_follow where user_id = #{userId}
+        order by created_time desc limit #{offset}, #{size}
+    </select>
+
+    <select id="countByUserId" resultType="int">
+        /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
+        select count(*) from ap_user_follow where user_id = #{userId}
+    </select>
+
     <insert id="insert" parameterType="com.xftt.model.user.pojos.ApUserFollow" >
     insert into ap_user_follow (id, user_id, follow_id,
       follow_name, level, is_notice,
