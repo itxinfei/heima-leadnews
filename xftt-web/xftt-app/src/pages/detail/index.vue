@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getDetail } from '../../api/article'
 import { createComment, getCommentList } from '../../api/comment'
-import { uploadLikesBehavior, uploadReadBehavior } from '../../api/behavior'
+import { uploadLikesBehavior, uploadReadBehavior, loadArticleBehavior } from '../../api/behavior'
 import { getToken } from '../../utils/request'
 import type { ArticleDetail } from '../../types/api'
 import type { CommentItem } from '../../api/comment'
@@ -88,6 +88,13 @@ onLoad(async (query) => {
     uni.setNavigationBarTitle({ title: article.value.title })
   }
   loadComments()
+  // 互动状态回显（点赞/收藏）：失败静默，不打断详情页
+  loadArticleBehavior(id, article.value?.authorId)
+    .then((state) => {
+      isLiked.value = !!state.islike
+      isFavorited.value = !!state.iscollection
+    })
+    .catch(() => {})
   // 阅读行为上报：失败静默
   uploadReadBehavior(id)
 })
