@@ -17,8 +17,9 @@
   <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-9.4.5-red">
   <img alt="Kafka" src="https://img.shields.io/badge/Kafka-4.2.1-red">
   <img alt="Nacos" src="https://img.shields.io/badge/Nacos-3.x-blue">
-  <img alt="前端" src="https://img.shields.io/badge/前端-Vue3%20+%20Weex-blueviolet">  
-  <img alt="前端框架" src="https://img.shields.io/badge/前端框架-ECharts%20+%20Vant-orange">  
+  <img alt="前端-APP" src="https://img.shields.io/badge/前端APP-uni--app%20Vue3-blueviolet">  
+  <img alt="前端-后台" src="https://img.shields.io/badge/前端后台-Vue3%20+%20Element%20Plus-orange">  
+  <img alt="前端-状态" src="https://img.shields.io/badge/状态管理-Pinia-blue">  
 </div>
 
  </div>
@@ -30,22 +31,66 @@
 ---
 
 ### 🔍 核心亮点  
-- ✅ **全栈技术覆盖**：前端（Weex/Vue）、后端（Spring Cloud）、大数据（Spark/Hive）、AI（实名认证自动化）  
-- ✅ **分库分表设计**：5大核心数据库解耦业务模块，提升扩展性  
-- ✅ **实时与离线双引擎**：Kafka实时消息、Spark Streaming实时分析 + Hive离线统计  
+- ✅ **全栈技术覆盖**：uni-app（APP）、Vue3 + Element Plus（后台）、Spring Cloud 微服务、AI（实名认证自动化）  
+- ✅ **分库分表设计**：MyCat 中间件 + 自定义热点分片算法，5 大核心库解耦业务模块  
+- ✅ **实时与离线双引擎**：Kafka 消息驱动、Kafka Stream 实时聚合热点 + 定时任务离线统计  
+- ✅ **统一视觉语言**：三端对齐今日头条设计令牌（品牌红 `#ED4040`）  
 
 ---
 
 ### 📦 技术栈 
 | 类型       | 技术栈                                                                 |
 |------------|------------------------------------------------------------------------|
-| **前端**   | Weex + Vue + ECharts + WebSocket                                        |
-| **后端**   | Spring Boot + Spring Cloud Gateway + Kafka + Redis                    |
-| **大数据** | Spark + Hive + HBase + Neo4j                                          |
-| **数据库** | MySQL + MongoDB + Elasticsearch                                       |
-| **其他**   | FastDFS + ZooKeeper + AI（OCR + 人脸比对）                            |
+| **前端·APP** | uni-app 3.x + Vue 3 + TypeScript + Pinia + wot-design-uni            |
+| **前端·后台** | Vue 3 + Vite 5 + TypeScript + Element Plus + Axios（wemedia / admin） |
+| **后端**   | Spring Boot 4.1.1 + Spring Cloud 2025.1.3 + Spring Cloud Gateway + OpenFeign |
+| **注册配置** | Nacos 3.x                                                            |
+| **消息与计算** | Kafka 4.2.1 + Kafka Stream                                          |
+| **数据库** | MySQL 9.7.0（MyCat 分库分表）+ MongoDB + HBase                       |
+| **检索与缓存** | Elasticsearch 9.4.5 + Redis                                        |
+| **其他**   | FastDFS + ZooKeeper + Quartz + AI（OCR + 人脸比对）                  |
+
+> 修改点：前端由 Weex/Vue2 重构为 uni-app + Vue3；技术栈表对齐当前 `master` 实际依赖。
 
 ---
+
+### 📚 文档入口  
+
+全部文档集中在 `docs/`，**首次接触项目建议按以下顺序阅读**：
+
+| 顺序 | 文档 | 说明 |
+|---|---|---|
+| 1 | [文档中心](docs/README.md) | 全部文档索引与写作约定 |
+| 2 | [后端工程说明](MYREADME.md) | 15 个子工程职责划分 |
+| 3 | [环境搭建与启动指南](docs/环境搭建与启动指南.md) | 依赖、端口、Nacos 配置、自检 |
+| 4 | [需求文档](docs/需求文档.md) | 三端功能基线、逐页 PRD、里程碑 |
+| 5 | [架构设计说明书](docs/架构设计说明书.md) | 分层架构、调用链、数据架构 |
+| 6 | [接口清单](docs/接口清单.md) | 全部 HTTP 接口汇总 |
+| 7 | [部署运维手册](docs/部署运维手册.md) | 打包、发布、排障 |
+| 8 | [开发规范](docs/开发规范.md) | 编码、分支、提交规范 |
+| 9 | [数据库规范设计说明书](docs/心飞头条-数据库规范设计说明书.md) | 表设计与分库分表 |
+| 10 | [变更日志](CHANGELOG.md) | 版本变更记录 |
+
+### 🚀 快速开始  
+
+```bash
+# 1. 启动 Nacos（单机模式），并创建 xftt 命名空间
+# 2. 初始化数据库
+mysql -u root -p < xinfei-leadnews.sql
+
+# 3. 编译并启动后端
+mvn -U clean compile
+mvn -pl service-gateway spring-boot:run   # 网关 :10000
+mvn -pl xftt-login spring-boot:run        # :9001
+mvn -pl xftt-article spring-boot:run      # :9003
+
+# 4. 启动前端
+cd xftt-web/xftt-app     && npm install && npm run dev:h5   # APP H5
+cd xftt-web/xftt-wemedia && npm install && npm run dev      # :8081
+cd xftt-web/xftt-admin   && npm install && npm run dev      # :8082
+```
+
+> 端口表、Nacos 配置集清单与常见问题见 [环境搭建与启动指南](docs/环境搭建与启动指南.md)。
 
 ### 🌐 在线体验  
 📁 [前端代码仓库](https://gitee.com/itxinfei/xftt-portal)  
@@ -114,10 +159,26 @@ Admin       -> 管理员账号、权限配置
 
 ---
 
+### 🗂️ 工程结构  
+
+```
+xftt/（父工程 com.xftt:xftt）
+├── xftt-common / xftt-utils / xftt-apis / xftt-model   公共库
+├── xftt-login 9001     xftt-user 9005     xftt-article 9003
+├── xftt-behavior 9004  xftt-media 9006    xftt-admin 9007
+├── xftt-crawler 9008   xftt-images 9010   xftt-migration 9012
+├── service-gateway 10000   service-nacos 8848   service-mycat 8066
+└── xftt-web/{xftt-app, xftt-wemedia, xftt-admin}        前端三端
+```
+
+后端服务端口取自 `xftt-common/src/main/resources/config/application.properties`，为唯一权威来源。
+
 ### 🧾 部署与依赖  
 - **JDK**：25  
 - **Maven**：3.9+  
-- **中间件**：Nacos/Kafka/ZooKeeper/Redis/FastDFS  
+- **Node.js**：18 LTS+（Vite 5 要求）  
+- **中间件**：Nacos / Kafka / ZooKeeper / Redis / FastDFS / Elasticsearch  
+- **部署**：见 [部署运维手册](docs/部署运维手册.md)  
 
 ---
 
