@@ -5,6 +5,10 @@ export function login(params: LoginParams): Promise<LoginResult> {
   return request.post('/login/in', params)
 }
 
+// 登出纯前端处理：清空本地 token（后端无 /login/logout 接口）
+// 视图实际调用 useUserStore().logout() 完成状态与本地存储清理；此处保留无请求的兜底实现
 export function logout(): Promise<void> {
-  return request.post('/login/logout')
+  localStorage.removeItem('xftt-wm-token')
+  localStorage.removeItem('xftt-wm-name')
+  return Promise.resolve()
 }

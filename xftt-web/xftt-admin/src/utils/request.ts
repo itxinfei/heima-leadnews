@@ -2,7 +2,8 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import type { ApiResponse } from '../types/api'
 
-const instance = axios.create({ baseURL: '/api', timeout: 10000 })
+// baseURL 置空：所有请求路径在 api/*.ts 中写完整后端契约路径，避免 /api 前缀与网关/服务路径冲突
+const instance = axios.create({ baseURL: '', timeout: 10000 })
 
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('xftt-admin-token')
