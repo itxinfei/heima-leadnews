@@ -11,9 +11,12 @@
 | 项 | 值 |
 |---|---|
 | 地址 | `192.168.20.130:8848` |
-| 命名空间 | `xftt`（请先在控制台创建该命名空间，记录命名空间 ID） |
+| 命名空间 | `xftt`（已存在，配置已录入，见第 8 节） |
 | 分组 | `DEFAULT_GROUP` |
-| 用户名 / 密码 | `xinfei` / `123456` |
+| 用户名 / 密码 | `xinfei` / `123456`（**全局管理员**，配置读写用此账号）；`xftt` / `123456` 可登录但未授权，配置 API 全部 403 |
+| API | Nacos 3.x：登录 `POST /nacos/v1/auth/login`，配置读写 `POST/GET /nacos/v1/cs/configs`（`accessToken` 参数携带令牌，`tenant=xftt`） |
+
+> **录入状态（2026-10-24）**：第 3 节 10 个 Data ID 中的 9 个 `.properties` 已通过 API 写入 `xftt` 命名空间并回读验证（UTF-8 中文注释完好）；`xftt-gateway.yml` 按第 4.2 节约定不录入（网关用本地 yml）。
 
 > 各业务服务的 `application.properties` 通过
 > `spring.config.import=optional:nacos:${spring.application.name}.properties?group=DEFAULT_GROUP`
@@ -25,7 +28,7 @@
 
 | 中间件 | 地址 | 默认账号/口令 | 说明 |
 |---|---|---|---|
-| MySQL（经 MyCat） | `192.168.20.130:8066` | 见第 4 节 | 分库分表入口 |
+| MySQL（经 MyCat） | `192.168.20.130:8066` | 见第 4 节 | 分库分表入口（**当前不可达**，已录入配置改指 3306 直连） |
 | Redis | `192.168.20.130:6379` | 密码 `123456` | 缓存 / 登录态 |
 | Kafka | `192.168.20.130:9092` | — | 行为 / 文章消息 |
 | Elasticsearch | `http://192.168.20.130:9200` | — | 文章检索 |
@@ -159,3 +162,15 @@ aliyun.secret=rpu99duohLQFl5CtOQnMGyMnL708wS
 - [环境搭建与启动指南](./环境搭建与启动指南.md)（ENV-03 指向本清单）
 - [架构设计说明书](./架构设计说明书.md)
 - [接口清单](./接口清单.md)
+
+---
+
+## 8. 录入记录（2026-10-24）
+
+| 项 | 结果 |
+|---|---|
+| 已录入 Data ID | `xftt-{login,article,behavior,user,media,admin,crawler,images,migration}.properties` 共 9 个，分组 `DEFAULT_GROUP`，命名空间 `xftt` |
+| 未录入 | `xftt-gateway.yml`（网关用本地 `application.yml`，见 4.2） |
+| 数据源调整 | MyCat 8066 连接超时（10060），已录入配置改指 `192.168.20.130:3306/xftt` 直连（账号 `xftt`，`jdbc-password` 填反转串 `654321`）；MyCat 恢复后按 4.1 节模板切回并重录 |
+| 验证 | 逐个回读成功；UTF-8 中文注释完好；Redis/ES/MinIO 地址与第 2 节一致；测试配置已清理 |
+| 操作方式 | API 录入（`POST /nacos/v1/cs/configs`，`xinfei` 管理员令牌） |
