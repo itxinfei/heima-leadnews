@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login } from '../../api/user'
 import { useUserStore } from '../../store/user'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const isLoading = ref(false)
 const form = reactive({ name: '', password: '' })
@@ -19,7 +20,9 @@ async function handleSubmit(): Promise<void> {
   try {
     const result = await login({ name: form.name, password: form.password })
     userStore.applyLogin(result.token, result.name || form.name)
-    router.push('/')
+    // 守卫携带的 redirect 优先回跳，避免开放重定向只取站内路径
+    const redirect = typeof route.query.redirect === 'string' && route.query.redirect.startsWith('/') ? route.query.redirect : '/'
+    router.push(redirect)
   } finally {
     isLoading.value = false
   }
