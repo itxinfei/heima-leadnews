@@ -61,4 +61,10 @@ public interface ApArticleSearchService {
      * @return
      */
     ResponseResult searchAssocicationV2(UserSearchDto dto);
+
+    /**
+     * 存量文章回填 ES 索引（BE-F04）：索引缺失时自动创建，按 id 翻批全量写入
+     * @return 回填文章数
+     */
+    ResponseResult backfillIndex();
 }

@@ -1,6 +1,7 @@
 package com.xftt.article.service.impl;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.xftt.article.service.ApArticleSearchService;
@@ -206,5 +207,40 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
             list.add(apAssociateWords);
         }
         return ResponseResult.okResult(list);
+    }
+
+    @Override
+    public ResponseResult backfillIndex() {
+        try {
+            // 索引缺失时自动创建，title 用 ik 分词以支持关键词检索
+            boolean exists = elasticsearchClient.indices().exists(e -> e.index(ESIndexConstants.ARTICLE_INDEX)).value();
+            if (!exists) {
+                elasticsearchClient.indices().create(c -> c
+                        .index(ESIndexConstants.ARTICLE_INDEX)
+                        .mappings(m -> m.properties("title", p -> p.text(t -> t.analyzer("ik_max_word")))));
+            }
+            long lastId = 0L;
+            int total = 0;
+            while (true) {
+                List<ApArticle> batch = apArticleMapper.selectBackfillBatch(lastId, 500);
+                if (batch == null || batch.isEmpty()) {
+                    break;
+                }
+                BulkRequest.Builder br = new BulkRequest.Builder();
+                for (ApArticle article : batch) {
+                    br.operations(op -> op.index(idx -> idx
+                            .index(ESIndexConstants.ARTICLE_INDEX)
+                            .id(String.valueOf(article.getId()))
+                            .document(article)));
+                    lastId = article.getId();
+                }
+                elasticsearchClient.bulk(br.build());
+                total += batch.size();
+            }
+            return ResponseResult.okResult(total);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
     }
 }

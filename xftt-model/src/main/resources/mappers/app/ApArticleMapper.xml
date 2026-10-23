@@ -190,6 +190,15 @@
         from ap_article
         <include refid="Base_Column_Where"/>
     </select>
+    <select id="selectBackfillBatch" resultMap="resultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ap_article
+        where id > #{lastId}
+        order by id asc
+        limit #{limit}
+    </select>
+
     <update id="updateSyncStatus">
     UPDATE ap_article SET sync_status = #{syncStatus} WHERE id=#{id}
 </update>

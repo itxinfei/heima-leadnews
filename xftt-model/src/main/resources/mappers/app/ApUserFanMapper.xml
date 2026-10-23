@@ -27,6 +27,17 @@
     delete from ap_user_fan where user_id = #{userId} and  fans_id = #{fansId}
     </delete>
 
+    <select id="selectFansByUserId" resultMap="BaseResultMap">
+        /*!mycat:sql=select id from ap_user_fan where burst='${burst}'*/
+        select <include refid="Base_Column_List" /> from ap_user_fan where user_id = #{userId}
+        order by created_time desc limit #{offset}, #{size}
+    </select>
+
+    <select id="countFansByUserId" resultType="int">
+        /*!mycat:sql=select id from ap_user_fan where burst='${burst}'*/
+        select count(*) from ap_user_fan where user_id = #{userId}
+    </select>
+
     <insert id="insert" parameterType="com.xftt.model.user.pojos.ApUserFan" >
     insert into ap_user_fan (id, user_id, fans_id,
       fans_name, level, created_time,
