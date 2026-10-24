@@ -26,9 +26,8 @@
         <module>xftt-crawler</module>
         <module>xftt-images</module>
         <module>xftt-migration</module>
-        <module>service-gateway</module>
-        <module>service-nacos</module>
-        <module>service-mycat</module>
+        <module>xftt-gateway</module>
+        <module>xftt-mycat</module>
     </modules>
 
     <!-- 继承 Spring Boot 4 工程（JDK 25） -->
