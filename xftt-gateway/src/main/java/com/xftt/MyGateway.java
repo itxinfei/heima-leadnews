@@ -1,18 +1,16 @@
-package com.pangzhao;
+package com.xftt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * 注册中心
+ *  服务网关
  */
 @SpringBootApplication
-
-/** 心飞头条 - Nacos 注册/配置中心 */
 @EnableDiscoveryClient
-public class NacosApplication {
+public class MyGateway {
     public static void main(String[] args) {
-        SpringApplication.run(NacosApplication.class, args);
+        SpringApplication.run(MyGateway.class, args);
     }
 }

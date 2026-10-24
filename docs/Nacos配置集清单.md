@@ -45,7 +45,7 @@
 
 | 序号 | Data ID | 归属服务 | 端口 |
 |---|---|---|---|
-| 1 | `xftt-gateway.yml` | service-gateway | 10000 |
+| 1 | `xftt-gateway.yml` | xftt-gateway | 10000 |
 | 2 | `xftt-login.properties` | xftt-login | 9001 |
 | 3 | `xftt-article.properties` | xftt-article | 9003 |
 | 4 | `xftt-behavior.properties` | xftt-behavior | 9004 |
@@ -128,7 +128,7 @@ aliyun.secret=rpu99duohLQFl5CtOQnMGyMnL708wS
 ### 4.2 服务级差异（目前无强制差异）
 
 - **xftt-login / xftt-user / xftt-article / xftt-behavior / xftt-media / xftt-admin / xftt-crawler / xftt-images / xftt-migration**：均使用同一份共享块即可。
-- **xftt-gateway.yml**：网关只做路由，不连业务库，保留本地已有 `service-gateway/src/main/resources/application.yml` 内容即可（已正确指向 `192.168.20.130:8848` / namespace `xftt`），无需在 Nacos 重复录入共享块。
+- **xftt-gateway.yml**：网关只做路由，不连业务库，保留本地已有 `xftt-gateway/src/main/resources/application.yml` 内容即可（已正确指向 `192.168.20.130:8848` / namespace `xftt`），无需在 Nacos 重复录入共享块。
 
 ---
 
