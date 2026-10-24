@@ -1,6 +1,9 @@
 package com.xftt.article.controller.v1;
 
 import com.xftt.model.article.pojos.ApComment;
+import com.xftt.common.kafka.KafkaSender;
+import com.xftt.common.kafka.messages.UpdateArticleMessage;
+import com.xftt.model.mess.app.UpdateArticle;
 import com.xftt.model.common.dtos.ResponseResult;
 import com.xftt.model.mappers.app.ApCommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class CommentController {
     @Autowired
     private ApCommentMapper apCommentMapper;
 
+    @Autowired
+    private KafkaSender kafkaSender;
+
     @GetMapping("/list")
     public ResponseResult list(@RequestParam("articleId") Integer articleId) {
         List<ApComment> comments = apCommentMapper.selectByEntryId(articleId);
@@ -35,6 +41,14 @@ public class CommentController {
             return ResponseResult.errorResult(500, "评论内容不能为空");
         }
         apCommentMapper.insert(comment);
+        // 评论热度上报：发 COMMENT 增量到 articleUpdateBus，参与热文章计算（HotArticleStreamHandler 已支持 COMMENT 累加）
+        if (comment.getEntryId() != null) {
+            UpdateArticle ua = new UpdateArticle();
+            ua.setType(UpdateArticle.UpdateArticleType.COMMENT);
+            ua.setAdd(1);
+            ua.setArticleId(comment.getEntryId());
+            kafkaSender.sendArticleUpdateBus(new UpdateArticleMessage(ua));
+        }
         return ResponseResult.okResult(null);
     }
 

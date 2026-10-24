@@ -171,6 +171,7 @@
                 and tag_id = #{dto.tag}
             </if>
         </where>
+        order by score desc
         limit #{dto.size}
     </select>
 
@@ -209,6 +210,7 @@
                 and a.tag_id = #{dto.tag}
             </if>
         </where>
+        order by score desc
         limit #{dto.size}
     </select>
 </mapper>
