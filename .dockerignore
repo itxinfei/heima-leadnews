@@ -1,0 +1,9 @@
+.git
+**/node_modules
+**/dist
+deploy/run
+deploy/logs
+*.log
+docs
+*.md
+# 注意：不忽略 **/target，Dockerfile 需 COPY 各模块 target/*.jar
