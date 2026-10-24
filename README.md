@@ -167,7 +167,7 @@ xftt/（父工程 com.xftt:xftt）
 ├── xftt-login 9001     xftt-user 9005     xftt-article 9003
 ├── xftt-behavior 9004  xftt-media 9006    xftt-admin 9007
 ├── xftt-crawler 9008   xftt-images 9010   xftt-migration 9012
-├── service-gateway 10000   service-nacos 8848   service-mycat 8066
+├── service-gateway 10000   service-mycat 8066
 └── xftt-web/{xftt-app, xftt-wemedia, xftt-admin}        前端三端
 ```
 

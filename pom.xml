@@ -27,7 +27,6 @@
         <module>xftt-images</module>
         <module>xftt-migration</module>
         <module>service-gateway</module>
-        <module>service-nacos</module>
         <module>service-mycat</module>
     </modules>
 
