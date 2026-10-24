@@ -12,6 +12,7 @@ const router = createRouter({
         { path: 'users', component: () => import('../views/users/index.vue') },
         { path: 'channels', component: () => import('../views/channels/index.vue') },
         { path: 'sensitive', component: () => import('../views/sensitive/index.vue') },
+        { path: 'review', component: () => import('../views/review/index.vue') },
       ],
     },
   ],

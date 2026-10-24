@@ -20,6 +20,7 @@ function handleLogout(): void {
         <el-menu-item index="/users">用户管理</el-menu-item>
         <el-menu-item index="/channels">频道管理</el-menu-item>
         <el-menu-item index="/sensitive">敏感词管理</el-menu-item>
+        <el-menu-item index="/review">内容审核</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>

@@ -7,7 +7,11 @@ const instance = axios.create({ baseURL: '', timeout: 10000 })
 
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('xftt-admin-token')
-  if (token) config.headers.Authorization = token
+  if (token) {
+    config.headers.Authorization = token
+    // 后端 AdminTokenFilter 读取小写 token 头，补齐以对齐（否则 /api/v1/admin/* 返回 code=52）
+    config.headers.token = token
+  }
   return config
 })
 
