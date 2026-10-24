@@ -25,7 +25,7 @@ public class CrawlerReverseQuartz extends AbstractJob {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         long cutrrentTime = System.currentTimeMillis();
         log.info("开始反向抓取");
-//        processingFlowManager.reverseHandel();
+        processingFlowManager.reverseHandel();
         log.info("反向抓取结束,耗时：", System.currentTimeMillis() - cutrrentTime);
     }
 }

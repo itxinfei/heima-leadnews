@@ -26,7 +26,7 @@ public class CrawlerForwardQuartz extends AbstractJob {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         long currentTimeMillis = System.currentTimeMillis();
         log.info("开始正向抓取");
-//        processingFlowManager.handel();
+        processingFlowManager.handel();
         log.info("正向抓取结束，耗时:{}",System.currentTimeMillis()-currentTimeMillis);
     }
 }
