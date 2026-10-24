@@ -105,7 +105,7 @@ public class NewsServiceImpl implements NewsService {
      */
     private ResponseResult coverIamgesRelation(WmNewsDto dto, Map<String, Object> materials, WmNews wmNews, int countImageNum) {
         List<String> images = dto.getImages();
-        if(!WmMediaConstans.WM_NEWS_TYPE_AUTO.equals(dto.getType())&&dto.getType()!=images.size()){
+        if(!WmMediaConstans.WM_NEWS_TYPE_AUTO.equals(dto.getType())&&(images==null||dto.getType()!=images.size())){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"图文模式不匹配");
         }
         //如果是自动匹配封面
