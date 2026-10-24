@@ -58,7 +58,7 @@
         <include refid="Base_Column_List"/>
         from ap_hot_articles
         <where>
-            where created_time > DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+            created_time <![CDATA[<]]> DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
         </where>
     </select>
 

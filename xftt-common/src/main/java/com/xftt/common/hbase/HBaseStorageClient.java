@@ -39,18 +39,23 @@ public class HBaseStorageClient {
     public boolean addStorageData(String tableName, String rowKey, List<StorageData> storageDataList) {
         long currentTime = System.currentTimeMillis();
         log.info("开始添加StorageData到Hbase,tableName:{},rowKey:{}", tableName, rowKey);
-        if (null != storageDataList && !storageDataList.isEmpty()) {
-            storageDataList.forEach(hBaseData -> {
-                String columnFamliyName = hBaseData.getTargetClassName();
-                String[] columnArray = hBaseData.getColumns();
-                String[] valueArray = hBaseData.getValues();
-                if (null != columnArray && null != valueArray) {
-                    hBaseClent.putData(tableName, rowKey, columnFamliyName, columnArray, valueArray);
-                }
-            });
+        try {
+            if (null != storageDataList && !storageDataList.isEmpty()) {
+                storageDataList.forEach(hBaseData -> {
+                    String columnFamliyName = hBaseData.getTargetClassName();
+                    String[] columnArray = hBaseData.getColumns();
+                    String[] valueArray = hBaseData.getValues();
+                    if (null != columnArray && null != valueArray) {
+                        hBaseClent.putData(tableName, rowKey, columnFamliyName, columnArray, valueArray);
+                    }
+                });
+            }
+            log.info("添加StorageData到Hbase完成,tableName:{},rowKey:{},duration:{}", tableName, rowKey, System.currentTimeMillis() - currentTime);
+            return true;
+        } catch (Exception e) {
+            log.error("添加StorageData到Hbase失败,tableName:{},rowKey:{}", tableName, rowKey, e);
+            return false;
         }
-        log.info("添加StorageData到Hbase完成,tableName:{},rowKey:{},duration:{}", tableName, rowKey, System.currentTimeMillis() - currentTime);
-        return true;
     }
 
     public <T> T getStorageDataEntity(String tableName, String rowKey, Class<T> tClass) {
