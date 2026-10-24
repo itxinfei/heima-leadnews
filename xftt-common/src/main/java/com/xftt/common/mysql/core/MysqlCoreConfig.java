@@ -3,7 +3,6 @@ package com.xftt.common.mysql.core;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,7 +38,7 @@ public class MysqlCoreConfig {
     public DataSource mysqlCoreDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setUsername(this.getJdbcUserName());
-        dataSource.setPassword(this.getRealPassword());
+        dataSource.setPassword(this.getJdbcPassword());
         dataSource.setJdbcUrl(this.getJdbcUrl());
         dataSource.setDriverClassName(this.getJdbcDriver());
         //最大连接数
@@ -49,15 +48,6 @@ public class MysqlCoreConfig {
         //输出连接池
         System.out.println("数据库连接：" + dataSource.toString());
         return dataSource;
-    }
-
-    /**
-     * 密码反转操作
-     */
-    public String getRealPassword() {
-        String jdbcPassword = this.getJdbcPassword();//123456
-        String reverse = StringUtils.reverse(jdbcPassword);//654321
-        return reverse;
     }
 
     /**

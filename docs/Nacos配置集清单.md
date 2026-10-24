@@ -70,10 +70,10 @@
 
 ```properties
 # ============ MySQL（经 MyCat 8066）============
-# 注意：代码会反转密码后再使用，jdbc-password 必须填「真实密码的反转串」
+# 注意：密码明文存储（MysqlCoreConfig 已移除反转逻辑）
 mysql.core.jdbc.url=jdbc:mysql://192.168.20.130:8066/xftt?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
 mysql.core.jdbc.username=<mycat_user>
-mysql.core.jdbc.password=<reverse_of_real_password>
+mysql.core.jdbc.password=<real_password>
 mysql.core.jdbc.driver=com.mysql.cj.jdbc.Driver
 mysql.core.root-mapper=mappers
 mysql.core.aliases.package=com.xftt.model
@@ -150,7 +150,7 @@ aliyun.secret=rpu99duohLQFl5CtOQnMGyMnL708wS
 
 | 坑 | 说明 | 处理 |
 |---|---|---|
-| 密码反转 | `MysqlCoreConfig.getRealPassword()` 对 `mysql.core.jdbc.password` 做 `StringUtils.reverse` | 录入时填**真实密码的反转串**；或改代码去掉反转（推荐后者，更安全直观） |
+| 密码反转 | ~~`MysqlCoreConfig.getRealPassword()` 对 `mysql.core.jdbc.password` 做 `StringUtils.reverse`~~ | ✅ 已修复（ENV-05）：反转逻辑已移除，配置直接填**真实密码明文**；Nacos 9 个配置集已同步改为明文 |
 | 端口两个来源 | `xftt-common` 里 `port.gateway=8081`，但网关本地 yml 为 10000 | 统一以 10000 为准（ENV-02） |
 | 共享配置重复 | 各服务只导入自身 Data ID，无共享块 | 见第 4 节开头建议，建 `xftt-shared.properties` 复用 |
 | 阿里云密钥硬编码 | `aliyun.properties` 含真实 AK/SK | 生产应改从 Nacos 密文或 KMS 注入，不入库明文 |
@@ -171,6 +171,6 @@ aliyun.secret=rpu99duohLQFl5CtOQnMGyMnL708wS
 |---|---|
 | 已录入 Data ID | `xftt-{login,article,behavior,user,media,admin,crawler,images,migration}.properties` 共 9 个，分组 `DEFAULT_GROUP`，命名空间 `xftt` |
 | 未录入 | `xftt-gateway.yml`（网关用本地 `application.yml`，见 4.2） |
-| 数据源调整 | MyCat 8066 连接超时（10060），已录入配置改指 `192.168.20.130:3306/xftt` 直连（账号 `xftt`，`jdbc-password` 填反转串 `654321`）；MyCat 恢复后按 4.1 节模板切回并重录 |
+| 数据源调整 | MyCat 8066 连接超时（10060），已录入配置改指 `192.168.20.130:3306/xftt` 直连（账号 `xftt`，`jdbc-password` 填明文 `123456`）；MyCat 恢复后按 4.1 节模板切回并重录 |
 | 验证 | 逐个回读成功；UTF-8 中文注释完好；Redis/ES/MinIO 地址与第 2 节一致；测试配置已清理 |
 | 操作方式 | API 录入（`POST /nacos/v1/cs/configs`，`xinfei` 管理员令牌） |
