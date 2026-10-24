@@ -8,6 +8,8 @@ public class WmMediaConstans {
     public static final Short WM_NEWS_SUMMIT_STATUS = 1; //提交
     public static final Short WM_NEWS_AUTHED_STATUS = 8; //审核通过
     public static final Short WM_NEWS_PUBLISH_STATUS = 9; //已发布
+    public static final Short WM_NEWS_FAIL_STATUS = 2; //审核失败
+    public static final Short WM_NEWS_MANUAL_REVIEW_STATUS = 3; //需人工审核
 
 
     public static final Short WM_NEWS_NONE_IMAGE = 0; //无图

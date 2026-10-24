@@ -1,6 +1,7 @@
 package com.xftt.model.mappers.wemedia;
 
 import com.xftt.model.media.dtos.WmNewsPageReqDto;
+import com.xftt.model.media.dtos.WmNewsReviewPageReqDto;
 import com.xftt.model.media.pojos.WmNews;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,4 +42,14 @@ public interface WmNewsMapper {
     int deleteByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(WmNews record);
+
+    /**
+     * 管理端审核工作台：按 status 集合分页查询（不按 user_id）
+     */
+    List<WmNews> selectReviewList(@Param("dto") WmNewsReviewPageReqDto dto);
+
+    /**
+     * 管理端审核工作台：按 status 集合计数
+     */
+    int countReviewList(@Param("dto") WmNewsReviewPageReqDto dto);
 }
