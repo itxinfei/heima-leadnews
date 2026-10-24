@@ -52,4 +52,9 @@ public interface WmNewsMapper {
      * 管理端审核工作台：按 status 集合计数
      */
     int countReviewList(@Param("dto") WmNewsReviewPageReqDto dto);
+
+    /**
+     * 定时发布：查询 status=8（审核通过待发布）且 publish_time 已到的文章，分批。
+     */
+    List<WmNews> selectScheduledPublishList(@Param("offset") int offset, @Param("size") int size);
 }
