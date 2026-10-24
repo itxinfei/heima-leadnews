@@ -7,6 +7,7 @@ import com.xftt.model.common.dtos.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,9 +54,9 @@ public class ArticleSearchController implements ArticleSearchControllerApi {
         return apArticleSearchService.esArticleSearch(dto);
     }
 
-    /** 存量文章回填 ES 索引（BE-F04）：返回回填文章数 */
+    /** 存量文章回填 ES 索引（BE-F04）：lastId 为游标支持断点续跑，默认 0 表示全量；返回 {total,lastId,skipped} */
     @PostMapping("/index_backfill")
-    public ResponseResult indexBackfill() {
-        return apArticleSearchService.backfillIndex();
+    public ResponseResult indexBackfill(@RequestParam(required = false, defaultValue = "0") Long lastId) {
+        return apArticleSearchService.backfillIndex(lastId);
     }
 }

@@ -2,20 +2,26 @@ package com.xftt.article.service.impl;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.xftt.article.service.ApArticleSearchService;
 import com.xftt.article.utils.Trie;
 import com.xftt.common.common.contants.Contants;
 import com.xftt.common.common.contants.ESIndexConstants;
+import com.xftt.common.common.pojo.EsIndexEntity;
 import com.xftt.model.article.dtos.UserSearchDto;
 import com.xftt.model.article.pojos.ApArticle;
+import com.xftt.model.article.pojos.ApArticleConfig;
+import com.xftt.model.article.pojos.ApArticleContent;
 import com.xftt.model.article.pojos.ApAssociateWords;
 import com.xftt.model.article.pojos.ApHotWords;
 import com.xftt.model.behavior.pojos.ApBehaviorEntry;
 import com.xftt.model.common.dtos.ResponseResult;
 import com.xftt.model.common.enums.AppHttpCodeEnum;
 import com.xftt.model.mappers.app.ApArticleMapper;
+import com.xftt.model.mappers.app.ApArticleConfigMapper;
+import com.xftt.model.mappers.app.ApArticleContentMapper;
 import com.xftt.model.mappers.app.ApAssociateWordsMapper;
 import com.xftt.model.mappers.app.ApBehaviorEntryMapper;
 import com.xftt.model.mappers.app.ApHotWordsMapper;
@@ -23,20 +29,25 @@ import com.xftt.model.mappers.app.ApUserSearchMapper;
 import com.xftt.model.user.pojos.ApUser;
 import com.xftt.model.user.pojos.ApUserSearch;
 import com.xftt.utils.threadlocal.AppThreadLocalUtils;
+import com.xftt.model.crawler.core.parse.ZipUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.type.TypeReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @SuppressWarnings("all")
+@Log4j2
 public class ApArticleSearchServiceImpl implements ApArticleSearchService {
 
     @Autowired
@@ -144,6 +155,12 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
     @Autowired
     private ApArticleMapper apArticleMapper;
 
+    @Autowired
+    private ApArticleContentMapper apArticleContentMapper;
+
+    @Autowired
+    private ApArticleConfigMapper apArticleConfigMapper;
+
     @Override
     public ResponseResult esArticleSearch(UserSearchDto dto) {
         if (dto.getFromIndex() == 0) {
@@ -158,7 +175,7 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
                             .index(ESIndexConstants.ARTICLE_INDEX)
                             .from(dto.getFromIndex())
                             .size(dto.getPageSize())
-                            .query(q -> q.match(m -> m.field("title").query(dto.getSearchWords()))),
+                            .query(q -> q.multiMatch(mm -> mm.fields("title", "content").query(dto.getSearchWords()))),
                     ApArticle.class);
             List<ApArticle> resultList = new ArrayList<>();
             for (Hit<ApArticle> hit : searchResult.hits().hits()) {
@@ -210,37 +227,100 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
     }
 
     @Override
-    public ResponseResult backfillIndex() {
+    public ResponseResult backfillIndex(Long lastId) {
+        long cursor = (lastId == null ? 0L : lastId);
+        int total = 0;
+        int skipped = 0;
         try {
-            // 索引缺失时自动创建，title 用 ik 分词以支持关键词检索
+            // 索引缺失时自动创建，title 与 content 均用 ik 分词以支持标题与正文检索
             boolean exists = elasticsearchClient.indices().exists(e -> e.index(ESIndexConstants.ARTICLE_INDEX)).value();
             if (!exists) {
                 elasticsearchClient.indices().create(c -> c
                         .index(ESIndexConstants.ARTICLE_INDEX)
-                        .mappings(m -> m.properties("title", p -> p.text(t -> t.analyzer("ik_max_word")))));
+                        .mappings(m -> m
+                                .properties("title", p -> p.text(t -> t.analyzer("ik_max_word")))
+                                .properties("content", p -> p.text(t -> t.analyzer("ik_max_word")))));
             }
-            long lastId = 0L;
-            int total = 0;
             while (true) {
-                List<ApArticle> batch = apArticleMapper.selectBackfillBatch(lastId, 500);
+                List<ApArticle> batch = apArticleMapper.selectBackfillBatch(cursor, 500);
                 if (batch == null || batch.isEmpty()) {
                     break;
                 }
-                BulkRequest.Builder br = new BulkRequest.Builder();
-                for (ApArticle article : batch) {
-                    br.operations(op -> op.index(idx -> idx
-                            .index(ESIndexConstants.ARTICLE_INDEX)
-                            .id(String.valueOf(article.getId()))
-                            .document(article)));
-                    lastId = article.getId();
+                List<EsIndexEntity> entities = buildBackfillEntities(batch);
+                skipped += (batch.size() - entities.size());
+                if (!entities.isEmpty()) {
+                    BulkRequest.Builder br = new BulkRequest.Builder();
+                    for (EsIndexEntity entity : entities) {
+                        br.operations(op -> op.index(idx -> idx
+                                .index(ESIndexConstants.ARTICLE_INDEX)
+                                .id(String.valueOf(entity.getId()))
+                                .document(entity)));
+                    }
+                    BulkResponse bulkResponse = elasticsearchClient.bulk(br.build());
+                    if (bulkResponse.errors()) {
+                        log.error("ES 回填 bulk 存在失败项，游标 lastId={}", cursor);
+                    }
                 }
-                elasticsearchClient.bulk(br.build());
-                total += batch.size();
+                total += entities.size();
+                cursor = batch.get(batch.size() - 1).getId().longValue();
+                log.info("ES 回填进度：已写入 {} 篇，跳过删/下架 {} 篇，游标 lastId={}", total, skipped, cursor);
             }
-            return ResponseResult.okResult(total);
+            Map<String, Object> result = new HashMap<>();
+            result.put("total", total);
+            result.put("lastId", cursor);
+            result.put("skipped", skipped);
+            return ResponseResult.okResult(result);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("ES 索引回填异常，游标 lastId={}", cursor, e);
+            return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR);
         }
-        return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+    }
+
+    /**
+     * 将一批 ap_article 组装为 ES 文档：批量查正文并 gunzip 解压，关联 config 过滤已删除/下架。
+     */
+    private List<EsIndexEntity> buildBackfillEntities(List<ApArticle> batch) {
+        List<EsIndexEntity> entities = new ArrayList<>();
+        if (batch == null || batch.isEmpty()) {
+            return entities;
+        }
+        List<String> articleIds = batch.stream().map(a -> String.valueOf(a.getId())).collect(Collectors.toList());
+        // 批量查正文并解压
+        Map<String, String> contentMap = new HashMap<>();
+        List<ApArticleContent> contents = apArticleContentMapper.selectByArticleIds(articleIds);
+        if (contents != null) {
+            for (ApArticleContent c : contents) {
+                if (c.getArticleId() != null) {
+                    contentMap.put(String.valueOf(c.getArticleId()), ZipUtils.gunzip(c.getContent()));
+                }
+            }
+        }
+        // 批量查配置，用于过滤已删除/下架
+        Map<String, ApArticleConfig> configMap = new HashMap<>();
+        List<ApArticleConfig> configs = apArticleConfigMapper.selectByArticleIds(articleIds);
+        if (configs != null) {
+            for (ApArticleConfig cfg : configs) {
+                if (cfg.getArticleId() != null) {
+                    configMap.put(String.valueOf(cfg.getArticleId()), cfg);
+                }
+            }
+        }
+        for (ApArticle article : batch) {
+            String idStr = String.valueOf(article.getId());
+            ApArticleConfig cfg = configMap.get(idStr);
+            if (cfg != null && (Boolean.TRUE.equals(cfg.getIsDelete()) || Boolean.TRUE.equals(cfg.getIsDown()))) {
+                continue; // 跳过已删除/下架
+            }
+            EsIndexEntity entity = new EsIndexEntity();
+            entity.setId(article.getId().longValue());
+            entity.setTitle(article.getTitle());
+            entity.setContent(contentMap.get(idStr));
+            entity.setChannelId(article.getChannelId() == null ? null : article.getChannelId().longValue());
+            entity.setPublishTime(article.getPublishTime());
+            entity.setStatus(1L);
+            entity.setUserId(article.getAuthorId());
+            entities.add(entity);
+        }
+        return entities;
     }
 }
