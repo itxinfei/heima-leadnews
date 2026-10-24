@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-gateway</artifactId>
-    <name>service-gateway</name>
+    <artifactId>xftt-gateway</artifactId>
+    <name>xftt-gateway</name>
     <description>心飞头条 - Spring Cloud Gateway 网关服务</description>
 
     <dependencies>
