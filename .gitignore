@@ -25,3 +25,7 @@ node_modules/
 
 # 编辑器/工具临时目录
 .atomcode/
+
+# 部署运行与日志
+deploy/run/
+deploy/logs/

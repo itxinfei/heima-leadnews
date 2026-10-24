@@ -1,0 +1,129 @@
+# 心飞头条（xftt）docker-compose：核心基础设施 + 业务服务容器化
+# 说明：Kafka / ES / MinIO / MyCat 项目当前外置(192.168.20.130)，按需在下方 environment 追加或改用本地 service 接入。
+# 构建前提：项目根执行 mvn package 产出各模块 target/*.jar
+services:
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: xftt-nacos
+    environment:
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+
+  mysql:
+    image: mysql:8.0
+    container_name: xftt-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=xftt
+      - TZ=Asia/Shanghai
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./xinfei-leadnews.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: xftt-redis
+    ports:
+      - "6379:6379"
+
+  xftt-login:
+    build:
+      context: .
+      dockerfile: xftt-login/Dockerfile
+    container_name: xftt-login
+    environment: &biz-env
+      - NACOS_SERVER=nacos:8848
+      - NAMESPACE=xftt
+      - PROFILES=prod
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-article:
+    build:
+      context: .
+      dockerfile: xftt-article/Dockerfile
+    container_name: xftt-article
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-behavior:
+    build:
+      context: .
+      dockerfile: xftt-behavior/Dockerfile
+    container_name: xftt-behavior
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-user:
+    build:
+      context: .
+      dockerfile: xftt-user/Dockerfile
+    container_name: xftt-user
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-media:
+    build:
+      context: .
+      dockerfile: xftt-media/Dockerfile
+    container_name: xftt-media
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-admin:
+    build:
+      context: .
+      dockerfile: xftt-admin/Dockerfile
+    container_name: xftt-admin
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-crawler:
+    build:
+      context: .
+      dockerfile: xftt-crawler/Dockerfile
+    container_name: xftt-crawler
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-images:
+    build:
+      context: .
+      dockerfile: xftt-images/Dockerfile
+    container_name: xftt-images
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-migration:
+    build:
+      context: .
+      dockerfile: xftt-migration/Dockerfile
+    container_name: xftt-migration
+    environment: *biz-env
+    depends_on: [nacos, mysql, redis]
+    restart: unless-stopped
+
+  xftt-gateway:
+    build:
+      context: .
+      dockerfile: xftt-gateway/Dockerfile
+    container_name: xftt-gateway
+    environment: *biz-env
+    ports:
+      - "10000:10000"
+    depends_on: [nacos]
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
