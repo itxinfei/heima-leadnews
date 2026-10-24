@@ -25,5 +25,5 @@
 - xftt-admin：用于实现后台管理系统的功能；
 - xftt-images：用于实现图片素材管理功能；
 - service-gateway：Spring Cloud Gateway 网关
-- service-nacos：Nacos 注册中心与配置中心
+- Nacos（外部中间件）：注册中心与配置中心，需独立部署
 - service-mycat：MyCat 分库分表中间件
