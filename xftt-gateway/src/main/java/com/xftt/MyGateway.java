@@ -1,4 +1,4 @@
-package com.pangzhao;
+package com.xftt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
