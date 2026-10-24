@@ -46,6 +46,11 @@ public class ReviewMediaArticleServiceImpl implements ReviewMediaArticleService 
     @Autowired
     private WmNewsMapper wmNewsMapper;
 
+    /** 自身代理：用于让 publishScheduledArticles 中逐篇调用走代理，保证单篇 @Transactional 生效 */
+    @Autowired
+    @org.springframework.context.annotation.Lazy
+    private ReviewMediaArticleService self;
+
     @Autowired
     private AliyunTextScanRequest aliyunTextScanRequest;
 
@@ -299,5 +304,32 @@ public class ReviewMediaArticleServiceImpl implements ReviewMediaArticleService 
         apUserMessage.setType(108);//文章审核通过
         apUserMessageMapper.insertSelective(apUserMessage);
 
+    }
+
+    /**
+     * 定时自动发布：分批扫描 status=8 且发布时间已到的文章，逐篇走自身代理发布
+     * （单篇独立事务，单篇失败不影响其余）。
+     */
+    @Override
+    public void publishScheduledArticles() {
+        int offset = 0;
+        int size = 100;
+        while (true) {
+            List<WmNews> list = wmNewsMapper.selectScheduledPublishList(offset, size);
+            if (list == null || list.isEmpty()) {
+                break;
+            }
+            for (WmNews wmNews : list) {
+                try {
+                    self.reviewSuccessSaveAll(wmNews);
+                } catch (Exception e) {
+                    log.error("定时发布文章失败，newsId:{}", wmNews.getId(), e);
+                }
+            }
+            if (list.size() < size) {
+                break;
+            }
+            offset += size;
+        }
     }
 }

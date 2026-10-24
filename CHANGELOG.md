@@ -20,6 +20,7 @@
 | 2026-10-24 | build | 移除冗余 service-nacos 示例模块（父工程聚合移除 + 文档同步） | 待提交 |
 | 2026-10-24 | build | 补齐 admin/behavior/crawler/login/user 应用模块可执行 jar 打包插件 | 待提交 |
 | 2026-10-24 | feat | M4 人工审核工作台后端（AD-F07/F08）：新增 /api/v1/admin/review 的 list/detail/pass/reject；自动审核改为初筛后转人工(3)；通过复用发布落库(publishTime 未来置 8)、驳回置 2+理由+通知用户；WmNewsMapper 增管理端按 status 分页查询；含单测 | 待提交 |
+| 2026-10-24 | feat | M4 status=8 定时自动发布：新增 WmNewsAutoPublishJob（Quartz 每分钟扫描 status=8 且发布时间已到的文章，逐篇复用 reviewSuccessSaveAll 自动发布，单篇事务+失败隔离）+ WmNewsMapper.selectScheduledPublishList + ReviewMediaArticleService.publishScheduledArticles；含单测 | 待提交 |
 
 ---
 

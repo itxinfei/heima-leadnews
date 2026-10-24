@@ -19,4 +19,9 @@ public interface ReviewMediaArticleService {
      * 回写 wm_news 状态与理由。
      */
     void updateWmNews(com.xftt.model.media.pojos.WmNews wmNews, short status, String message);
+
+    /**
+     * 定时自动发布：将 status=8（审核通过待发布）且发布时间已到的文章逐篇发布。
+     */
+    void publishScheduledArticles();
 }
