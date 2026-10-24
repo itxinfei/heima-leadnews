@@ -4,6 +4,8 @@ package com.xftt.admin.service.impl;
 import com.xftt.admin.service.ReviewMediaArticleService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import com.xftt.common.common.contants.Contants;
+import com.xftt.common.media.constans.WmMediaConstans;
+import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.JsonNode;
 import com.xftt.common.aliyun.AliyunImageScanRequest;
 import com.xftt.common.aliyun.AliyunTextScanRequest;
@@ -114,18 +116,8 @@ public class ReviewMediaArticleServiceImpl implements ReviewMediaArticleService 
                 }
 
 
-                if(wmNews.getPublishTime()!=null){
-                    if(wmNews.getPublishTime().getTime()>new Date().getTime()){
-                        //修改wmnews的状态为8
-                        updateWmNews(wmNews,(short)8,"待发布");
-                    }else{
-                        //立即发布
-                        reviewSuccessSaveAll(wmNews);
-                    }
-                }else{
-                    //立即发布
-                    reviewSuccessSaveAll(wmNews);
-                }
+                // 方案A：标题与内容匹配度通过后转人工审核，不再自动直接发布（阿里AI预审暂未启用）
+                updateWmNews(wmNews, WmMediaConstans.WM_NEWS_MANUAL_REVIEW_STATUS, "待人工审核");
             }
         }
 
@@ -156,7 +148,8 @@ public class ReviewMediaArticleServiceImpl implements ReviewMediaArticleService 
      * @param i
      * @param 待发布
      */
-    private void updateWmNews(WmNews wmNews, short status, String message) {
+    @Override
+    public void updateWmNews(WmNews wmNews, short status, String message) {
         wmNews.setStatus(status);
         wmNews.setReason(message);
         wmNewsMapper.updateByPrimaryKeySelective(wmNews);
@@ -201,7 +194,9 @@ public class ReviewMediaArticleServiceImpl implements ReviewMediaArticleService 
      * ap_author
      * @param wmNews
      */
-    private void reviewSuccessSaveAll(WmNews wmNews) {
+    @Override
+    @Transactional
+    public void reviewSuccessSaveAll(WmNews wmNews) {
 
         ApAuthor apAuthor = null;
         if(wmNews.getUserId()!=null){

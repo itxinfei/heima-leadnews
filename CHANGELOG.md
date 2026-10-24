@@ -19,6 +19,7 @@
 | 2026-10-23 | docs | 新增本文件并回填历史变更记录 | 待提交 |
 | 2026-10-24 | build | 移除冗余 service-nacos 示例模块（父工程聚合移除 + 文档同步） | 待提交 |
 | 2026-10-24 | build | 补齐 admin/behavior/crawler/login/user 应用模块可执行 jar 打包插件 | 待提交 |
+| 2026-10-24 | feat | M4 人工审核工作台后端（AD-F07/F08）：新增 /api/v1/admin/review 的 list/detail/pass/reject；自动审核改为初筛后转人工(3)；通过复用发布落库(publishTime 未来置 8)、驳回置 2+理由+通知用户；WmNewsMapper 增管理端按 status 分页查询；含单测 | 待提交 |
 
 ---
 

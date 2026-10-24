@@ -173,4 +173,38 @@
 		</set>
 		where id = #{id}
 	</update>
+
+	<select id="selectReviewList" resultType="com.xftt.model.media.pojos.WmNews">
+		select
+		<include refid="Base_Column_List"/>
+		from wm_news
+		<where>
+			<if test="dto.statusList != null and dto.statusList.size() > 0">
+				status in
+				<foreach item="s" collection="dto.statusList" open="(" separator="," close=")">
+					#{s}
+				</foreach>
+			</if>
+			<if test="dto.keyWord != null and dto.keyWord != ''">
+				and title like concat('%', #{dto.keyWord}, '%')
+			</if>
+		</where>
+		order by submited_time desc
+		limit \${(dto.page - 1) * dto.size}, \${dto.size}
+	</select>
+	<select id="countReviewList" resultType="java.lang.Integer">
+		select count(1)
+		from wm_news
+		<where>
+			<if test="dto.statusList != null and dto.statusList.size() > 0">
+				status in
+				<foreach item="s" collection="dto.statusList" open="(" separator="," close=")">
+					#{s}
+				</foreach>
+			</if>
+			<if test="dto.keyWord != null and dto.keyWord != ''">
+				and title like concat('%', #{dto.keyWord}, '%')
+			</if>
+		</where>
+	</select>
 </mapper>
