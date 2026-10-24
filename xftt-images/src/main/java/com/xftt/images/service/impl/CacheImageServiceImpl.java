@@ -1,6 +1,7 @@
 package com.xftt.images.service.impl;
 
 import com.xftt.common.fastdfs.FastDfsClient;
+import com.xftt.images.config.InitConfig;
 import com.xftt.images.service.CacheImageService;
 import com.xftt.utils.common.Base64Utils;
 import lombok.extern.log4j.Log4j2;
@@ -27,40 +28,36 @@ public class CacheImageServiceImpl implements CacheImageService {
     @Override
     public byte[] cache2Redis(String imgUrl, boolean isCache) {
         byte[] ret = null;
-        //http://192.168.25.133/group1/M00/00/01/wKgZhV2HdvSAF0ufAAGu97qOKoc956.jpg
-        Map<String, String> map = formatPath(imgUrl);
-        String group = map.get("group");
-        String file = map.get("file");
         String baseString = "";
         try {
-            ret = fastDfsClient.downGroupFile(group, file);
+            String objectName = resolveObjectName(imgUrl);
+            ret = fastDfsClient.downFile(objectName);
             baseString = Base64Utils.encode(ret);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("缓存图片失败, imgUrl:{}", imgUrl, e);
         }
-        if (isCache) {
+        if (isCache && ret != null) {
             redisTemplate.opsForValue().set(imgUrl, baseString, EXPIRE, TimeUnit.SECONDS);
         }
         return ret;
     }
 
     /**
-     * 解析图片url 2 map
-     *
-     * @param imgUrl
-     * @return
+     * 从图片 URL 解析 MinIO 对象名：完整 URL 剥 public-url(PREFIX) 前缀；否则视为已是对象名（兜底取最后一个 / 后）。
      */
-    private Map<String, String> formatPath(String imgUrl) {
-        //http://192.168.25.133/group1/M00/00/01/wKgZhV2HdvSAF0ufAAGu97qOKoc956.jpg
-        Map<String, String> map = new HashMap<>();
-        //group1/M00/00/01/wKgZhV2HdvSAF0ufAAGu97qOKoc956.jpg
-        String groupString = imgUrl.substring(imgUrl.indexOf("group"), imgUrl.length());
-        int index = groupString.indexOf("/");
-        String group = groupString.substring(0, index);
-        String file = groupString.substring(index + 1, groupString.length());
-        map.put("group", group);
-        map.put("file", file);
-        return map;
+    private String resolveObjectName(String imgUrl) {
+        if (imgUrl == null) {
+            return null;
+        }
+        if (imgUrl.startsWith("http")) {
+            String prefix = InitConfig.PREFIX;
+            if (prefix != null && imgUrl.startsWith(prefix)) {
+                return imgUrl.substring(prefix.length());
+            }
+            int idx = imgUrl.lastIndexOf('/');
+            return idx >= 0 ? imgUrl.substring(idx + 1) : imgUrl;
+        }
+        return imgUrl;
     }
 
     @Override
