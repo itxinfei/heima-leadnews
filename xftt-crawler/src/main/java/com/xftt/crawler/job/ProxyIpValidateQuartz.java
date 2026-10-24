@@ -30,8 +30,8 @@ public class ProxyIpValidateQuartz extends AbstractJob {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         long currentTimeMillis = System.currentTimeMillis();
         log.info("开始检验代理ip");
-//        proxyIpManager.validateProxyIp();
-//        crawlerProxyProvider.updateProxy();
+        proxyIpManager.validateProxyIp();
+        crawlerProxyProvider.updateProxy();
         log.info("检验代理ip完成，耗时:{}",System.currentTimeMillis()-currentTimeMillis);
     }
 }

@@ -24,7 +24,7 @@
         <result column="content" property="content" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, task_id, title, name, type, channel_id, labels,label_ids original_time, created_time,
+    id, task_id, title, name, type, channel_id, labels, label_ids, original_time, created_time,
     submited_time, status, publish_time, reason, article_id, no
   </sql>
     <sql id="Blob_Column_List">
