@@ -41,11 +41,13 @@ public class ImagesController implements ImagesControllerApi {
         log.info("图片访问请求开始#path:{}",path);
         String baseCode = redisTemplate.opsForValue().get(path);
         if(StringUtils.isEmpty(baseCode)){
-            //从fastdfs中获取数据
-            byte[] bytes = cacheImageService.cache2Redis(path, false);
+            //未命中：回源 MinIO 并惰性写入缓存
+            byte[] bytes = cacheImageService.cache2Redis(path, true);
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
             return bufferedImage;
         }
+        //命中：滑动续期
+        cacheImageService.resetCache2Redis(path);
         byte[] source = Base64Utils.decode(baseCode);
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(source));
         log.info("图片访问请求结束#path:{}",path);
