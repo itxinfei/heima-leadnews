@@ -29,3 +29,6 @@ node_modules/
 # 部署运行与日志
 deploy/run/
 deploy/logs/
+
+# 前端构建产物
+heima-leadnews-portal-master/heima-leadnews-app/releases/
