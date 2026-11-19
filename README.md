@@ -10,6 +10,12 @@
   <img alt="Nacos" src="https://img.shields.io/badge/Nacos-3.x-blue">
   <img alt="Vue3" src="https://img.shields.io/badge/Vue-3-blueviolet">
   <img alt="uni-app" src="https://img.shields.io/badge/uni--app-Vue3-blueviolet">
+  <br>
+  <a href="https://gitee.com/itxinfei/xftt/stargazers"><img alt="star" src="https://gitee.com/itxinfei/xftt/badge/star.svg?theme=gvp"></a>
+  <a href="https://gitee.com/itxinfei/xftt/members"><img alt="fork" src="https://gitee.com/itxinfei/xftt/badge/fork.svg?theme=gvp"></a>
+  <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue">
+  <img alt="Business" src="https://img.shields.io/badge/business-content%20platform-important">
+  <img alt="Services" src="https://img.shields.io/badge/microservices-5-success">
 </div>
 
 ## 一、这是什么
