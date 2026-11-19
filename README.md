@@ -12,13 +12,13 @@
   <img alt="uni-app" src="https://img.shields.io/badge/uni--app-Vue3-blueviolet">
 </div>
 
-## 这是什么
+## 一、这是什么
 
 一套完整跑通的内容平台：用户端看新闻、自媒体后台写稿、管理端审核发频道。后端是 Spring Cloud 微服务，检索走 Elasticsearch，行为数据走 Kafka，库按业务拆成五个。
 
 不是 demo。每个服务都能单独起，网关统一收口，端口分配、Nacos 配置集、分库规则都写在文档里。
 
-## 三端
+## 二、三端
 
 | 端 | 技术 | 干什么 |
 |---|---|---|
@@ -28,7 +28,7 @@
 
 三端共用一套视觉基线，主色 `#ED4040`，交互习惯对齐主流资讯产品——不是为了像谁，是因为用户看新闻的手势已经定型了，改反而增加成本。
 
-## 后端
+## 三、后端
 
 | 层 | 选型 |
 |---|---|
@@ -59,7 +59,7 @@ xftt-mycat     8066    分库分表中间件
 
 公共库 `xftt-common / xftt-utils / xftt-apis / xftt-model` 单独抽出来，是因为十个服务都要用同一套 DTO 和工具，复制粘贴迟早会分叉。
 
-## 为什么拆五个库
+## 四、为什么拆五个库
 
 ```
 AppInfo    用户、文章、评论
@@ -71,7 +71,7 @@ Admin      管理员与权限
 
 行为日志写入量是文章表的几十倍，混在一起会把主业务的查询拖垮。拆开之后 Behavior 库单独扩容，其他库不受影响。热点文章的分片键是自定义的，不按文章 ID 直接取模——热点内容集中在一篇上，按 ID 分片会把压力全压到一个库。
 
-## 跑起来
+## 五、跑起来
 
 ```bash
 # 依赖：Nacos 单机、MySQL、Redis、Kafka、ZooKeeper、ES、FastDFS
@@ -93,7 +93,7 @@ cd xftt-web/xftt-admin   && npm install && npm run dev      # :8082
 
 环境要求：JDK 25、Maven 3.9+、Node 18 LTS+。端口表、Nacos 配置集和常见坑见[环境搭建与启动指南](docs/环境搭建与启动指南.md)。
 
-## 截图
+## 六、截图
 
 三张功能截图原来挂在阿里云 OSS 的临时签名地址上，`Expires` 是 2026-05-16，到期即失效，现在打开只会看到裂图。已经把它们从 README 里摘掉，免得一直占着位置。
 
@@ -107,7 +107,7 @@ cd xftt-web/xftt-admin   && npm install && npm run dev      # :8082
 
 图片进仓库，别再引外部临时地址——签名一过期，README 就是空白，这种事发生过一次就够了。
 
-## 文档
+## 七、文档
 
 先读 [文档中心](docs/README.md)，再按顺序：
 
@@ -123,10 +123,10 @@ cd xftt-web/xftt-admin   && npm install && npm run dev      # :8082
 | 8 | [开发规范](docs/开发规范.md) | 编码、分支、提交 |
 | 9 | [变更日志](CHANGELOG.md) | 版本记录 |
 
-## 许可
+## 八、许可
 
 Apache-2.0，见 [LICENSE](LICENSE)。
 
-## 联系
+## 九、联系
 
 前端仓库：[xftt-portal](https://gitee.com/itxinfei/xftt-portal) ｜ QQ 747011882 ｜ 邮箱 747011882@qq.com
