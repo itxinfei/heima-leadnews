@@ -95,17 +95,17 @@ cd xftt-web/xftt-admin   && npm install && npm run dev      # :8082
 
 ## 截图
 
-APP：
+三张功能截图原来挂在阿里云 OSS 的临时签名地址上，`Expires` 是 2026-05-16，到期即失效，现在打开只会看到裂图。已经把它们从 README 里摘掉，免得一直占着位置。
 
-![APP](https://broadscope-dialogue-new.oss-cn-beijing.aliyuncs.com/output/20250516/16647e76ac21a04f586176b03858a1b6.png?Expires=1778894083&OSSAccessKeyId=LTAI5tL97mBYzVcjkG1cUyin&Signature=WiMEbH6W4nkSQIpEp%2FgaT0A0X6I%3D)
+重新截图后放到 `docs/images/screenshots/`，按这三个文件名引用：
 
-自媒体后台：
+| 文件 | 内容 |
+|---|---|
+| `app.png` | 用户端（APP H5 或真机） |
+| `wemedia.png` | 自媒体后台 |
+| `admin.png` | 管理后台 |
 
-![WeMedia](https://broadscope-dialogue-new.oss-cn-beijing.aliyuncs.com/output/20250516/f063d0e70f0abeca273018be557b0fd3.png?Expires=1778894083&OSSAccessKeyId=LTAI5tL97mBYzVcjkG1cUyin&Signature=4igLiywn2z3eZBQqnW3sKH0jGYg%3D)
-
-管理后台：
-
-![Admin](https://broadscope-dialogue-new.oss-cn-beijing.aliyuncs.com/output/20250516/b76428e6a09d058a30f3739af1e76562.png?Expires=1778894083&OSSAccessKeyId=LTAI5tL97mBYzVcjkG1cUyin&Signature=CD6IkQ1NdV7S8YGw%2FU3AZ5KGcig%3D)
+图片进仓库，别再引外部临时地址——签名一过期，README 就是空白，这种事发生过一次就够了。
 
 ## 文档
 
