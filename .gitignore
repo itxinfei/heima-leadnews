@@ -31,4 +31,5 @@ deploy/run/
 deploy/logs/
 
 # 前端构建产物
-heima-leadnews-portal-master/heima-leadnews-app/releases/
+xftt-portal/xftt-portal-app/releases/
+xftt-portal/xftt-portal-app/platforms/android/bundlejs/
