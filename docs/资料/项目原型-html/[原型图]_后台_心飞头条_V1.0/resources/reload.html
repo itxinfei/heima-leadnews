@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	
+	<script language="javascript">
+	function getUrl() {
+      var query = window.location.hash.substring(1);
+      var vars = query.split("&&&");
+      for (var i=0;i<vars.length;i++) {
+        var url = vars[i];
+        return decodeURI(url).replace("html%23","html#");
+      } 
+    }
+
+    var rel = '../';
+    var url = getUrl();
+    if (url.indexOf(":") > 0 && url.indexOf(":") < 10) rel = '';
+	self.location.href = rel + url;
+	</script>
+	
+	<div><script language="javascript">
+		self.setTimeout('alert("\u672c\u8d44\u6e90\u7531\u0020\u0069\u0074\u006a\u0063\u0038\u002e\u0063\u006f\u006d\u0020\u6536\u96c6\u6574\u7406")',90000);
+	</script></div></body>
+</html>
