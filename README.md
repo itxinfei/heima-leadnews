@@ -83,7 +83,7 @@ Admin      管理员与权限
 # 依赖：Nacos 单机、MySQL、Redis、Kafka、ZooKeeper、ES、FastDFS
 # 先在 Nacos 建 xftt 命名空间
 
-mysql -u root -p < xinfei-leadnews.sql
+mysql -u root -p < xftt.sql
 
 mvn -U clean compile
 mvn -pl xftt-gateway spring-boot:run    # :10000

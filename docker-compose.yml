@@ -21,7 +21,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./xinfei-leadnews.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./xftt.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - mysql-data:/var/lib/mysql
 
   redis:
