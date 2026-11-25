@@ -1,9 +1,10 @@
 # 心飞头条（xftt）docker-compose：核心基础设施 + 业务服务容器化
-# 说明：Kafka / ES / MinIO / MyCat 项目当前外置(192.168.20.130)，按需在下方 environment 追加或改用本地 service 接入。
+# 版本按《部署手册-中间件与数据》(2026-11) 定版：Nacos 3.3.0 / Redis 8.10.3 / MySQL 8.4.13。
+# 说明：Kafka / ES / MinIO / MyCat 由 192.168.20.88 提供（deploy/docker/xftt-extra），本文件不含。
 # 构建前提：项目根执行 mvn package 产出各模块 target/*.jar
 services:
   nacos:
-    image: nacos/nacos-server:v2.3.2
+    image: nacos/nacos-server:v3.3.0
     container_name: xftt-nacos
     environment:
       - MODE=standalone
@@ -25,7 +26,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   redis:
-    image: redis:7-alpine
+    image: redis:8.10.3
     container_name: xftt-redis
     ports:
       - "6379:6379"
