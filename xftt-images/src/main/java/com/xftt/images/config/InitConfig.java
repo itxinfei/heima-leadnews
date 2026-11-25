@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class InitConfig implements InitializingBean {
 
     /** 图片对外访问前缀，取自 minio.public-url（与 FILE_SERVER_URL 一致），替代旧 FastDFS 硬编码 IP */
-    @Value("${minio.public-url:http://192.168.20.130:9005/xftt/}")
+    @Value("${minio.public-url:http://192.168.20.88:9000/xftt/}")
     private String publicUrl;
 
     public static String PREFIX;

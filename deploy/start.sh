@@ -4,7 +4,8 @@
 set -uo pipefail
 
 # =================== 可配置区 ===================
-NACOS_SERVER="${NACOS_SERVER:-192.168.20.130:8848}"
+# 中间件宿主统一为 192.168.20.88（Nacos 3.3.0，命名空间 xftt）
+NACOS_SERVER="${NACOS_SERVER:-192.168.20.88:8848}"
 NAMESPACE="${NAMESPACE:-xftt}"
 PROFILES="${PROFILES:-prod}"
 JAVA_OPTS="${JAVA_OPTS:--Xms256m -Xmx512m}"

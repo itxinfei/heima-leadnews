@@ -2,12 +2,12 @@
   <h1>心飞头条</h1>
   <p>微服务 + 大数据的资讯平台，三端一体</p>
 
-  <img alt="JDK" src="https://img.shields.io/badge/JDK-25-brightgreen">
-  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-4.1.1-brightgreen">
+  <img alt="JDK" src="https://img.shields.io/badge/JDK-25.0.3-brightgreen">
+  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-4.1.3-brightgreen">
   <img alt="Spring Cloud" src="https://img.shields.io/badge/Spring%20Cloud-2025.1.3-orange">
-  <img alt="Kafka" src="https://img.shields.io/badge/Kafka-4.2.1-red">
-  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-9.4.5-red">
-  <img alt="Nacos" src="https://img.shields.io/badge/Nacos-3.x-blue">
+  <img alt="Kafka" src="https://img.shields.io/badge/Kafka-4.4.0-red">
+  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-9.5.7-red">
+  <img alt="Nacos" src="https://img.shields.io/badge/Nacos-3.3.0-blue">
   <img alt="Vue3" src="https://img.shields.io/badge/Vue-3-blueviolet">
   <img alt="uni-app" src="https://img.shields.io/badge/uni--app-Vue3-blueviolet">
   <br>
@@ -38,11 +38,11 @@
 
 | 层 | 选型 |
 |---|---|
-| 框架 | Spring Boot 4.1.1 + Spring Cloud 2025.1.3 + Gateway + OpenFeign |
-| 注册配置 | Nacos 3.x |
-| 消息 | Kafka 4.2.1 + Kafka Stream |
-| 存储 | MySQL 9.7.0（MyCat 分库分表）+ MongoDB + HBase |
-| 检索缓存 | Elasticsearch 9.4.5 + Redis |
+| 框架 | Spring Boot 4.1.3 + Spring Cloud 2025.1.3 + Gateway + OpenFeign |
+| 注册配置 | Nacos 3.3.0 |
+| 消息 | Kafka 4.4.0 + Kafka Stream |
+| 存储 | MySQL 8.4.13（MyCat 分库分表）+ MongoDB + HBase |
+| 检索缓存 | Elasticsearch 9.5.7 + Redis |
 | 其他 | FastDFS + ZooKeeper + Quartz，实名认证走 OCR + 人脸比对 |
 
 服务拆分：

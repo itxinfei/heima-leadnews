@@ -152,10 +152,14 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
         boolean isUnlike = false,isLike = false,isCollection = false,isFollow=false;
         String burst = BurstUtils.groudOne(apBehaviorEntry.getId());
 
-        //2，通过entryId和articleId去查看收藏表，看是否有数据，有数据就说明已经收藏，否则就是没有收藏
-        ApCollection apCollection = apCollectionMapper.selectForEntryId(burst, apBehaviorEntry.getId(), dto.getArticleId(), ApCollection.Type.ARTICLE.getCode());
-        if(apCollection!=null){
-            isCollection=true;
+        //2，收藏状态：按登录用户维度查询（与收藏上报、collections 列表口径一致，APP-F10）
+        if (user != null) {
+            ApCollection apCollection = apCollectionMapper.selectForEntryId(
+                    BurstUtils.groudOne(user.getId()), user.getId().intValue(),
+                    dto.getArticleId(), ApCollection.Type.ARTICLE.getCode());
+            if (apCollection != null) {
+                isCollection = true;
+            }
         }
         // 3，通过entryId和articleId去查看点赞表，看是否有数据，有数据就说明已经点赞，否则就是没有点赞
         ApLikesBehavior apLikesBehavior = apLikesBehaviorMapper.selectLastLike(burst, apBehaviorEntry.getId(), dto.getArticleId(), ApCollection.Type.ARTICLE.getCode());

@@ -4,6 +4,7 @@ import { onLoad } from '@dcloudio/uni-app'
 import { getDetail } from '../../api/article'
 import { createComment, getCommentList } from '../../api/comment'
 import { uploadLikesBehavior, uploadReadBehavior, loadArticleBehavior } from '../../api/behavior'
+import { saveCollection } from '../../api/user'
 import { getToken } from '../../utils/request'
 import type { ArticleDetail } from '../../types/api'
 import type { CommentItem } from '../../api/comment'
@@ -62,7 +63,12 @@ function handleFavorite(): void {
     uni.navigateTo({ url: '/pages/login/index' })
     return
   }
-  isFavorited.value = !isFavorited.value
+  const next = !isFavorited.value
+  isFavorited.value = next
+  // 收藏/取消收藏上报（APP-F10）：失败回滚本地状态
+  saveCollection(articleId.value, next ? 0 : 1).catch(() => {
+    isFavorited.value = !next
+  })
 }
 
 function handleShare(): void {

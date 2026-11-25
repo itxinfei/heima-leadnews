@@ -1,15 +1,50 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '../../store/user'
+import { getUserCenter, type UserCenterStats } from '../../api/user'
 
 const userStore = useUserStore()
+const stats = ref<UserCenterStats>({ follows: 0, fans: 0, collections: 0 })
+
+/** 拉取用户中心统计（APP-F09）；未登录时保持 0 */
+async function loadStats(): Promise<void> {
+  if (!userStore.isAuthenticated) {
+    stats.value = { follows: 0, fans: 0, collections: 0 }
+    return
+  }
+  try {
+    stats.value = await getUserCenter()
+  } catch {
+    // 统计失败静默，不打断页面
+  }
+}
 
 function goLogin(): void {
   uni.navigateTo({ url: '/pages/login/index' })
 }
 
+/** 进入关注/粉丝/收藏列表 */
+function goList(type: 'follows' | 'fans' | 'collections'): void {
+  if (!userStore.isAuthenticated) {
+    goLogin()
+    return
+  }
+  uni.navigateTo({ url: `/pages/user-list/index?type=${type}` })
+}
+
 function handleLogout(): void {
   userStore.logout()
 }
+
+/** 浏览历史尚未开放 */
+function handleHistory(): void {
+  uni.showToast({ title: '功能开发中', icon: 'none' })
+}
+
+onShow(() => {
+  loadStats()
+})
 </script>
 
 <template>
@@ -21,17 +56,31 @@ function handleLogout(): void {
         <text class="my-name">{{ userStore.isAuthenticated ? (userStore.nickName || '用户') : '未登录' }}</text>
       </view>
       <view class="my-stats">
-        <view class="my-stat"><text class="my-stat-num">0</text><text class="my-stat-label">关注</text></view>
-        <view class="my-stat"><text class="my-stat-num">0</text><text class="my-stat-label">粉丝</text></view>
-        <view class="my-stat"><text class="my-stat-num">0</text><text class="my-stat-label">收藏</text></view>
+        <view class="my-stat" @tap="goList('follows')">
+          <text class="my-stat-num">{{ stats.follows }}</text><text class="my-stat-label">关注</text>
+        </view>
+        <view class="my-stat" @tap="goList('fans')">
+          <text class="my-stat-num">{{ stats.fans }}</text><text class="my-stat-label">粉丝</text>
+        </view>
+        <view class="my-stat" @tap="goList('collections')">
+          <text class="my-stat-num">{{ stats.collections }}</text><text class="my-stat-label">收藏</text>
+        </view>
       </view>
     </view>
 
     <view class="my-menu">
-      <view class="my-menu-item"><text>我的收藏</text><text class="my-menu-arrow">›</text></view>
-      <view class="my-menu-item"><text>我的关注</text><text class="my-menu-arrow">›</text></view>
-      <view class="my-menu-item"><text>我的粉丝</text><text class="my-menu-arrow">›</text></view>
-      <view class="my-menu-item"><text>浏览历史</text><text class="my-menu-arrow">›</text></view>
+      <view class="my-menu-item" @tap="goList('collections')">
+        <text>我的收藏</text><text class="my-menu-arrow">›</text>
+      </view>
+      <view class="my-menu-item" @tap="goList('follows')">
+        <text>我的关注</text><text class="my-menu-arrow">›</text>
+      </view>
+      <view class="my-menu-item" @tap="goList('fans')">
+        <text>我的粉丝</text><text class="my-menu-arrow">›</text>
+      </view>
+      <view class="my-menu-item" @tap="handleHistory">
+        <text>浏览历史</text><text class="my-menu-arrow">›</text>
+      </view>
       <view v-if="userStore.isAuthenticated" class="my-menu-item" @tap="handleLogout">
         <text>退出登录</text><text class="my-menu-arrow">›</text>
       </view>

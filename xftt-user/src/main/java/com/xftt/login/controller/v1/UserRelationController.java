@@ -1,6 +1,7 @@
 package com.xftt.login.controller.v1;
 
 import com.xftt.model.common.dtos.ResponseResult;
+import com.xftt.model.user.dtos.CollectionDto;
 import com.xftt.model.user.dtos.UserRelationDto;
 import com.xftt.user.apis.UserRelationControllerApi;
 import com.xftt.login.service.AppUserCenterService;
@@ -48,5 +49,17 @@ public class UserRelationController implements UserRelationControllerApi {
     public ResponseResult collections(@RequestParam(required = false) Integer page,
                                       @RequestParam(required = false) Integer size) {
         return appUserCenterService.collections(page, size);
+    }
+
+    /** 收藏 / 取消收藏（APP-F10），operation：0 收藏，1 取消 */
+    @PostMapping("/collection")
+    public ResponseResult collection(@RequestBody CollectionDto dto) {
+        return appUserCenterService.collection(dto);
+    }
+
+    /** 用户中心统计：关注数 / 粉丝数 / 收藏数（APP-F09） */
+    @GetMapping("/user_center")
+    public ResponseResult userCenter() {
+        return appUserCenterService.userCenter();
     }
 }

@@ -1,0 +1,29 @@
+# 心飞头条 xftt —— 增量中间件（共享栈之外的遗留组件）
+# 版本/端口/凭据统一按《部署手册-中间件与数据》(2026-11) 定版执行：
+#   Kafka 4.4.0 / Elasticsearch(+Kibana) 9.5.7 / MongoDB 8.2.12 / ZooKeeper 3.9.3 /
+#   MySQL 8.4.13 / Redis 8.10.3 / Nacos 3.3.0 / MinIO RELEASE.2026-06-06T02-44-06Z /
+#   RabbitMQ 4.4.0 均由共享栈 /opt/middleware 提供（容器名无前缀），本文件不重复部署。
+# 默认地址统一 192.168.20.88，全部使用 §3 标准端口。
+
+name: xftt-extra
+
+services:
+  # ---------- HBase 2.6.7（手册 §2 遗留组件，仅 xftt 冷数据迁移使用）----------
+  # 本地构建：hbase/Dockerfile（Apache 官方二进制 2.6.7，镜像源无社区 2.6.x tag）
+  # 内置本地 ZK（容器内 2181，不映射主机），不占用共享 zookeeper:2181。
+  hbase:
+    build:
+      context: ./hbase
+    image: hbase:2.6.7
+    container_name: hbase
+    ports:
+      - "16000:16000"
+      - "16020:16020"
+      - "16010:16010"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G

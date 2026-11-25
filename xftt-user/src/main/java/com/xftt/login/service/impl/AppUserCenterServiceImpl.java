@@ -1,5 +1,6 @@
 package com.xftt.login.service.impl;
 
+import com.xftt.common.zookeeper.sequence.Sequences;
 import com.xftt.login.service.AppUserCenterService;
 import com.xftt.model.article.pojos.ApArticle;
 import com.xftt.model.article.pojos.ApCollection;
@@ -10,6 +11,7 @@ import com.xftt.model.mappers.app.ApArticleMapper;
 import com.xftt.model.mappers.app.ApCollectionMapper;
 import com.xftt.model.mappers.app.ApUserFanMapper;
 import com.xftt.model.mappers.app.ApUserFollowMapper;
+import com.xftt.model.user.dtos.CollectionDto;
 import com.xftt.model.user.pojos.ApUser;
 import com.xftt.model.user.pojos.ApUserFan;
 import com.xftt.model.user.pojos.ApUserFollow;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,9 @@ public class AppUserCenterServiceImpl implements AppUserCenterService {
 
     @Autowired
     private ApArticleMapper apArticleMapper;
+
+    @Autowired
+    private Sequences sequences;
 
     @Override
     public ResponseResult follows(Integer page, Integer size) {
@@ -100,6 +106,62 @@ public class AppUserCenterServiceImpl implements AppUserCenterService {
         PageResponseResult result = new PageResponseResult(ps[0], ps[1], total);
         result.setData(data);
         return result;
+    }
+
+    @Override
+    public ResponseResult collection(CollectionDto dto) {
+        ApUser user = requireLogin();
+        if (user == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+        if (dto.getArticleId() == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_REQUIRE, "articleId不能为空");
+        }
+        Short operation = dto.getOperation();
+        if (operation == null || operation < 0 || operation > 1) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID, "无效的operation参数");
+        }
+        ApArticle article = apArticleMapper.selectById(dto.getArticleId().longValue());
+        if (article == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST, "文章不存在");
+        }
+        String burst = BurstUtils.groudOne(user.getId());
+        Integer objectId = user.getId().intValue();
+        if (operation == 0) {
+            //收藏：已收藏则直接返回，避免重复插入
+            ApCollection exist = apCollectionMapper.selectForEntryId(burst, objectId, dto.getArticleId(), ApCollection.Type.ARTICLE.getCode());
+            if (exist != null) {
+                return ResponseResult.errorResult(AppHttpCodeEnum.DATA_EXIST, "已收藏");
+            }
+            ApCollection entity = new ApCollection();
+            entity.setId(sequences.sequenceApCollection());
+            entity.setBehaviorEntryId(objectId);
+            entity.setEntryId(dto.getArticleId());
+            entity.setType(ApCollection.Type.ARTICLE.getCode());
+            entity.setCollectionTime(new Date());
+            entity.setPublishedTime(article.getPublishTime());
+            entity.setBurst(BurstUtils.encrypt(entity.getId(), user.getId()));
+            return ResponseResult.okResult(apCollectionMapper.insert(entity));
+        }
+        //取消收藏
+        int rows = apCollectionMapper.deleteForEntryId(burst, objectId, dto.getArticleId(), ApCollection.Type.ARTICLE.getCode());
+        return rows > 0
+                ? ResponseResult.okResult(rows)
+                : ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST, "未收藏");
+    }
+
+    @Override
+    public ResponseResult userCenter() {
+        ApUser user = requireLogin();
+        if (user == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+        String burst = BurstUtils.groudOne(user.getId());
+        Map<String, Object> data = new HashMap<>();
+        data.put("follows", apUserFollowMapper.countByUserId(burst, user.getId()));
+        data.put("fans", apUserFanMapper.countFansByUserId(burst, user.getId().intValue()));
+        data.put("collections", apCollectionMapper.countCollectionsByEntry(burst, user.getId().intValue(), ApCollection.Type.ARTICLE.getCode()));
+        return ResponseResult.okResult(data);
     }
 
     private ApUser requireLogin() {

@@ -12,13 +12,13 @@ spring:
         server-addr: 192.168.20.88:8848
         namespace: xftt
         group: DEFAULT_GROUP
-        username: xinfei
+        username: xftt
         password: 123456
       config:
         server-addr: 192.168.20.88:8848
         namespace: xftt
         group: DEFAULT_GROUP
-        username: xinfei
+        username: xftt
         password: 123456
     gateway:
       server:

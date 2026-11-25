@@ -30,4 +30,18 @@
       /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
         select count(*) from ap_collection where behavior_entry_id = #{objectId} and type = #{type}
     </select>
+
+    <insert id="insert" parameterType="com.xftt.model.article.pojos.ApCollection">
+      /*!mycat:sql=insert into ap_collection (id) values ('${id}')*/
+        insert into ap_collection
+            (id, behavior_entry_id, entry_id, type, collection_time, published_time, burst)
+        values
+            (#{id}, #{behaviorEntryId}, #{entryId}, #{type}, #{collectionTime}, #{publishedTime}, #{burst})
+    </insert>
+
+    <delete id="deleteForEntryId">
+      /*!mycat:sql=delete from ap_collection where burst='${burst}'*/
+        delete from ap_collection
+        where behavior_entry_id = #{objectId} and entry_id = #{entryId} and type = #{type}
+    </delete>
 </mapper>

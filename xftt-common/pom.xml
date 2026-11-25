@@ -130,7 +130,7 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
         </dependency>
-        <!-- Elasticsearch 8 官方 Java Client -->
+        <!-- Elasticsearch 9 官方 Java Client（部署手册 §2：elasticsearch-java 9.5.x） -->
         <dependency>
             <groupId>co.elastic.clients</groupId>
             <artifactId>elasticsearch-java</artifactId>
@@ -165,7 +165,7 @@
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-client</artifactId>
-            <version>2.5.16</version>
+            <version>2.6.7</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

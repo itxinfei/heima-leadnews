@@ -17,4 +17,15 @@ public interface ApCollectionMapper {
                                                 @Param("type") Short type, @Param("offset") int offset, @Param("size") int size);
 
     int countCollectionsByEntry(@Param("burst") String burst, @Param("objectId") Integer objectId, @Param("type") Short type);
+
+    /**
+     * 收藏（APP-F10）：behavior_entry_id 存用户ID，与 collections 列表查询口径一致
+     */
+    int insert(ApCollection entity);
+
+    /**
+     * 取消收藏（APP-F10）
+     */
+    int deleteForEntryId(@Param("burst") String burst, @Param("objectId") Integer objectId,
+                         @Param("entryId") Integer entryId, @Param("type") Short type);
 }

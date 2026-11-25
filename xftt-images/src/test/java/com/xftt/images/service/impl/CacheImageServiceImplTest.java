@@ -34,7 +34,7 @@ class CacheImageServiceImplTest {
 
     @BeforeAll
     static void setupPrefix() {
-        InitConfig.PREFIX = "http://192.168.20.130:9005/xftt/";
+        InitConfig.PREFIX = "http://192.168.20.88:9000/xftt/";
     }
 
     private String resolve(String url) throws Exception {
@@ -45,7 +45,7 @@ class CacheImageServiceImplTest {
 
     @Test
     void resolve_fullUrl_stripsPrefix() throws Exception {
-        assertEquals("abc.jpg", resolve("http://192.168.20.130:9005/xftt/abc.jpg"));
+        assertEquals("abc.jpg", resolve("http://192.168.20.88:9000/xftt/abc.jpg"));
     }
 
     @Test
@@ -64,22 +64,22 @@ class CacheImageServiceImplTest {
         when(fastDfsClient.downFile("abc.jpg")).thenReturn(data);
         ValueOperations<String, String> ops = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(ops);
-        byte[] ret = service.cache2Redis("http://192.168.20.130:9005/xftt/abc.jpg", true);
+        byte[] ret = service.cache2Redis("http://192.168.20.88:9000/xftt/abc.jpg", true);
         assertArrayEquals(data, ret);
-        verify(ops).set("http://192.168.20.130:9005/xftt/abc.jpg", Base64Utils.encode(data), 86400L, TimeUnit.SECONDS);
+        verify(ops).set("http://192.168.20.88:9000/xftt/abc.jpg", Base64Utils.encode(data), 86400L, TimeUnit.SECONDS);
     }
 
     @Test
     void cache2Redis_noCache_whenIsCacheFalse() throws Exception {
         when(fastDfsClient.downFile("abc.jpg")).thenReturn("img".getBytes(StandardCharsets.UTF_8));
-        service.cache2Redis("http://192.168.20.130:9005/xftt/abc.jpg", false);
+        service.cache2Redis("http://192.168.20.88:9000/xftt/abc.jpg", false);
         verify(redisTemplate, never()).opsForValue();
     }
 
     @Test
     void cache2Redis_downThrows_returnsNull() throws Exception {
         when(fastDfsClient.downFile("abc.jpg")).thenThrow(new RuntimeException("minio down"));
-        byte[] ret = service.cache2Redis("http://192.168.20.130:9005/xftt/abc.jpg", true);
+        byte[] ret = service.cache2Redis("http://192.168.20.88:9000/xftt/abc.jpg", true);
         assertNull(ret);
         verify(redisTemplate, never()).opsForValue();
     }

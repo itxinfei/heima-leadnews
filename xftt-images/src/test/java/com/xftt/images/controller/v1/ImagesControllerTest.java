@@ -27,16 +27,16 @@ class ImagesControllerTest {
 
     @BeforeAll
     static void setupPrefix() {
-        InitConfig.PREFIX = "http://192.168.20.130:9005/xftt/";
+        InitConfig.PREFIX = "http://192.168.20.88:9000/xftt/";
     }
 
     @Test
     void getImage_hit_renewsCache() throws Exception {
         ValueOperations<String, String> ops = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(ops);
-        when(ops.get("http://192.168.20.130:9005/xftt/abc.jpg")).thenReturn(Base64Utils.encode(new byte[] { 1, 2, 3 }));
-        controller.getImage("http://192.168.20.130:9005/xftt/abc.jpg");
-        verify(cacheImageService).resetCache2Redis("http://192.168.20.130:9005/xftt/abc.jpg");
+        when(ops.get("http://192.168.20.88:9000/xftt/abc.jpg")).thenReturn(Base64Utils.encode(new byte[] { 1, 2, 3 }));
+        controller.getImage("http://192.168.20.88:9000/xftt/abc.jpg");
+        verify(cacheImageService).resetCache2Redis("http://192.168.20.88:9000/xftt/abc.jpg");
         verify(cacheImageService, never()).cache2Redis(anyString(), anyBoolean());
     }
 
@@ -44,10 +44,10 @@ class ImagesControllerTest {
     void getImage_miss_lazyCache() throws Exception {
         ValueOperations<String, String> ops = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(ops);
-        when(ops.get("http://192.168.20.130:9005/xftt/abc.jpg")).thenReturn(null);
-        when(cacheImageService.cache2Redis("http://192.168.20.130:9005/xftt/abc.jpg", true)).thenReturn(new byte[] { 1, 2, 3 });
-        controller.getImage("http://192.168.20.130:9005/xftt/abc.jpg");
-        verify(cacheImageService).cache2Redis("http://192.168.20.130:9005/xftt/abc.jpg", true);
+        when(ops.get("http://192.168.20.88:9000/xftt/abc.jpg")).thenReturn(null);
+        when(cacheImageService.cache2Redis("http://192.168.20.88:9000/xftt/abc.jpg", true)).thenReturn(new byte[] { 1, 2, 3 });
+        controller.getImage("http://192.168.20.88:9000/xftt/abc.jpg");
+        verify(cacheImageService).cache2Redis("http://192.168.20.88:9000/xftt/abc.jpg", true);
         verify(cacheImageService, never()).resetCache2Redis(anyString());
     }
 }

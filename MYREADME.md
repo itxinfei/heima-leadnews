@@ -1,6 +1,6 @@
 ### 后端工程说明
 
-后端工程基于 Spring Boot 4.1.1 + JDK 25 构建，工程父项目为 xftt，并通过继承方式集成 Spring Boot。
+后端工程基于 Spring Boot 4.1.3 + JDK 25.0.3 构建，工程父项目为 xftt，并通过继承方式集成 Spring Boot。
 
 【父项目下分4个公共子项目】：
 

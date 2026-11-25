@@ -19,6 +19,10 @@
     {
       "path": "pages/search/index",
       "style": { "navigationBarTitleText": "搜索" }
+    },
+    {
+      "path": "pages/user-list/index",
+      "style": { "navigationBarTitleText": "列表", "enablePullDownRefresh": true }
     }
   ],
   "globalStyle": {
