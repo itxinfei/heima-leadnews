@@ -60,7 +60,7 @@
         <mybatis.spring.version>4.1.0</mybatis.spring.version>
         <pagehelper.version>6.1.1</pagehelper.version>
         <jsoup.version>1.24.1</jsoup.version>
-        <jwt.version>0.12.6</jwt.version>
+        <jwt.version>0.13.0</jwt.version>
         <hanlp.version>portable-1.8.6</hanlp.version>
         <ali.core.version>4.7.10</ali.core.version>
         <ali.green.version>3.6.6</ali.green.version>
