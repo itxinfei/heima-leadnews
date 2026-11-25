@@ -1,6 +1,8 @@
 package com.xftt.behavior.service.impl;
 
 import com.xftt.behavior.service.AppShowBehaviorService;
+import com.xftt.behavior.service.BehaviorEntryService;
+import com.xftt.common.zookeeper.sequence.Sequences;
 import com.xftt.model.behavior.dtos.ShowBehaviorDto;
 import com.xftt.model.behavior.pojos.ApBehaviorEntry;
 import com.xftt.model.behavior.pojos.ApShowBehavior;
@@ -27,6 +29,12 @@ public class AppShowBehaviorServiceImpl implements AppShowBehaviorService {
     @Autowired
     private ApShowBehaviorMapper apShowBehaviorMapper;
 
+    @Autowired
+    private BehaviorEntryService behaviorEntryService;
+
+    @Autowired
+    private Sequences sequences;
+
     @Override
     public ResponseResult saveShowBehavior(ShowBehaviorDto dto) {
         //获取用户信息，获取设备id
@@ -39,10 +47,8 @@ public class AppShowBehaviorServiceImpl implements AppShowBehaviorService {
         if(user!=null){
             userId=user.getId();
         }
-        ApBehaviorEntry apBehaviorEntry = apBehaviorEntryMapper.selectByUserIdOrEquipemntId(userId,dto.getEquipmentId());
-        if(apBehaviorEntry==null){
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
-        }
+        //行为实体不存在时自动创建，避免新用户首次行为上报报“无效参数”
+        ApBehaviorEntry apBehaviorEntry = behaviorEntryService.ensureEntry(userId, dto.getEquipmentId());
         //获取前台传递过来的文章列表id
 //        List<ApArticle> articleIds = dto.getArticleIds();
         Integer[] articleIds = new Integer[dto.getArticleIds().size()];
@@ -59,11 +65,13 @@ public class AppShowBehaviorServiceImpl implements AppShowBehaviorService {
                 integers.remove(articleId);
             });
         }
-        //保存操作
-        if(!integers.isEmpty()){
-            articleIds=new Integer[integers.size()];
-            integers.toArray(articleIds);
-            apShowBehaviorMapper.saveShowBehavior(articleIds,apBehaviorEntry.getId());
+        //保存操作（逐条插入，主键走 ZK 序列）
+        for (Integer articleId : integers) {
+            ApShowBehavior behavior = new ApShowBehavior();
+            behavior.setId(sequences.sequenceApShowBehavior().intValue());
+            behavior.setEntryId(apBehaviorEntry.getId());
+            behavior.setArticleId(articleId);
+            apShowBehaviorMapper.insert(behavior);
         }
 
 

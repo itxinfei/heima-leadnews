@@ -44,8 +44,19 @@ public interface ApArticleMapper {
      */
     List<ApArticle> selectList(ApArticle apArticle);
 
-    /** ES 回填批量拉取（BE-F04）：按 id 递增翻批 */
+        /** ES 回填批量拉取（BE-F04）：按 id 递增翻批 */
     List<ApArticle> selectBackfillBatch(@Param("lastId") Long lastId, @Param("limit") int limit);
+
+    /**
+     * APP-F19 相关推荐：同频道、排除当前文章、仅未删除，按发布时间倒序
+     *
+     * @param channelId  频道 ID
+     * @param excludeId  需排除的文章 ID（当前详情文章）
+     * @param limit      条数
+     */
+    List<ApArticle> selectRelated(@Param("channelId") Integer channelId,
+                                  @Param("excludeId") Integer excludeId,
+                                  @Param("limit") int limit);
     /**
      * 更新
      * @param apArticle

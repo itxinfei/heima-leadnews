@@ -16,17 +16,32 @@ import com.xftt.model.mappers.app.*;
 import com.xftt.model.user.pojos.ApUser;
 import com.xftt.model.user.pojos.ApUserFollow;
 import com.xftt.utils.common.BurstUtils;
+import com.xftt.utils.common.IdsUtils;
 import com.xftt.utils.common.ZipUtils;
 import com.xftt.utils.threadlocal.AppThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 @SuppressWarnings("all")
 public class AppArticleInfoServiceImpl implements AppArticleInfoService {
+
+    /** 数字 ID 混淆输出（与 IdEncrypt 序列化契约一致） */
+    private String encryptId(Number id) {
+        if (id == null) {
+            return null;
+        }
+        try {
+            return IdsUtils.encryptNumber(id.longValue());
+        } catch (Exception e) {
+            return String.valueOf(id);
+        }
+    }
 
 
     @Autowired
@@ -62,6 +77,9 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
         ApArticle apArticle = apArticleMapper.selectById(articleId.longValue());
         if(apArticle != null){
             data.put("article",apArticle);
+            // APP-F19：作者行信息（头像/昵称）与相关推荐列表
+            data.put("author", buildAuthorInfo(apArticle.getAuthorId()));
+            data.put("relatedArticles", buildRelatedArticles(apArticle));
         }
         data.put("config",apArticleConfig);
 
@@ -85,11 +103,12 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
         }
 
         Map<String,Object> data = new HashMap<>();
-        data.put("id",apArticle.getId());
+        // ID 统一按 IdEncrypt 契约输出加密串，供前端回传给行为/收藏等接口
+        data.put("id",encryptId(apArticle.getId()));
         data.put("title",apArticle.getTitle());
-        data.put("authorId",apArticle.getAuthorId());
+        data.put("authorId",encryptId(apArticle.getAuthorId()));
         data.put("authorName",apArticle.getAuthorName());
-        data.put("channelId",apArticle.getChannelId());
+        data.put("channelId",encryptId(apArticle.getChannelId()));
         data.put("channelName",apArticle.getChannelName());
         data.put("images",apArticle.getImages());
         data.put("labels",apArticle.getLabels());
@@ -106,6 +125,52 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
         data.put("content",apArticleContent != null ? ZipUtils.gunzip(apArticleContent.getContent()) : "");
 
         return ResponseResult.okResult(data);
+    }
+
+    /** APP-F19：组装作者行信息（作者名 + APP 账号头像） */
+    private Map<String, Object> buildAuthorInfo(Long authorId) {
+        Map<String, Object> author = new HashMap<>();
+        if (authorId == null) {
+            return author;
+        }
+        ApAuthor apAuthor = apAuthorMapper.selectById(authorId.intValue());
+        if (apAuthor == null) {
+            return author;
+        }
+        author.put("id", encryptId(apAuthor.getId()));
+        author.put("name", apAuthor.getName());
+        String avatar = null;
+        if (apAuthor.getUserId() != null) {
+            ApUser user = apUserMapper.selectById(apAuthor.getUserId().intValue());
+            if (user != null) {
+                avatar = user.getImage();
+            }
+        }
+        author.put("avatar", avatar);
+        return author;
+    }
+
+    /** APP-F19：相关推荐（同频道最新 6 篇，ID 按契约加密输出） */
+    private List<Map<String, Object>> buildRelatedArticles(ApArticle apArticle) {
+        List<ApArticle> list = apArticleMapper.selectRelated(
+                apArticle.getChannelId(), apArticle.getId(), 6);
+        List<Map<String, Object>> result = new ArrayList<>();
+        if (list == null) {
+            return result;
+        }
+        for (ApArticle item : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", encryptId(item.getId()));
+            map.put("title", item.getTitle());
+            map.put("authorId", encryptId(item.getAuthorId()));
+            map.put("authorName", item.getAuthorName());
+            map.put("images", item.getImages());
+            map.put("comment", item.getComment());
+            map.put("views", item.getViews());
+            map.put("publishTime", item.getPublishTime());
+            result.add(map);
+        }
+        return result;
     }
 
     @Autowired
@@ -125,6 +190,9 @@ public class AppArticleInfoServiceImpl implements AppArticleInfoService {
 
     @Autowired
     private ApUserFollowMapper apUserFollowMapper;
+
+    @Autowired
+    private ApUserMapper apUserMapper;
 
     @Override
     public ResponseResult loadArticleBehavior(ArticleInfoDto dto) {

@@ -8,10 +8,10 @@ import com.xftt.model.common.enums.AppHttpCodeEnum;
 import com.xftt.model.mappers.app.ApBehaviorEntryMapper;
 import com.xftt.model.mappers.app.ApFollowBehaviorMapper;
 import com.xftt.model.user.pojos.ApUser;
+import com.xftt.common.zookeeper.sequence.Sequences;
 import com.xftt.login.service.AppFollowBehaviorService;
 import com.xftt.utils.threadlocal.AppThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,8 +26,11 @@ public class AppFollowBehaviorServiceImpl implements AppFollowBehaviorService {
     @Autowired
     private ApFollowBehaviorMapper apFollowBehaviorMapper;
 
+    @Autowired
+    private Sequences sequences;
+
     @Override
-    @Async
+    // 关注行为随主流程同步落库：@Async 方法返回值只能是 void/Future，且异步线程丢失登录上下文
     public ResponseResult saveFollowBehavior(FollowBehaviorDto dto) {
 //        int a = 1/0;
         ApUser user = AppThreadLocalUtils.getUser();
@@ -44,6 +47,7 @@ public class AppFollowBehaviorServiceImpl implements AppFollowBehaviorService {
         }
         //保存行为
         ApFollowBehavior alb = new ApFollowBehavior();
+        alb.setId(sequences.sequenceApFollowBehavior());
         alb.setEntryId(apBehaviorEntry.getId());
         alb.setArticleId(dto.getArticleId());
         alb.setFollowId(dto.getFollowId());

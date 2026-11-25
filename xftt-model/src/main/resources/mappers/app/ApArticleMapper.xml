@@ -203,5 +203,22 @@
     UPDATE ap_article SET sync_status = #{syncStatus} WHERE id=#{id}
 </update>
 
+    <!-- APP-F19 相关推荐：同频道、排除当前文章、仅未删除，按发布时间倒序 -->
+    <select id="selectRelated" resultMap="resultMap">
+        select
+        aa.id, aa.title, aa.author_id, aa.author_name, aa.channel_id, aa.channel_name,
+        aa.layout, aa.flag, aa.images, aa.labels, aa.likes, aa.collection, aa.comment,
+        aa.views, aa.province_id, aa.city_id, aa.county_id, aa.created_time,
+        aa.publish_time, aa.sync_status
+        from ap_article aa
+        inner join ap_article_config ac on ac.article_id = aa.id and ac.is_delete = 0
+        where aa.id != #{excludeId}
+        <if test="channelId != null">
+            and aa.channel_id = #{channelId}
+        </if>
+        order by aa.publish_time desc
+        limit #{limit}
+    </select>
+
 
 </mapper>

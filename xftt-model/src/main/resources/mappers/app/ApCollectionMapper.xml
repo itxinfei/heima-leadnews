@@ -16,23 +16,23 @@
   </sql>
 
     <select id="selectForEntryId" resultMap="BaseResultMap">
-      /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
+      /*mycat:sql=select id from ap_collection where burst='${burst}'*/
         select * from ap_collection where behavior_entry_id=#{objectId} and entry_id=#{entryId} and type=#{type}
     </select>
     <select id="selectCollectionsByEntry" resultMap="BaseResultMap">
-      /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
+      /*mycat:sql=select id from ap_collection where burst='${burst}'*/
         select <include refid="Base_Column_List" /> from ap_collection
         where behavior_entry_id = #{objectId} and type = #{type}
         order by collection_time desc limit #{offset}, #{size}
     </select>
 
     <select id="countCollectionsByEntry" resultType="int">
-      /*!mycat:sql=select id from ap_collection where burst='${burst}'*/
+      /*mycat:sql=select id from ap_collection where burst='${burst}'*/
         select count(*) from ap_collection where behavior_entry_id = #{objectId} and type = #{type}
     </select>
 
     <insert id="insert" parameterType="com.xftt.model.article.pojos.ApCollection">
-      /*!mycat:sql=insert into ap_collection (id) values ('${id}')*/
+      /*mycat:sql=insert into ap_collection (id) values ('${id}')*/
         insert into ap_collection
             (id, behavior_entry_id, entry_id, type, collection_time, published_time, burst)
         values
@@ -40,7 +40,7 @@
     </insert>
 
     <delete id="deleteForEntryId">
-      /*!mycat:sql=delete from ap_collection where burst='${burst}'*/
+      /*mycat:sql=delete from ap_collection where burst='${burst}'*/
         delete from ap_collection
         where behavior_entry_id = #{objectId} and entry_id = #{entryId} and type = #{type}
     </delete>

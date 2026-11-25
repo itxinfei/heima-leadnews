@@ -14,12 +14,12 @@
 
     <select id="selectByUserIdOrEquipemntId" resultMap="BaseResultMap">
         <if test="userId!=null">
-            /*!mycat:sql=select id from ap_behavior_entry where burst='0-${userId}'*/
+            /*mycat:sql=select id from ap_behavior_entry where burst='0-${userId}'*/
             select * from ap_behavior_entry a where  a.entry_id=#{userId} and type=1 limit 1
         </if>
 
         <if test="userId==null and equipmentId!=null">
-            /*!mycat:sql=select id from ap_behavior_entry where burst='0-${equipmentId}'*/
+            /*mycat:sql=select id from ap_behavior_entry where burst='0-${equipmentId}'*/
             select * from ap_behavior_entry a where  a.entry_id=#{equipmentId} and type=0 limit 1
         </if>
     </select>
@@ -28,5 +28,10 @@
     <select id="selectAllEntry" resultMap="BaseResultMap" >
     select * from ap_behavior_entry
 </select>
+
+    <insert id="insert" parameterType="com.xftt.model.behavior.pojos.ApBehaviorEntry">
+        insert into ap_behavior_entry (id, type, entry_id, created_time, burst)
+        values (#{id}, #{type}, #{entryId}, #{createdTime}, #{burst})
+    </insert>
 
 </mapper>

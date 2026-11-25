@@ -13,8 +13,8 @@
     id, entry_id, article_id, follow_id, created_time
   </sql>
     <insert id="insert" parameterType="com.xftt.model.behavior.pojos.ApFollowBehavior" >
-    insert into ap_follow_behavior (entry_id, article_id, follow_id, created_time)
-    values ( #{entryId}, #{articleId},#{followId}, #{createdTime})
+    insert into ap_follow_behavior (id, entry_id, article_id, follow_id, created_time)
+    values (#{id}, #{entryId}, #{articleId}, #{followId}, #{createdTime})
   </insert>
 
 

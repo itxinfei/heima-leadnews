@@ -25,7 +25,7 @@
 
 	<select id="findByTimeAndUserId"
 			resultType="com.xftt.model.media.pojos.WmNewsStatistics">
-		/*!mycat:sql=select id from wm_news_statistics where burst='${burst}'*/
+		/*mycat:sql=select id from wm_news_statistics where burst='${burst}'*/
 		select <include refid="Base_Column_List"/>
 		from wm_news_statistics
 		<where>

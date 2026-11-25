@@ -18,23 +18,23 @@
     id, user_id, fans_id, fans_name, level, created_time, is_display, is_shield_letter,is_shield_comment
   </sql>
     <select id="selectByFansId" resultMap="BaseResultMap">
-        /*!mycat:sql=select id from ap_user_fan where burst='${burst}'*/
+        /*mycat:sql=select id from ap_user_fan where burst='${burst}'*/
         select <include refid="Base_Column_List" /> from ap_user_fan where user_id = #{userId} and  fans_id = #{fansId}
     </select>
 
     <delete id="deleteByFansId">
-    /*!mycat:sql=select id from ap_user_fan where burst='${burst}'*/
+    /*mycat:sql=select id from ap_user_fan where burst='${burst}'*/
     delete from ap_user_fan where user_id = #{userId} and  fans_id = #{fansId}
     </delete>
 
     <select id="selectFansByUserId" resultMap="BaseResultMap">
-        /*!mycat:sql=select id from ap_user_fan where burst='${burst}'*/
+        /*mycat:sql=select id from ap_user_fan where burst='${burst}'*/
         select <include refid="Base_Column_List" /> from ap_user_fan where user_id = #{userId}
         order by created_time desc limit #{offset}, #{size}
     </select>
 
     <select id="countFansByUserId" resultType="int">
-        /*!mycat:sql=select id from ap_user_fan where burst='${burst}'*/
+        /*mycat:sql=select id from ap_user_fan where burst='${burst}'*/
         select count(*) from ap_user_fan where user_id = #{userId}
     </select>
 

@@ -23,12 +23,9 @@
         )
     </select>
 
-    <insert id="saveShowBehavior" >
-        /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */
-        insert into ap_show_behavior (entry_id, article_id,is_click, show_time, created_time) values
-        <foreach item="item" collection="articleIds" separator=",">
-            (#{entryId}, #{item},0, now(),now())
-        </foreach>
+    <insert id="insert" parameterType="com.xftt.model.behavior.pojos.ApShowBehavior">
+        insert into ap_show_behavior (id, entry_id, article_id, is_click, show_time, created_time)
+        values (#{id}, #{entryId}, #{articleId}, 0, now(), now())
     </insert>
 
 </mapper>

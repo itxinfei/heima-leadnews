@@ -9,4 +9,7 @@ public interface ApBehaviorEntryMapper {
     ApBehaviorEntry selectByUserIdOrEquipemntId(@Param("userId") Long userId,@Param("equipmentId") Integer equipmentId);
 
     List<ApBehaviorEntry> selectAllEntry();
+
+    /** 新增行为实体（用户或设备） */
+    int insert(ApBehaviorEntry entry);
 }

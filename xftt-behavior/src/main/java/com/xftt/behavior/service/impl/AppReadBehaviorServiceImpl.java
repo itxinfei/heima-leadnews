@@ -2,6 +2,7 @@ package com.xftt.behavior.service.impl;
 
 import com.xftt.behavior.kafka.BehaviorMessageSender;
 import com.xftt.behavior.service.AppReadBehaviorService;
+import com.xftt.behavior.service.BehaviorEntryService;
 import com.xftt.common.kafka.messages.behavior.UserReadMessage;
 import com.xftt.common.zookeeper.sequence.Sequences;
 import com.xftt.model.behavior.dtos.ReadBehaviorDto;
@@ -35,6 +36,9 @@ public class AppReadBehaviorServiceImpl implements AppReadBehaviorService {
     @Autowired
     private BehaviorMessageSender behaviorMessageSender;
 
+    @Autowired
+    private BehaviorEntryService behaviorEntryService;
+
     @Override
     public ResponseResult saveReadBehavior(ReadBehaviorDto dto) {
 
@@ -48,10 +52,8 @@ public class AppReadBehaviorServiceImpl implements AppReadBehaviorService {
         if(user!=null){
             userId=user.getId();
         }
-        ApBehaviorEntry apBehaviorEntry = apBehaviorEntryMapper.selectByUserIdOrEquipemntId(userId,dto.getEquipmentId());
-        if(apBehaviorEntry==null){
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
-        }
+        //行为实体不存在时自动创建，避免新用户首次行为上报报“无效参数”
+        ApBehaviorEntry apBehaviorEntry = behaviorEntryService.ensureEntry(userId, dto.getEquipmentId());
         //查询
         ApReadBehavior apReadBehavior = apReadBehaviorMapper.selectByEntryId(BurstUtils.groudOne(apBehaviorEntry.getId()), apBehaviorEntry.getId(), dto.getArticleId());
         boolean isInsert = false;

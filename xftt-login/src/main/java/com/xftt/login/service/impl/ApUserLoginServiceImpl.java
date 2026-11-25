@@ -62,10 +62,11 @@ public class ApUserLoginServiceImpl implements ApUserLoginService {
             return ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_PASSWORD_ERROR);
         }
 
-        user.setPassword("");
+        // 返回库中完整用户信息（含 id/name），并清空密码
+        dbUser.setPassword("");
         Map<String,Object> map = new HashMap<>();
-        map.put("token", AppJwtUtil.getToken(user));
-        map.put("user",user);
+        map.put("token", AppJwtUtil.getToken(dbUser));
+        map.put("user",dbUser);
 
         return ResponseResult.okResult(map);
     }

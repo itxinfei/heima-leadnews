@@ -1,6 +1,8 @@
 package com.xftt.behavior.service.impl;
 
 import com.xftt.behavior.service.AppUnLikesBehaviorService;
+import com.xftt.behavior.service.BehaviorEntryService;
+import com.xftt.common.zookeeper.sequence.Sequences;
 import com.xftt.model.behavior.dtos.UnLikesBehaviorDto;
 import com.xftt.model.behavior.pojos.ApBehaviorEntry;
 import com.xftt.model.behavior.pojos.ApUnlikesBehavior;
@@ -25,6 +27,12 @@ public class AppUnLikesBehaviorServiceImpl implements AppUnLikesBehaviorService 
     @Autowired
     private ApUnlikesBehaviorMapper apUnlikesBehaviorMapper;
 
+    @Autowired
+    private BehaviorEntryService behaviorEntryService;
+
+    @Autowired
+    private Sequences sequences;
+
     @Override
     public ResponseResult saveUnLikesBehavior(UnLikesBehaviorDto dto) {
         //获取用户信息，获取设备id
@@ -37,12 +45,11 @@ public class AppUnLikesBehaviorServiceImpl implements AppUnLikesBehaviorService 
         if(user!=null){
             userId=user.getId();
         }
-        ApBehaviorEntry apBehaviorEntry = apBehaviorEntryMapper.selectByUserIdOrEquipemntId(userId,dto.getEquipmentId());
-        if(apBehaviorEntry==null){
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
-        }
+        //行为实体不存在时自动创建，避免新用户首次行为上报报“无效参数”
+        ApBehaviorEntry apBehaviorEntry = behaviorEntryService.ensureEntry(userId, dto.getEquipmentId());
 
         ApUnlikesBehavior alb = new ApUnlikesBehavior();
+        alb.setId(sequences.sequenceApUnlikes());
         alb.setEntryId(apBehaviorEntry.getId());
         alb.setCreatedTime(new Date());
         alb.setArticleId(dto.getArticleId());

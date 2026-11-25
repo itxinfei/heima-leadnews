@@ -64,3 +64,7 @@ bak.sql
 ### 本地环境变量 ###
 .env
 .env.local
+
+# 本地一次性调试脚本（含硬编码库口令，不入库）
+deploy/docker/scripts/_*.sh
+

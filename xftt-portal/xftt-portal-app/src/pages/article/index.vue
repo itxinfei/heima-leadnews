@@ -4,7 +4,7 @@
         <scroller class="scroller" ref="scroller" @scroll="scroller" show-scrollbar="true">
             <text class="title">{{title}}</text>
             <div class="info">
-                <image src="https://p3.pstatp.com/thumb/1480/7186611868" class="head"></image>
+                <image :src="authorAvatar" class="head"></image>
                 <div class="more">
                     <text class="author">{{source}}</text>
                     <text class="time">{{formatDate(date)}}</text>
@@ -24,6 +24,19 @@
                 <Button text="不喜欢" @onClick="unlike" :icon='icon.unlike' :active="relation.isunlike" />
 <!--                <Button text="微信" :icon='icon.wechat' @onClick="share(0)"/>-->
 <!--                <Button text="朋友圈" :icon='icon.friend' @onClick="share(1)"/>-->
+            </div>
+            <div class="related" v-if="related.length > 0">
+                <text class="related-title">相关推荐</text>
+                <div class="related-item" v-for="item in related" :key="item.id" @click="openRelated(item)">
+                    <div class="related-info">
+                        <text class="related-article-title">{{item.title}}</text>
+                        <div class="related-meta">
+                            <text class="related-author">{{item.author_name}}</text>
+                            <text class="related-comment">{{item.comment}} 评论</text>
+                        </div>
+                    </div>
+                    <image class="related-image" v-if="firstImage(item.images)" :src="firstImage(item.images)"></image>
+                </div>
             </div>
         </scroller>
         <div class="art-bottom"><BottomBar :forward="test.isforward" @clickForward="forward"
@@ -56,6 +69,9 @@
                 imageHeight : {},
                 config:{},//文章配置
                 content:{},//文章内容
+                // APP-F19：作者行与相关推荐
+                authorAvatar:'https://p3.pstatp.com/thumb/1480/7186611868',
+                related:[],
                 relation:{
                     islike: false,
                     isunlike: false,
@@ -116,6 +132,17 @@
                             temp = temp.content
                             this.content = eval("("+temp+")")
                             this.time.loadOff=false;//关闭加载时间的记录
+                            // APP-F19：作者头像与昵称优先取详情接口返回的真实数据
+                            let author = d.data['author'];
+                            if(author){
+                                if(author.avatar){
+                                    this.authorAvatar = author.avatar;
+                                }
+                                if(author.name){
+                                    this.source = author.name;
+                                }
+                            }
+                            this.related = d.data['relatedArticles'] || [];
                         }else{
                             modal.toast({message:'文章已被删除',duration:3})
                         }
@@ -210,6 +237,33 @@
             read : function(){
                 clearInterval( this.time.timer)
                 Api.read({articleId:this.id,readDuration:this.time.readDuration,percentage:this.time.percentage,loadDuration:this.time.loadDuration});
+            },
+            // APP-F19：解析 "[a,b]" 形式的多图字符串，取第一张
+            firstImage : function(images){
+                if(!images){return null}
+                let ims = images.replace(/[\[\]]/ig,'').split(',')
+                return ims.length > 0 ? ims[0] : null
+            },
+            // APP-F19：点击相关推荐跳转详情
+            openRelated : function(item){
+                let ims = []
+                if(item.images){
+                    ims = item.images.replace(/[\[\]]/ig,'').split(',')
+                }
+                this.$router.push({
+                    name:'article-info',
+                    params:{
+                        id:item.id,
+                        title:item.title,
+                        comment:item.comment,
+                        authorId:item.author_id,
+                        source:item.author_name,
+                        date:item.publish_time,
+                        type:ims.length==2?1:ims.length,
+                        image:ims,
+                        icon:'\uf06d'
+                    }
+                })
             },
             formatDate:function(time){
                 return this.$date.format13(time);
@@ -332,5 +386,52 @@
         flex-direction: row;
         height: 60px;
         justify-content: center;
+    }
+    /* APP-F19 相关推荐 */
+    .related{
+        flex-direction: column;
+        margin-bottom: 40px;
+    }
+    .related-title{
+        font-size: 30px;
+        font-weight: bold;
+        color: #383839;
+        margin: 10px 0px 20px;
+    }
+    .related-item{
+        flex-direction: row;
+        align-items: center;
+        padding: 15px 0px;
+        border-bottom-width: 1px;
+        border-bottom-color: #eee;
+    }
+    .related-info{
+        flex: 1;
+        flex-direction: column;
+        margin-right: 15px;
+    }
+    .related-article-title{
+        font-size: 28px;
+        color: #222;
+        lines: 2;
+        text-overflow: ellipsis;
+    }
+    .related-meta{
+        flex-direction: row;
+        margin-top: 10px;
+    }
+    .related-author{
+        font-size: 22px;
+        color: #b5b5b5;
+        margin-right: 20px;
+    }
+    .related-comment{
+        font-size: 22px;
+        color: #b5b5b5;
+    }
+    .related-image{
+        width: 200px;
+        height: 130px;
+        border-radius: 5px;
     }
 </style>

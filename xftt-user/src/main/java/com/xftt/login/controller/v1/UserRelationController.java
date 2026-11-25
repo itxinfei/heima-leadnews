@@ -2,6 +2,7 @@ package com.xftt.login.controller.v1;
 
 import com.xftt.model.common.dtos.ResponseResult;
 import com.xftt.model.user.dtos.CollectionDto;
+import com.xftt.model.user.dtos.ProfileDto;
 import com.xftt.model.user.dtos.UserRelationDto;
 import com.xftt.user.apis.UserRelationControllerApi;
 import com.xftt.login.service.AppUserCenterService;
@@ -61,5 +62,11 @@ public class UserRelationController implements UserRelationControllerApi {
     @GetMapping("/user_center")
     public ResponseResult userCenter() {
         return appUserCenterService.userCenter();
+    }
+
+    /** 资料编辑：昵称/头像/性别（APP-F12） */
+    @PostMapping("/profile")
+    public ResponseResult updateProfile(@RequestBody ProfileDto dto) {
+        return appUserCenterService.updateProfile(dto);
     }
 }

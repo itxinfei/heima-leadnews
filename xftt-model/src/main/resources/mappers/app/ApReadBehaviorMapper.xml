@@ -19,7 +19,7 @@
   </sql>
     <!-- 使用注解方式指明SQL执行的DN -->
     <select id="selectByEntryId" resultMap="BaseResultMap">
-        /*!mycat:sql=select id from ap_read_behavior where burst='${burst}'*/
+        /*mycat:sql=select id from ap_read_behavior where burst='${burst}'*/
         select  <include refid="Base_Column_List" /> from ap_read_behavior where entry_id = #{entryId} and article_id=#{articleId}
     </select>
 
@@ -31,7 +31,7 @@
   </insert>
 
     <update id="update" parameterType="com.xftt.model.behavior.pojos.ApReadBehavior" >
-        /*!mycat:sql=select id from ap_read_behavior where burst='${burst}'*/
+        /*mycat:sql=select id from ap_read_behavior where burst='${burst}'*/
         update ap_read_behavior
         <set >
             <if test="readDuration != null" >

@@ -36,10 +36,12 @@
 | Redis | `192.168.20.130:6379` | 密码 `123456` | 缓存 / 登录态 |
 | Kafka | `192.168.20.130:9092` | — | 行为 / 文章消息 |
 | Elasticsearch | `http://192.168.20.130:9200` | — | 文章检索 |
-| MinIO（对象存储） | `http://192.168.20.130:9005` | `ruoyi` / `12345678` | 素材 / 图片（替换原 FastDFS） |
+| MinIO/RustFS（对象存储） | `http://192.168.20.88:9000` | `minioadmin` / `itxinfei123` | 素材 / 图片（替换原 FastDFS；运行时已由共享栈换为 **RustFS**，S3 兼容） |
 | MongoDB | `192.168.20.130:27017` | db `xftt` | 热点数据 |
 | ZooKeeper / HBase | `192.168.20.130:2181` | — | 序列号 / 冷数据 |
 | Nacos | `192.168.20.130:8848` | `xinfei` / `123456` | 注册 / 配置 |
+
+> 注：上表主体为旧环境历史记录；**现行环境统一 `192.168.20.88`**，账号 `xftt/123456`，对象存储为 RustFS（端口 9000/9001，桶 `xftt`）。以《中间件部署方案》v8 为准。
 
 ---
 
@@ -102,12 +104,12 @@ spring.elasticsearch.uris=http://192.168.20.130:9200
 spring.elasticsearch.connection-timeout=20s
 spring.elasticsearch.socket-timeout=20s
 
-# ============ MinIO（对象存储，替换 FastDFS）============
-minio.endpoint=http://192.168.20.130:9005
-minio.access-key=ruoyi
-minio.secret-key=12345678
+# ============ 对象存储（RustFS，S3 兼容；替换 FastDFS）============
+minio.endpoint=http://192.168.20.88:9000
+minio.access-key=minioadmin
+minio.secret-key=itxinfei123
 minio.bucket=xftt
-minio.public-url=http://192.168.20.130:9005/xftt/
+minio.public-url=http://192.168.20.88:9000/xftt/
 
 # ============ MongoDB ============
 mongo.host=192.168.20.130

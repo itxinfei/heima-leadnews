@@ -16,22 +16,22 @@
     id, user_id, follow_id, follow_name, level, is_notice, created_time
   </sql>
     <select id="selectByFollowId" resultMap="BaseResultMap" >
-    /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
+    /*mycat:sql=select id from ap_user_follow where burst='${burst}'*/
     select * from ap_user_follow where user_id = #{userId} and  follow_id = #{followId}
   </select>
 
     <delete id="deleteByFollowId">
-    /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
+    /*mycat:sql=select id from ap_user_follow where burst='${burst}'*/
     delete from ap_user_follow where user_id = #{userId} and  follow_id = #{followId}
     </delete>
     <select id="selectFollowsByUserId" resultMap="BaseResultMap">
-        /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
+        /*mycat:sql=select id from ap_user_follow where burst='${burst}'*/
         select <include refid="Base_Column_List" /> from ap_user_follow where user_id = #{userId}
         order by created_time desc limit #{offset}, #{size}
     </select>
 
     <select id="countByUserId" resultType="int">
-        /*!mycat:sql=select id from ap_user_follow where burst='${burst}'*/
+        /*mycat:sql=select id from ap_user_follow where burst='${burst}'*/
         select count(*) from ap_user_follow where user_id = #{userId}
     </select>
 

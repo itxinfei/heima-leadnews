@@ -9,13 +9,16 @@ import com.xftt.model.common.dtos.ResponseResult;
 import com.xftt.model.common.enums.AppHttpCodeEnum;
 import com.xftt.model.mappers.app.ApArticleMapper;
 import com.xftt.model.mappers.app.ApCollectionMapper;
+import com.xftt.model.mappers.app.ApUserMapper;
 import com.xftt.model.mappers.app.ApUserFanMapper;
 import com.xftt.model.mappers.app.ApUserFollowMapper;
 import com.xftt.model.user.dtos.CollectionDto;
+import com.xftt.model.user.dtos.ProfileDto;
 import com.xftt.model.user.pojos.ApUser;
 import com.xftt.model.user.pojos.ApUserFan;
 import com.xftt.model.user.pojos.ApUserFollow;
 import com.xftt.utils.common.BurstUtils;
+import com.xftt.utils.common.IdsUtils;
 import com.xftt.utils.threadlocal.AppThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +50,9 @@ public class AppUserCenterServiceImpl implements AppUserCenterService {
 
     @Autowired
     private Sequences sequences;
+
+    @Autowired
+    private ApUserMapper apUserMapper;
 
     @Override
     public ResponseResult follows(Integer page, Integer size) {
@@ -93,7 +99,12 @@ public class AppUserCenterServiceImpl implements AppUserCenterService {
         List<Map<String, Object>> data = new ArrayList<>();
         for (ApCollection row : rows) {
             Map<String, Object> item = new HashMap<>();
-            item.put("articleId", row.getEntryId());
+            //文章 ID 按 IdEncrypt 契约输出，供前端跳转详情/上报行为
+            try {
+                item.put("articleId", IdsUtils.encryptNumber(row.getEntryId().longValue()));
+            } catch (Exception e) {
+                item.put("articleId", row.getEntryId());
+            }
             item.put("collectionTime", row.getCollectionTime());
             ApArticle article = apArticleMapper.selectById(row.getEntryId().longValue());
             if (article != null) {
@@ -161,7 +172,34 @@ public class AppUserCenterServiceImpl implements AppUserCenterService {
         data.put("follows", apUserFollowMapper.countByUserId(burst, user.getId()));
         data.put("fans", apUserFanMapper.countFansByUserId(burst, user.getId().intValue()));
         data.put("collections", apCollectionMapper.countCollectionsByEntry(burst, user.getId().intValue(), ApCollection.Type.ARTICLE.getCode()));
+        // APP-F12：当前用户资料（头像/昵称/认证状态），供“我的”页头部与资料编辑回显
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("id", IdsUtils.encryptNumber(user.getId()));
+        profile.put("name", user.getName());
+        profile.put("image", user.getImage());
+        profile.put("phone", user.getPhone());
+        profile.put("sex", user.getSex());
+        profile.put("isCertification", user.getIsCertification());
+        profile.put("isIdentityAuthentication", user.getIsIdentityAuthentication());
+        data.put("user", profile);
         return ResponseResult.okResult(data);
+    }
+
+    @Override
+    public ResponseResult updateProfile(ProfileDto dto) {
+        ApUser user = requireLogin();
+        if (user == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+        ApUser update = new ApUser();
+        update.setId(user.getId().intValue());
+        update.setName(dto.getName());
+        update.setImage(dto.getImage());
+        update.setSex(dto.getSex());
+        int rows = apUserMapper.updateProfile(update);
+        return rows > 0
+                ? ResponseResult.okResult(null)
+                : ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR, "资料更新失败");
     }
 
     private ApUser requireLogin() {

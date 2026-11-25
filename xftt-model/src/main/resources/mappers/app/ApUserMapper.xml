@@ -28,4 +28,21 @@
         from ap_user where phone = #{phone} limit 1;
     </select>
 
+    <!-- APP-F12：资料编辑，仅允许改昵称/头像/性别 -->
+    <update id="updateProfile" parameterType="com.xftt.model.user.pojos.ApUser">
+        update ap_user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

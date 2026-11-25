@@ -25,4 +25,12 @@ public class Sequences {
     public Long sequenceApUserFollow(){return this.client.sequence(ZkSequenceEnum.AP_USER_FOLLOW);}
 
     public Long sequenceApUserFan(){return this.client.sequence(ZkSequenceEnum.AP_USER_FAN);}
+
+    public Long sequenceApBehaviorEntry(){return this.client.sequence(ZkSequenceEnum.AP_BEHAVIOR_ENTRY);}
+
+    public Long sequenceApUnlikes(){return this.client.sequence(ZkSequenceEnum.AP_UNLIKES);}
+
+    public Long sequenceApFollowBehavior(){return this.client.sequence(ZkSequenceEnum.AP_FOLLOW_BEHAVIOR);}
+
+    public Long sequenceApShowBehavior(){return this.client.sequence(ZkSequenceEnum.AP_SHOW_BEHAVIOR);}
 }

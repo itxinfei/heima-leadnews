@@ -2,6 +2,7 @@ package com.xftt.behavior.service.impl;
 
 import com.xftt.behavior.kafka.BehaviorMessageSender;
 import com.xftt.behavior.service.AppLikesBehaviorService;
+import com.xftt.behavior.service.BehaviorEntryService;
 import com.xftt.common.kafka.messages.behavior.UserLikesMessage;
 import com.xftt.common.zookeeper.sequence.Sequences;
 import com.xftt.model.behavior.dtos.LikesBehaviorDto;
@@ -35,6 +36,9 @@ public class AppLikesBehaviorServiceImpl implements AppLikesBehaviorService {
     @Autowired
     private BehaviorMessageSender behaviorMessageSender;
 
+    @Autowired
+    private BehaviorEntryService behaviorEntryService;
+
     @Override
     public ResponseResult saveLikesBehavior(LikesBehaviorDto dto) {
 
@@ -48,10 +52,8 @@ public class AppLikesBehaviorServiceImpl implements AppLikesBehaviorService {
         if(user!=null){
             userId=user.getId();
         }
-        ApBehaviorEntry apBehaviorEntry = apBehaviorEntryMapper.selectByUserIdOrEquipemntId(userId,dto.getEquipmentId());
-        if(apBehaviorEntry==null){
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
-        }
+        //行为实体不存在时自动创建，避免新用户首次行为上报报“无效参数”
+        ApBehaviorEntry apBehaviorEntry = behaviorEntryService.ensureEntry(userId, dto.getEquipmentId());
         ApLikesBehavior alb = new ApLikesBehavior();
         alb.setId(sequences.sequenceApLikes());
         alb.setBehaviorEntryId(apBehaviorEntry.getId());
