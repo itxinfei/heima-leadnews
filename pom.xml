@@ -34,7 +34,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.3</version>
         <relativePath/>
     </parent>
 
@@ -48,22 +48,24 @@
         <maven.compiler.release>25</maven.compiler.release>
 
         <!-- 依赖包版本管理 -->
-        <spring.boot.version>4.1.1</spring.boot.version>
-        <spring.cloud.version>2025.1.3</spring.cloud.version>
+        <spring.boot.version>4.1.3</spring.boot.version>
+        <!-- ES Java Client 对齐部署手册 §2：ES 服务端 9.5.7，客户端 elasticsearch-java 9.5.x -->
+        <elasticsearch-client.version>9.5.7</elasticsearch-client.version>
+        <spring.cloud.version>2025.1.4</spring.cloud.version>
         <spring.cloud.alibaba.version>2025.1.0.0</spring.cloud.alibaba.version>
 
-        <commons.io.version>2.18.0</commons.io.version>
+        <commons.io.version>2.22.0</commons.io.version>
         <lombok.version>1.18.48</lombok.version>
         <mybatis.version>3.5.19</mybatis.version>
         <mybatis.spring.version>4.1.0</mybatis.spring.version>
-        <pagehelper.version>4.1.1</pagehelper.version>
-        <jsoup.version>1.18.1</jsoup.version>
+        <pagehelper.version>6.1.1</pagehelper.version>
+        <jsoup.version>1.24.1</jsoup.version>
         <jwt.version>0.12.6</jwt.version>
         <hanlp.version>portable-1.8.6</hanlp.version>
         <ali.core.version>4.7.10</ali.core.version>
         <ali.green.version>3.6.6</ali.green.version>
         <reflections.version>0.10.2</reflections.version>
-        <minio.version>8.5.12</minio.version>
+        <minio.version>8.5.17</minio.version>
         <!-- ZooKeeper 客户端：与 curator 5.9.0 匹配，避免 hbase 传递引入 3.4.10 -->
         <zookeeper.version>3.9.3</zookeeper.version>
         <!-- Hadoop 客户端：3.4.3 包含 HADOOP-19212（UGI 改用 Subject.current()），修复 JDK 25 下 getSubject is not supported -->
